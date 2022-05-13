@@ -3,14 +3,14 @@ import 'package:investor_quizapp/pages/quiz.dart';
 import 'package:toggle_switch/toggle_switch.dart';
 import 'package:url_launcher/link.dart';
 
-class PersonalFinance extends StatefulWidget {
-  const PersonalFinance({Key? key}) : super(key: key);
+class InvestmentPM extends StatefulWidget {
+  const InvestmentPM({Key? key}) : super(key: key);
 
   @override
-  State<PersonalFinance> createState() => _PersonalFinanceState();
+  State<InvestmentPM> createState() => _InvestmentPMState();
 }
 
-class _PersonalFinanceState extends State<PersonalFinance> {
+class _InvestmentPMState extends State<InvestmentPM> {
   int selectedIndex = 0;
   final screens2 = [
     'Description',
@@ -18,7 +18,7 @@ class _PersonalFinanceState extends State<PersonalFinance> {
   ];
   final screens = [
     const Text(
-        "Personal finance is a term that covers managing your money as well as saving and investing. It encompasses budgeting, banking, insurance, mortgages, investments, retirement planning, and tax and estate planning. The term often refers to the entire industry that provides financial services to individuals and households and advises them about financial and investment opportunities.\nPersonal finance is about meeting personal financial goals, whether it’s having enough for short-term financial needs, planning for retirement, or saving for your child’s college education. It all depends on your income, expenses, living requirements, and individual goals and desires and coming up with a plan to fulfill those needs within your financial constraints. To make the most of your income and savings, it’s important to become financially literate, so you can distinguish between good and bad advice and make smart decisions.",
+        "Portfolio management is the art and science of selecting and overseeing a group of investments that meet the long-term financial objectives and risk tolerance of a client, a company, or an institution.\nProfessional licensed portfolio managers work on behalf of clients, while individuals may choose to build and manage their own portfolios. In either case, the portfolio manager's ultimate goal is to maximize the investments' expected return within an appropriate level of risk exposure.\nPortfolio management requires the ability to weigh strengths and weaknesses, opportunities, and threats across the full spectrum of investments. The choices involve trade-offs, from debt versus equity to domestic versus international and growth versus safety.",
         //textAlign: TextAlign.justify,
         style: TextStyle(
           height: 1.8,
@@ -42,29 +42,11 @@ class _PersonalFinanceState extends State<PersonalFinance> {
         const Padding(padding: EdgeInsets.all(6.0)),
         Link(
           uri: Uri.parse(
-              'https://www.investopedia.com/terms/p/personalfinance.asp'),
+              'https://www.investopedia.com/terms/p/portfoliomanagement.asp'),
           builder: (context, followLink) => GestureDetector(
             onTap: followLink,
             child: const Text(
-              'Investopedia - Personal Finance',
-              style: TextStyle(
-                color: Colors.black,
-                fontSize: 17,
-                fontFamily: 'Poppins-Medium',
-                fontWeight: FontWeight.w500,
-                decoration: TextDecoration.underline,
-              ),
-            ),
-          ),
-        ),
-        const Padding(padding: EdgeInsets.all(6.0)),
-        Link(
-          uri: Uri.parse(
-              'https://corporatefinanceinstitute.com/resources/knowledge/finance/personal-finance/'),
-          builder: (context, followLink) => GestureDetector(
-            onTap: followLink,
-            child: const Text(
-              'CFI - Personal Finance',
+              'Investopedia - Portfolio Management',
               style: TextStyle(
                 color: Colors.black,
                 fontSize: 17,
@@ -81,7 +63,7 @@ class _PersonalFinanceState extends State<PersonalFinance> {
 
   @override
   Widget build(BuildContext context) => Scaffold(
-      backgroundColor: const Color.fromRGBO(83, 215, 80, 1),
+      backgroundColor: const Color.fromRGBO(132, 114, 242, 1),
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0, // 0 yung value para mawala yung back shadow sa app bar
@@ -107,15 +89,16 @@ class _PersonalFinanceState extends State<PersonalFinance> {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   mainAxisSize: MainAxisSize.max,
                   children: const <Widget>[
-                    Text('Personal\nFinance',
+                    Text('Investment\nand Portfolio\nManagement',
                         style: TextStyle(
                           color: Colors.black,
-                          fontSize: 30,
+                          fontSize: 25,
                           fontFamily: 'Poppins-Black',
                           fontWeight: FontWeight.w900,
                         )),
                     Image(
-                      image: AssetImage('assets/images/personal_finance.png'),
+                      image: AssetImage(
+                          'assets/images/investment_and_portfolio_management.png'),
                       height: 180,
                       width: 180,
                       fit: BoxFit.cover,
@@ -250,7 +233,7 @@ class _PersonalFinanceState extends State<PersonalFinance> {
       ));
 }
 
-// Personal Finance Color
-// Green              (#53d750)   'Color.fromRGBO(83, 215, 80, 1)'
+// Investment and Portfolio Management Color
+// Purple             (#8472f2)   'Color.fromRGBO(132, 114, 242, 1)'
 // NeonGreen          (#51e7a8)   'Color.fromRGBO(81, 231, 168, 1)'
 // Lighter NeonGreen  (#cff0cf)   'Color.fromRGBO(207, 240, 207, 1)'

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:investor_quizapp/pages/bookmarks.dart';
-
+import 'categories/capitalM.dart';
+import 'categories/behavioralF.dart';
+import 'categories/investmentPM.dart';
 import 'categories/personalF.dart';
 
 class HomePage extends StatelessWidget {
@@ -86,7 +88,13 @@ class HomePage extends StatelessWidget {
                   borderRadius: BorderRadius.circular(15),
                   clipBehavior: Clip.antiAliasWithSaveLayer,
                   child: InkWell(
-                    onTap: () => {},
+                    onTap: () => {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const InvestmentPM()),
+                      )
+                    },
                     child: Ink.image(
                       image: const AssetImage('assets/images/investment.png'),
                       height: 210,
@@ -109,7 +117,13 @@ class HomePage extends StatelessWidget {
                   borderRadius: BorderRadius.circular(15),
                   clipBehavior: Clip.antiAliasWithSaveLayer,
                   child: InkWell(
-                    onTap: () => {},
+                    onTap: () => {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const BehavioralFinance()),
+                      )
+                    },
                     child: Ink.image(
                       image: const AssetImage('assets/images/behavioral.png'),
                       height: 210,
@@ -125,7 +139,13 @@ class HomePage extends StatelessWidget {
                   borderRadius: BorderRadius.circular(15),
                   clipBehavior: Clip.antiAliasWithSaveLayer,
                   child: InkWell(
-                    onTap: () => {},
+                    onTap: () => {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const CapitalMarkets()),
+                      )
+                    },
                     child: Ink.image(
                       image: const AssetImage('assets/images/capital.png'),
                       height: 210,

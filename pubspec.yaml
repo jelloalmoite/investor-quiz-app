@@ -29,6 +29,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  toggle_switch: ^2.0.1
+  url_launcher: ^6.1.2
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -92,10 +94,18 @@ flutter:
     - family: Poppins-Black
       fonts:
         - asset: fonts/Poppins-Black.ttf
+    - family: Poppins-Bold
+      fonts:
+        - asset: fonts/Poppins-Bold.ttf
     - family: Poppins-ExtraBold
       fonts:
         - asset: fonts/Poppins-ExtraBold.ttf
-    
+    - family: Poppins-Medium
+      fonts:
+        - asset: fonts/Poppins-Medium.ttf
+    - family: Poppins-SemiBold
+      fonts:
+        - asset: fonts/Poppins-SemiBold.ttf
 
   #
   # For details regarding fonts from package dependencies,

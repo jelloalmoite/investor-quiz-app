@@ -7,6 +7,7 @@ class Quiz1 extends StatelessWidget {
   Widget build(BuildContext context) => Scaffold(
         extendBodyBehindAppBar: true,
         appBar: AppBar(
+          centerTitle: true,
           title: const Text(
             "Personal Finance",
             style: TextStyle(
@@ -15,7 +16,6 @@ class Quiz1 extends StatelessWidget {
               fontFamily: 'Poppins-ExtraBold',
               fontWeight: FontWeight.w800,
             ),
-            textAlign: TextAlign.center,
           ),
           automaticallyImplyLeading: false,
           backgroundColor: const Color.fromRGBO(81, 231, 168, 1),
@@ -63,7 +63,7 @@ class Quiz1 extends StatelessWidget {
                             textAlign: TextAlign.center,
                             textDirection: TextDirection.ltr,
                             style: TextStyle(
-                              fontSize: 22.0,
+                              fontSize: 18.0,
                               fontFamily: 'Lora',
                               fontWeight: FontWeight.w600,
                             ),
@@ -250,6 +250,91 @@ class Quiz1 extends StatelessWidget {
                             ),
                           ],
                         ),
+                      ),
+
+                      const Padding(padding: EdgeInsets.all(8.0)),
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: <Widget>[
+                          //back
+                          const SizedBox(height: 30),
+                          MaterialButton(
+                            height: 41.0,
+                            minWidth: 100.0,
+                            color: Colors.white,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                              side: const BorderSide(
+                                  color: Color.fromRGBO(5, 195, 107, 50),
+                                  width: 3),
+                            ),
+                            child: const Text(
+                              "BACK ",
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                fontFamily: 'Poppins Medium',
+                                fontSize: 20.0,
+                                fontWeight: FontWeight.w500,
+                                color: Colors.black,
+                              ),
+                            ),
+                            onPressed: () => {Navigator.pop(context)},
+                            splashColor: const Color.fromRGBO(5, 195, 107, 50),
+                          ),
+
+                          //skip
+                          const SizedBox(height: 30),
+                          MaterialButton(
+                            height: 41.0,
+                            minWidth: 100.0,
+                            color: Colors.white,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                              side: const BorderSide(
+                                  color: Color.fromRGBO(5, 195, 107, 50),
+                                  width: 3),
+                            ),
+                            child: const Text(
+                              "SKIP ",
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                fontFamily: 'Poppins Medium',
+                                fontSize: 20.0,
+                                fontWeight: FontWeight.w500,
+                                color: Colors.black,
+                              ),
+                            ),
+                            onPressed: () => {},
+                            splashColor: const Color.fromRGBO(5, 195, 107, 50),
+                          ),
+
+                          //next
+                          const SizedBox(height: 30),
+                          MaterialButton(
+                            height: 41.0,
+                            minWidth: 100.0,
+                            color: Colors.white,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                              side: const BorderSide(
+                                  color: Color.fromRGBO(5, 195, 107, 50),
+                                  width: 3),
+                            ),
+                            child: const Text(
+                              "NEXT ",
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                fontFamily: 'Poppins Medium',
+                                fontSize: 20.0,
+                                fontWeight: FontWeight.w500,
+                                color: Colors.black,
+                              ),
+                            ),
+                            onPressed: () => {},
+                            splashColor: const Color.fromRGBO(5, 195, 107, 50),
+                          ),
+                        ],
                       ),
                     ],
                   ),

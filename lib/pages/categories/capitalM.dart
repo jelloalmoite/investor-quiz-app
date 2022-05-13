@@ -3,14 +3,14 @@ import 'package:investor_quizapp/pages/quiz.dart';
 import 'package:toggle_switch/toggle_switch.dart';
 import 'package:url_launcher/link.dart';
 
-class PersonalFinance extends StatefulWidget {
-  const PersonalFinance({Key? key}) : super(key: key);
+class CapitalMarkets extends StatefulWidget {
+  const CapitalMarkets({Key? key}) : super(key: key);
 
   @override
-  State<PersonalFinance> createState() => _PersonalFinanceState();
+  State<CapitalMarkets> createState() => _CapitalMarketsState();
 }
 
-class _PersonalFinanceState extends State<PersonalFinance> {
+class _CapitalMarketsState extends State<CapitalMarkets> {
   int selectedIndex = 0;
   final screens2 = [
     'Description',
@@ -18,7 +18,7 @@ class _PersonalFinanceState extends State<PersonalFinance> {
   ];
   final screens = [
     const Text(
-        "Personal finance is a term that covers managing your money as well as saving and investing. It encompasses budgeting, banking, insurance, mortgages, investments, retirement planning, and tax and estate planning. The term often refers to the entire industry that provides financial services to individuals and households and advises them about financial and investment opportunities.\nPersonal finance is about meeting personal financial goals, whether it’s having enough for short-term financial needs, planning for retirement, or saving for your child’s college education. It all depends on your income, expenses, living requirements, and individual goals and desires and coming up with a plan to fulfill those needs within your financial constraints. To make the most of your income and savings, it’s important to become financially literate, so you can distinguish between good and bad advice and make smart decisions.",
+        "Capital markets are financial markets that bring buyers and sellers together to trade stocks, bonds, currencies, and other financial assets. Capital markets include the stock market and the bond market. They help people with ideas become entrepreneurs and help small businesses grow into big companies. They also give folks like you and me opportunities to save and invest for our futures.\nCapital market is a broad term used to describe the in-person and digital spaces in which various entities trade different types of financial instruments. These venues may include the stock market, the bond market, and the currency and foreign exchange markets. Most markets are concentrated in major financial centers such as New York, London, Singapore, and Hong Kong.\nCapital markets are composed of the suppliers and users of funds. Suppliers include households—through the savings accounts they hold with banks—as well as institutions like pension and retirement funds, life insurance companies, charitable foundations, and non-financial companies that generate excess cash. The \"users\" of the funds distributed on capital markets include home and motor vehicle purchasers, non-financial companies, and governments financing infrastructure investment and operating expenses.",
         //textAlign: TextAlign.justify,
         style: TextStyle(
           height: 1.8,
@@ -42,11 +42,11 @@ class _PersonalFinanceState extends State<PersonalFinance> {
         const Padding(padding: EdgeInsets.all(6.0)),
         Link(
           uri: Uri.parse(
-              'https://www.investopedia.com/terms/p/personalfinance.asp'),
+              'https://www.investopedia.com/terms/c/capitalmarkets.asp'),
           builder: (context, followLink) => GestureDetector(
             onTap: followLink,
             child: const Text(
-              'Investopedia - Personal Finance',
+              'Investopedia - Capital Markets',
               style: TextStyle(
                 color: Colors.black,
                 fontSize: 17,
@@ -60,11 +60,11 @@ class _PersonalFinanceState extends State<PersonalFinance> {
         const Padding(padding: EdgeInsets.all(6.0)),
         Link(
           uri: Uri.parse(
-              'https://corporatefinanceinstitute.com/resources/knowledge/finance/personal-finance/'),
+              'https://www.stlouisfed.org/education/tools-for-enhancing-the-stock-market-game-invest-it-forward/episode-1-understanding-capital-markets'),
           builder: (context, followLink) => GestureDetector(
             onTap: followLink,
             child: const Text(
-              'CFI - Personal Finance',
+              'St. Louis Fed -\nUnderstanding Capital Markets',
               style: TextStyle(
                 color: Colors.black,
                 fontSize: 17,
@@ -81,7 +81,7 @@ class _PersonalFinanceState extends State<PersonalFinance> {
 
   @override
   Widget build(BuildContext context) => Scaffold(
-      backgroundColor: const Color.fromRGBO(83, 215, 80, 1),
+      backgroundColor: const Color.fromRGBO(255, 147, 81, 1),
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0, // 0 yung value para mawala yung back shadow sa app bar
@@ -107,7 +107,7 @@ class _PersonalFinanceState extends State<PersonalFinance> {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   mainAxisSize: MainAxisSize.max,
                   children: const <Widget>[
-                    Text('Personal\nFinance',
+                    Text('Capital\nMarkets',
                         style: TextStyle(
                           color: Colors.black,
                           fontSize: 30,
@@ -115,7 +115,7 @@ class _PersonalFinanceState extends State<PersonalFinance> {
                           fontWeight: FontWeight.w900,
                         )),
                     Image(
-                      image: AssetImage('assets/images/personal_finance.png'),
+                      image: AssetImage('assets/images/capital_markets.png'),
                       height: 180,
                       width: 180,
                       fit: BoxFit.cover,
@@ -251,6 +251,6 @@ class _PersonalFinanceState extends State<PersonalFinance> {
 }
 
 // Personal Finance Color
-// Green              (#53d750)   'Color.fromRGBO(83, 215, 80, 1)'
+// Orange             (#ff9351)   'Color.fromRGBO(255, 147, 81, 1)'
 // NeonGreen          (#51e7a8)   'Color.fromRGBO(81, 231, 168, 1)'
 // Lighter NeonGreen  (#cff0cf)   'Color.fromRGBO(207, 240, 207, 1)'

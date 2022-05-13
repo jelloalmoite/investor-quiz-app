@@ -3,14 +3,14 @@ import 'package:investor_quizapp/pages/quiz.dart';
 import 'package:toggle_switch/toggle_switch.dart';
 import 'package:url_launcher/link.dart';
 
-class PersonalFinance extends StatefulWidget {
-  const PersonalFinance({Key? key}) : super(key: key);
+class BehavioralFinance extends StatefulWidget {
+  const BehavioralFinance({Key? key}) : super(key: key);
 
   @override
-  State<PersonalFinance> createState() => _PersonalFinanceState();
+  State<BehavioralFinance> createState() => _BehavioralFinanceState();
 }
 
-class _PersonalFinanceState extends State<PersonalFinance> {
+class _BehavioralFinanceState extends State<BehavioralFinance> {
   int selectedIndex = 0;
   final screens2 = [
     'Description',
@@ -18,7 +18,7 @@ class _PersonalFinanceState extends State<PersonalFinance> {
   ];
   final screens = [
     const Text(
-        "Personal finance is a term that covers managing your money as well as saving and investing. It encompasses budgeting, banking, insurance, mortgages, investments, retirement planning, and tax and estate planning. The term often refers to the entire industry that provides financial services to individuals and households and advises them about financial and investment opportunities.\nPersonal finance is about meeting personal financial goals, whether it’s having enough for short-term financial needs, planning for retirement, or saving for your child’s college education. It all depends on your income, expenses, living requirements, and individual goals and desires and coming up with a plan to fulfill those needs within your financial constraints. To make the most of your income and savings, it’s important to become financially literate, so you can distinguish between good and bad advice and make smart decisions.",
+        "Behavioral finance is the study of the influence of psychology on the behavior of investors or financial analysts. It also includes the subsequent effects on the markets. It focuses on the fact that investors are not always rational, have limits to their self-control, and are influenced by their own biases.\nMoreover, influences and biases can be the source for explanation of all types of market anomalies and specifically market anomalies in the stock market, such as severe rises or falls in stock price.\nBehavioral finance can be analyzed from a variety of perspectives. Stock market returns are one area of finance where psychological behaviors are often assumed to influence market outcomes and returns but there are also many different angles for observation. The purpose of the classification of behavioral finance is to help understand why people make certain financial choices and how those choices can affect markets. Within behavioral finance, it is assumed that financial participants are not perfectly rational and self-controlled but rather psychologically influential with somewhat normal and self-controlling tendencies.",
         //textAlign: TextAlign.justify,
         style: TextStyle(
           height: 1.8,
@@ -42,11 +42,11 @@ class _PersonalFinanceState extends State<PersonalFinance> {
         const Padding(padding: EdgeInsets.all(6.0)),
         Link(
           uri: Uri.parse(
-              'https://www.investopedia.com/terms/p/personalfinance.asp'),
+              'https://www.investopedia.com/terms/b/behavioralfinance.asp'),
           builder: (context, followLink) => GestureDetector(
             onTap: followLink,
             child: const Text(
-              'Investopedia - Personal Finance',
+              'Investopedia - Behavioral Finance',
               style: TextStyle(
                 color: Colors.black,
                 fontSize: 17,
@@ -60,11 +60,11 @@ class _PersonalFinanceState extends State<PersonalFinance> {
         const Padding(padding: EdgeInsets.all(6.0)),
         Link(
           uri: Uri.parse(
-              'https://corporatefinanceinstitute.com/resources/knowledge/finance/personal-finance/'),
+              'https://corporatefinanceinstitute.com/resources/knowledge/trading-investing/behavioral-finance/'),
           builder: (context, followLink) => GestureDetector(
             onTap: followLink,
             child: const Text(
-              'CFI - Personal Finance',
+              'CFI - Behavioral Finance',
               style: TextStyle(
                 color: Colors.black,
                 fontSize: 17,
@@ -81,7 +81,7 @@ class _PersonalFinanceState extends State<PersonalFinance> {
 
   @override
   Widget build(BuildContext context) => Scaffold(
-      backgroundColor: const Color.fromRGBO(83, 215, 80, 1),
+      backgroundColor: const Color.fromRGBO(255, 95, 124, 1),
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0, // 0 yung value para mawala yung back shadow sa app bar
@@ -107,7 +107,7 @@ class _PersonalFinanceState extends State<PersonalFinance> {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   mainAxisSize: MainAxisSize.max,
                   children: const <Widget>[
-                    Text('Personal\nFinance',
+                    Text('Behavioral\nFinance',
                         style: TextStyle(
                           color: Colors.black,
                           fontSize: 30,
@@ -115,7 +115,7 @@ class _PersonalFinanceState extends State<PersonalFinance> {
                           fontWeight: FontWeight.w900,
                         )),
                     Image(
-                      image: AssetImage('assets/images/personal_finance.png'),
+                      image: AssetImage('assets/images/behavioral_finance.png'),
                       height: 180,
                       width: 180,
                       fit: BoxFit.cover,
@@ -251,6 +251,6 @@ class _PersonalFinanceState extends State<PersonalFinance> {
 }
 
 // Personal Finance Color
-// Green              (#53d750)   'Color.fromRGBO(83, 215, 80, 1)'
+// Red                (#ff5f7c)   'Color.fromRGBO(255, 95, 124, 1)'
 // NeonGreen          (#51e7a8)   'Color.fromRGBO(81, 231, 168, 1)'
 // Lighter NeonGreen  (#cff0cf)   'Color.fromRGBO(207, 240, 207, 1)'
