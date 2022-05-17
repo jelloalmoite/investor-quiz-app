@@ -214,8 +214,7 @@ class _CapitalMarketsState extends State<CapitalMarkets> {
                           onPressed: () => {
                             Navigator.push(
                               context,
-                              MaterialPageRoute(
-                                  builder: (context) => const Quiz1()),
+                              MaterialPageRoute(builder: (context) => Quiz4()),
                             )
                           },
                           splashColor: const Color.fromRGBO(5, 195, 107, 100),

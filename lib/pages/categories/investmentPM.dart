@@ -197,8 +197,7 @@ class _InvestmentPMState extends State<InvestmentPM> {
                           onPressed: () => {
                             Navigator.push(
                               context,
-                              MaterialPageRoute(
-                                  builder: (context) => const Quiz1()),
+                              MaterialPageRoute(builder: (context) => Quiz2()),
                             )
                           },
                           splashColor: const Color.fromRGBO(5, 195, 107, 100),

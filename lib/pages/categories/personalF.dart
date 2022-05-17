@@ -214,8 +214,7 @@ class _PersonalFinanceState extends State<PersonalFinance> {
                           onPressed: () => {
                             Navigator.push(
                               context,
-                              MaterialPageRoute(
-                                  builder: (context) => const Quiz1()),
+                              MaterialPageRoute(builder: (context) => Quiz1()),
                             )
                           },
                           splashColor: const Color.fromRGBO(5, 195, 107, 100),

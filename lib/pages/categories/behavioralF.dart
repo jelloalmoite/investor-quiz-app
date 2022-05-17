@@ -214,8 +214,7 @@ class _BehavioralFinanceState extends State<BehavioralFinance> {
                           onPressed: () => {
                             Navigator.push(
                               context,
-                              MaterialPageRoute(
-                                  builder: (context) => const Quiz1()),
+                              MaterialPageRoute(builder: (context) => Quiz3()),
                             )
                           },
                           splashColor: const Color.fromRGBO(5, 195, 107, 100),
