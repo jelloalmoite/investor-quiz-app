@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:investor_quizapp/pages/bookmarks.dart';
+import 'package:percent_indicator/percent_indicator.dart';
 
 class HistoryPage extends StatelessWidget {
   const HistoryPage({Key? key}) : super(key: key);
@@ -19,12 +20,15 @@ class HistoryPage extends StatelessWidget {
                 child: SizedBox(
                   width: 60,
                   height: 60,
-                  child: CircularProgressIndicator(
-                    valueColor:
-                        AlwaysStoppedAnimation(Color.fromRGBO(5, 195, 107, 1)),
-                    backgroundColor: Color.fromRGBO(83, 215, 80, 0.4),
-                    strokeWidth: 8,
-                    value: progress,
+                  child: CircularPercentIndicator(
+                    radius: 60.0,
+                    lineWidth: 7.0,
+                    animation: true,
+                    percent: progress,
+                    center: Icon(Icons.lock_open_rounded, size: 30),
+                    circularStrokeCap: CircularStrokeCap.round,
+                    progressColor: Color.fromRGBO(5, 195, 107, 100),
+                    backgroundColor: Color.fromRGBO(83, 215, 80, 0.3),
                   ),
                 ),
               ),
@@ -75,7 +79,7 @@ class HistoryPage extends StatelessWidget {
                 child: SizedBox(
                   height: 60,
                   child: Icon(Icons.arrow_forward_ios_rounded,
-                      color: Color.fromRGBO(5, 195, 107, 1), size: 45),
+                      color: Color.fromRGBO(5, 195, 107, 100), size: 45),
                 ),
               ),
             ],
