@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:investor_quizapp/pages/bookmarks.dart';
+import 'package:investor_quizapp/pages/historyCategory.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 
 class HistoryPage extends StatelessWidget {
   const HistoryPage({Key? key}) : super(key: key);
 
   //Category history builder
-  Widget History(double progress, String title, int attempts) {
+  Widget History(
+      double progress, String title, int attempts, BuildContext context) {
     return Material(
       borderRadius: BorderRadius.circular(15),
       clipBehavior: Clip.antiAliasWithSaveLayer,
@@ -84,7 +86,15 @@ class HistoryPage extends StatelessWidget {
             ),
           ),
         ),
-        onTap: () => {},
+        onTap: () => {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => HistoryCategory(
+                      category: title,
+                    )),
+          )
+        },
       ),
     );
   }
@@ -141,22 +151,22 @@ class HistoryPage extends StatelessWidget {
                     padding: EdgeInsets.all(6.0)), //Space between rows
 
                 //============Personal Finance
-                History(0.75, 'Personal Finance', 1),
+                History(0.75, 'Personal Finance', 1, context),
                 const Padding(
                     padding: EdgeInsets.all(6.0)), //Space between rows
 
                 //============Capital Markets
-                History(0.25, 'Capital Markets', 0),
+                History(0.25, 'Capital Markets', 0, context),
                 const Padding(
                     padding: EdgeInsets.all(6.0)), //Space between rows
 
                 //============Behavioral Finance
-                History(0.0, 'Behavioral Finance', 0),
+                History(0.0, 'Behavioral Finance', 0, context),
                 const Padding(
                     padding: EdgeInsets.all(6.0)), //Space between rows
 
                 //============Investment and Portfolio Management
-                History(0.0, 'Investment and Portfolio Management', 0),
+                History(0.0, 'Investment and Portfolio Management', 0, context),
                 const Padding(
                     padding: EdgeInsets.all(6.0)), //Space between rows
               ],

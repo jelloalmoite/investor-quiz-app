@@ -1749,7 +1749,7 @@ class Result extends StatelessWidget {
                           "PERSONAL FINANCE",
                           style: TextStyle(
                               fontSize: 21,
-                              fontFamily: 'Poppins-Regular',
+                              fontFamily: 'Poppins',
                               fontWeight: FontWeight.w500),
                         ),
                         SizedBox(height: 6),
@@ -2023,7 +2023,7 @@ class Result extends StatelessWidget {
                                   "BACK ",
                                   textAlign: TextAlign.center,
                                   style: new TextStyle(
-                                    fontFamily: 'Poppins-Regular',
+                                    fontFamily: 'Poppins',
                                     fontSize: 20.0,
                                     fontWeight: FontWeight.w400,
                                     color: Colors.black,
@@ -2050,7 +2050,7 @@ class Result extends StatelessWidget {
                                   "DETAILS ",
                                   textAlign: TextAlign.center,
                                   style: new TextStyle(
-                                    fontFamily: 'Poppins-Regular',
+                                    fontFamily: 'Poppins',
                                     fontSize: 18.0,
                                     fontWeight: FontWeight.w400,
                                     color: Colors.black,

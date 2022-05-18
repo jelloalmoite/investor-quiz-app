@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:investor_quizapp/pages/history.dart';
 import 'package:investor_quizapp/pages/home.dart';
 import 'package:investor_quizapp/pages/profile.dart';
@@ -13,6 +14,10 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
     return MaterialApp(
       title: 'Investor Quiz App',
       theme: ThemeData(
