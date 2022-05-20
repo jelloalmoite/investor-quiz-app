@@ -1,12 +1,33 @@
 import 'package:flutter/material.dart';
-import 'package:investor_quizapp/pages/bookmarks.dart';
-import 'categories/capitalM.dart';
-import 'categories/behavioralF.dart';
-import 'categories/investmentPM.dart';
-import 'categories/personalF.dart';
+import '/pages/categorypage.dart';
 
-class HomePage extends StatelessWidget {
-  const HomePage({Key? key}) : super(key: key);
+class HomePage extends StatefulWidget {
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  void toCategoryPage(x) {
+    // ignore: prefer_typing_uninitialized_variables
+    var numCat;
+    if (x == 1) {
+      //for finance category
+      numCat = "0";
+    } else if (x == 2) {
+      //for investment category
+      numCat = "1";
+    } else if (x == 3) {
+      //for behavioral category
+      numCat = "2";
+    } else if (x == 4) {
+      // for capital category
+      numCat = "3";
+    }
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => CategoryPage(title: numCat)),
+    );
+  }
 
   @override
   Widget build(BuildContext context) => Scaffold(
@@ -27,12 +48,7 @@ class HomePage extends StatelessWidget {
               icon: const Icon(Icons.bookmark_outline_rounded),
               iconSize: 35,
               color: Colors.black,
-              onPressed: () => {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const Bookmarks()),
-                )
-              },
+              onPressed: () => {},
             ),
           ],
         ),
@@ -66,13 +82,7 @@ class HomePage extends StatelessWidget {
                   borderRadius: BorderRadius.circular(15),
                   clipBehavior: Clip.antiAliasWithSaveLayer,
                   child: InkWell(
-                    onTap: () => {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const PersonalFinance()),
-                      )
-                    },
+                    onTap: () => {toCategoryPage(1)},
                     child: Ink.image(
                       image: const AssetImage('assets/images/personal.png'),
                       height: 210,
@@ -88,13 +98,7 @@ class HomePage extends StatelessWidget {
                   borderRadius: BorderRadius.circular(15),
                   clipBehavior: Clip.antiAliasWithSaveLayer,
                   child: InkWell(
-                    onTap: () => {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const InvestmentPM()),
-                      )
-                    },
+                    onTap: () => {toCategoryPage(2)},
                     child: Ink.image(
                       image: const AssetImage('assets/images/investment.png'),
                       height: 210,
@@ -117,13 +121,7 @@ class HomePage extends StatelessWidget {
                   borderRadius: BorderRadius.circular(15),
                   clipBehavior: Clip.antiAliasWithSaveLayer,
                   child: InkWell(
-                    onTap: () => {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const BehavioralFinance()),
-                      )
-                    },
+                    onTap: () => {toCategoryPage(3)},
                     child: Ink.image(
                       image: const AssetImage('assets/images/behavioral.png'),
                       height: 210,
@@ -139,13 +137,7 @@ class HomePage extends StatelessWidget {
                   borderRadius: BorderRadius.circular(15),
                   clipBehavior: Clip.antiAliasWithSaveLayer,
                   child: InkWell(
-                    onTap: () => {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const CapitalMarkets()),
-                      )
-                    },
+                    onTap: () => {toCategoryPage(4)},
                     child: Ink.image(
                       image: const AssetImage('assets/images/capital.png'),
                       height: 210,

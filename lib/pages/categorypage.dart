@@ -1,26 +1,29 @@
 import 'package:flutter/material.dart';
-import 'package:investor_quizapp/pages/quiz.dart';
 import 'package:toggle_switch/toggle_switch.dart';
 import 'package:url_launcher/link.dart';
+import '/pages/quiz.dart';
+import '/data/questionandanswer.dart';
 
-class CapitalMarkets extends StatefulWidget {
-  const CapitalMarkets({Key? key}) : super(key: key);
+var categ = Categories();
+
+class CategoryPage extends StatefulWidget {
+  const CategoryPage({Key? mykey, required this.title}) : super(key: mykey);
+  final String title;
 
   @override
-  State<CapitalMarkets> createState() => _CapitalMarketsState();
+  State<CategoryPage> createState() => _CategoryPage();
 }
 
-class _CapitalMarketsState extends State<CapitalMarkets> {
+class _CategoryPage extends State<CategoryPage> {
   int selectedIndex = 0;
   final screens2 = [
     'Description',
     'Sources',
   ];
-  final screens = [
-    const Text(
-        "Capital markets are financial markets that bring buyers and sellers together to trade stocks, bonds, currencies, and other financial assets. Capital markets include the stock market and the bond market. They help people with ideas become entrepreneurs and help small businesses grow into big companies. They also give folks like you and me opportunities to save and invest for our futures.\nCapital market is a broad term used to describe the in-person and digital spaces in which various entities trade different types of financial instruments. These venues may include the stock market, the bond market, and the currency and foreign exchange markets. Most markets are concentrated in major financial centers such as New York, London, Singapore, and Hong Kong.\nCapital markets are composed of the suppliers and users of funds. Suppliers include households—through the savings accounts they hold with banks—as well as institutions like pension and retirement funds, life insurance companies, charitable foundations, and non-financial companies that generate excess cash. The \"users\" of the funds distributed on capital markets include home and motor vehicle purchasers, non-financial companies, and governments financing infrastructure investment and operating expenses.",
+  late var screens = [
+    Text(categ.categoryDescription[int.parse(widget.title)],
         //textAlign: TextAlign.justify,
-        style: TextStyle(
+        style: const TextStyle(
           height: 1.8,
           color: Colors.black,
           fontSize: 16,
@@ -39,49 +42,35 @@ class _CapitalMarketsState extends State<CapitalMarkets> {
                 fontWeight: FontWeight.w500,
               )),
         ]),
-        const Padding(padding: EdgeInsets.all(6.0)),
-        Link(
-          uri: Uri.parse(
-              'https://www.investopedia.com/terms/c/capitalmarkets.asp'),
-          builder: (context, followLink) => GestureDetector(
-            onTap: followLink,
-            child: const Text(
-              'Investopedia - Capital Markets',
-              style: TextStyle(
-                color: Colors.black,
-                fontSize: 17,
-                fontFamily: 'Poppins-Medium',
-                fontWeight: FontWeight.w500,
-                decoration: TextDecoration.underline,
+        //////////For link and link title
+        for (int x = 0;
+            x < categ.categoryLinks[int.parse(widget.title)].length;
+            x++) ...[
+          const Padding(padding: EdgeInsets.all(6.0)),
+          Link(
+            uri: Uri.parse(categ.categoryLinks[int.parse(widget.title)][x]),
+            builder: (context, followLink) => GestureDetector(
+              onTap: followLink,
+              child: Text(
+                categ.categoryLinkstitle[int.parse(widget.title)][x],
+                style: const TextStyle(
+                  color: Colors.black,
+                  fontSize: 17,
+                  fontFamily: 'Poppins-Medium',
+                  fontWeight: FontWeight.w500,
+                  decoration: TextDecoration.underline,
+                ),
               ),
             ),
           ),
-        ),
-        const Padding(padding: EdgeInsets.all(6.0)),
-        Link(
-          uri: Uri.parse(
-              'https://www.stlouisfed.org/education/tools-for-enhancing-the-stock-market-game-invest-it-forward/episode-1-understanding-capital-markets'),
-          builder: (context, followLink) => GestureDetector(
-            onTap: followLink,
-            child: const Text(
-              'St. Louis Fed -\nUnderstanding Capital Markets',
-              style: TextStyle(
-                color: Colors.black,
-                fontSize: 17,
-                fontFamily: 'Poppins-Medium',
-                fontWeight: FontWeight.w500,
-                decoration: TextDecoration.underline,
-              ),
-            ),
-          ),
-        ),
+        ],
       ],
     ),
   ];
 
   @override
   Widget build(BuildContext context) => Scaffold(
-      backgroundColor: const Color.fromRGBO(255, 147, 81, 1),
+      backgroundColor: categ.bgColor[int.parse(widget.title)],
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0, // 0 yung value para mawala yung back shadow sa app bar
@@ -106,16 +95,17 @@ class _CapitalMarketsState extends State<CapitalMarkets> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   mainAxisSize: MainAxisSize.max,
-                  children: const <Widget>[
-                    Text('Capital\nMarkets',
-                        style: TextStyle(
+                  children: <Widget>[
+                    Text(categ.categoryTitle[int.parse(widget.title)],
+                        style: const TextStyle(
                           color: Colors.black,
                           fontSize: 30,
                           fontFamily: 'Poppins-Black',
                           fontWeight: FontWeight.w900,
                         )),
                     Image(
-                      image: AssetImage('assets/images/capital_markets.png'),
+                      image: AssetImage(
+                          categ.categoryimage[int.parse(widget.title)]),
                       height: 180,
                       width: 180,
                       fit: BoxFit.cover,
@@ -212,10 +202,7 @@ class _CapitalMarketsState extends State<CapitalMarkets> {
                             ),
                           ),
                           onPressed: () => {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(builder: (context) => Quiz4()),
-                            )
+                            toQuiz(int.parse(widget.title)),
                           },
                           splashColor: const Color.fromRGBO(5, 195, 107, 100),
                         ),
@@ -247,9 +234,34 @@ class _CapitalMarketsState extends State<CapitalMarkets> {
               ]),
         ),
       ));
+//function for button redirecting quiz page
+  void toQuiz(x) {
+    var nums, titles;
+    if (x == 0) {
+      //for finance quiz
+      nums = "0";
+      titles = "Personal Finance";
+    } else if (x == 1) {
+      //for investment quiz
+      nums = "1";
+      titles = "Investment and Portfolio Management";
+    } else if (x == 2) {
+      //for behavioral quiz
+      nums = "2";
+      titles = "Behavioral Finance";
+    } else if (x == 3) {
+      // for capital quiz
+      nums = "3";
+      titles = "Capital Market";
+    }
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => Quiz(y: nums, titl: titles)),
+    );
+  }
 }
 
 // Personal Finance Color
-// Orange             (#ff9351)   'Color.fromRGBO(255, 147, 81, 1)'
+// Green              (#53d750)   'Color.fromRGBO(83, 215, 80, 1)'
 // NeonGreen          (#51e7a8)   'Color.fromRGBO(81, 231, 168, 1)'
 // Lighter NeonGreen  (#cff0cf)   'Color.fromRGBO(207, 240, 207, 1)'

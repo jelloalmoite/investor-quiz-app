@@ -39,7 +39,7 @@ class MainPage extends StatefulWidget {
 class _MainPageState extends State<MainPage> {
   int selectedIndex = 0;
   final screens = [
-    const HomePage(),
+    HomePage(),
     const HistoryPage(),
     const ProfilePage(),
     const SettingsPage(),
