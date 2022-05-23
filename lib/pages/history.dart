@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:investor_quizapp/pages/bookmarks.dart';
 import 'package:investor_quizapp/pages/historyCategory.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 
@@ -113,19 +112,6 @@ class HistoryPage extends StatelessWidget {
           ),
           backgroundColor: Colors.transparent,
           elevation: 0,
-          actions: [
-            IconButton(
-              icon: const Icon(Icons.bookmark_outline_rounded),
-              iconSize: 35,
-              color: Colors.black,
-              onPressed: () => {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const Bookmarks()),
-                )
-              },
-            ),
-          ],
         ),
         body: Container(
           margin: const EdgeInsets.fromLTRB(26.0, 10.0, 26.0, 35),

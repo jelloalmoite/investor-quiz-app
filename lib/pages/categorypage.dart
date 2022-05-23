@@ -126,9 +126,7 @@ class _CategoryPage extends State<CategoryPage> {
                     children: <Widget>[
                       //===============Description & Add to Bookmarks button
                       Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          mainAxisSize: MainAxisSize.max,
                           children: <Widget>[
                             Text(screens2[selectedIndex],
                                 style: const TextStyle(
@@ -137,12 +135,8 @@ class _CategoryPage extends State<CategoryPage> {
                                   fontFamily: 'Poppins-ExtraBold',
                                   fontWeight: FontWeight.w800,
                                 )),
-                            IconButton(
-                              iconSize: 30,
-                              icon: const Icon(Icons.bookmark_add_outlined),
-                              onPressed: () => {},
-                            ),
                           ]),
+                      const SizedBox(height: 10),
                       //===============Description/Sources Toggle Switch buttons
                       ToggleSwitch(
                         totalSwitches: 2,

@@ -95,13 +95,7 @@ class _HistoryCategoryState extends State<HistoryCategory> {
                             fontFamily: 'Poppins',
                           ),
                         ),
-                        Text(
-                          "Attempts: " + post["attempt"].toString(),
-                          style: TextStyle(
-                            fontSize: 18,
-                            fontFamily: 'Poppins',
-                          ),
-                        ),
+                        const SizedBox(height: 20),
                         Row(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -289,7 +283,7 @@ class _HistoryCategoryState extends State<HistoryCategory> {
                         return historyData[index];
                       }
 
-                      // //String time, int attempt, int correct, int skip, int wrong
+                      // //String time, int correct, int skip, int wrong
                       // History(8, '1 min', 1, 1, 1, 1),
                       // const SizedBox(height: 10),
                       // History(4, '10 min 30 secs', 2, 10, 10, 10),

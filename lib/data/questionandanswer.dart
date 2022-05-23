@@ -42,8 +42,8 @@ class QuestionAnswer {
       "This market segment refers to trading in very short term debt investments",
       "These are venues where savings and investments are channelled between the suppliers who have capital and those who are in need of capital",
       "This market is the financial market for financial instruments like future contracts, which are derived from other forms of assets",
-      "It is a decentralized market in which market participants trade stocks, commodities,currencies or other instruments directly between two parties and without a central exchange or broker"
-          "This debt is owed for which you personally are legally responsible",
+      "It is a decentralized market in which market participants trade stocks, commodities,currencies or other instruments directly between two parties and without a central exchange or broker",
+      "This debt is owed for which you personally are legally responsible",
       "In the 5 C's of credit, this refers to the credit history of the creditor, which is a borrower's reputation or track record for repaying debts",
       "In the 5 C's of credit, it measures the borrower's ability to repay a loan by comparing income against recurring debts and assessing the borrower's debt-to-income (DTI) ratio.",
       "In the 5 C's of credit, it gives the lender the assurance that if the borrower defaults on the loan",
@@ -798,8 +798,8 @@ class QuestionAnswer {
       "C. Growth Stocks",
       "D. Defensive Stocks",
       "C. Cyclical Stocks",
-      "D.Speculative Stocks"
-          "B. Nominal Return",
+      "D.Speculative Stocks",
+      "B. Nominal Return",
       "A. Real Return",
       "D. Expected Return",
       "C. Realized Return",

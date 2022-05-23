@@ -43,14 +43,6 @@ class _HomePageState extends State<HomePage> {
           ),
           backgroundColor: Colors.transparent,
           elevation: 0, // 0 yung value para mawala yung back shadow sa app bar
-          actions: [
-            IconButton(
-              icon: const Icon(Icons.bookmark_outline_rounded),
-              iconSize: 35,
-              color: Colors.black,
-              onPressed: () => {},
-            ),
-          ],
         ),
         body: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
