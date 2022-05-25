@@ -6,6 +6,8 @@ import '/data/questionandanswer.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 
 var quiz = QuestionAnswer(); //place database in a variable
+var totalQuizQuest =
+    10; //Total no. of questions (connected with result.dart & historyCategory.dart)
 var questionNumber = 1; //initialize start of number question
 var skipQuestion = 0;
 var correctAnswer = 0;
@@ -288,7 +290,7 @@ class _QuizState extends State<Quiz> {
 
   void updateQuestion() {
     setState(() {
-      if (questionNumber < 10) {
+      if (questionNumber < totalQuizQuest) {
         canceltimer = false;
         timeLeft = 10; //delay display 10
 
@@ -299,7 +301,7 @@ class _QuizState extends State<Quiz> {
         questionNumber++;
 
         //Proceed to the result page
-      } else if (questionNumber == 10) {
+      } else if (questionNumber == totalQuizQuest) {
         canceltimer = true;
         Navigator.push(
             context,

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import '/data/personalHistory.dart';
+import '/pages/quiz.dart';
 
 class HistoryCategory extends StatefulWidget {
   final String category;
@@ -13,6 +14,11 @@ class HistoryCategory extends StatefulWidget {
 class _HistoryCategoryState extends State<HistoryCategory> {
   get categoryN => widget.category;
   List<Widget> historyData = [];
+
+  String scorePercent(int correct) {
+    var percent = (correct / totalQuizQuest) * 100;
+    return percent.round().toString() + "%";
+  }
 
   //====================Card Generator
   void getPostsData() {
@@ -42,9 +48,9 @@ class _HistoryCategoryState extends State<HistoryCategory> {
                             radius: 120.0,
                             lineWidth: 12.0,
                             animation: true,
-                            percent: post["correct"] / 10,
+                            percent: post["correct"] / totalQuizQuest,
                             center: Text(
-                              post["correct"].toString() + "/10",
+                              scorePercent(post["correct"]),
                               style: TextStyle(
                                   fontFamily: 'Poppins-SemiBold',
                                   fontWeight: FontWeight.w600,

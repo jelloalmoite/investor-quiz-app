@@ -20,6 +20,12 @@ class _ResultState extends State<Result> {
       widget.quizResult[3].toString().padLeft(2, '0') +
       ":" +
       widget.quizResult[4].toString().padLeft(2, '0');
+
+  String scorePercent() {
+    var percent = (correct / totalQuizQuest) * 100;
+    return percent.round().toString() + "%";
+  }
+
   ///////Widget for 3 small boxes//////////////
   Widget cont(String name, int num, Color boxdeco, Color boxshad) {
     return Container(
@@ -119,9 +125,9 @@ class _ResultState extends State<Result> {
                       radius: 160.0,
                       lineWidth: 16.0,
                       animation: true,
-                      percent: correct / 10,
+                      percent: correct / totalQuizQuest,
                       center: Text(
-                        "$correct/10", //pedeng score na lang instead of percentage
+                        scorePercent(), //pedeng score na lang instead of percentage
                         style: const TextStyle(
                             fontFamily: 'Poppins-SemiBold',
                             fontWeight: FontWeight.w600,
