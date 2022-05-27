@@ -6,7 +6,9 @@ import '/pages/quiz.dart';
 
 class Result extends StatefulWidget {
   final List<int> quizResult;
-  const Result({Key? key, required this.quizResult}) : super(key: key);
+  final String title;
+  const Result({Key? key, required this.quizResult, required this.title})
+      : super(key: key);
 
   @override
   State<Result> createState() => _ResultState();
@@ -102,9 +104,9 @@ class _ResultState extends State<Result> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
                     Column(
-                      children: const [
+                      children: [
                         // text
-                        Text(
+                        const Text(
                           "COMPLETED",
                           style: TextStyle(
                               fontSize: 21,
@@ -112,8 +114,9 @@ class _ResultState extends State<Result> {
                               fontWeight: FontWeight.w700),
                         ),
                         Text(
-                          "PERSONAL FINANCE",
-                          style: TextStyle(
+                          widget.title,
+                          textAlign: TextAlign.center,
+                          style: const TextStyle(
                               fontSize: 21,
                               fontFamily: 'Poppins',
                               fontWeight: FontWeight.w500),
@@ -232,7 +235,7 @@ class _ResultState extends State<Result> {
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                 fontFamily: 'Poppins',
-                                fontSize: 18.0,
+                                fontSize: 20.0,
                                 fontWeight: FontWeight.w400,
                                 color: Colors.black,
                               ),

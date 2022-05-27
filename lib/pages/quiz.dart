@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import '/pages/result.dart';
 import '/data/questionandanswer.dart';
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
 var quiz = QuestionAnswer(); //place database in a variable
 var totalQuizQuest =
@@ -12,10 +13,17 @@ var questionNumber = 1; //initialize start of number question
 var skipQuestion = 0;
 var correctAnswer = 0;
 var wrongAnswer = 0;
+List<String> questions = [];
+List<String> answers = [];
+List<String> answersEval = [];
+List<String> numQuestion = [];
 var timeTaken = [0, 0]; //[min, sec]
 //number of skipped question/ correct answer/ wrong answer/ time taken
 
 void reset() {
+  questions.removeRange(0, 10);
+  answers.removeRange(0, 10);
+  answersEval.removeRange(0, 10);
   questionNumber = 1;
   skipQuestion = 0;
   correctAnswer = 0;
@@ -33,6 +41,12 @@ class Quiz extends StatefulWidget {
 }
 
 class _QuizState extends State<Quiz> {
+  final _historybox = Hive.box('historyBox');
+  //add value to box
+  Future<void> _createItem(Map<String, dynamic> newItem) async {
+    await _historybox.add(newItem);
+  }
+
   //Generate random number from 0 to number of question
   int randomNumber = Random().nextInt(2);
   //widget for choices
@@ -60,6 +74,10 @@ class _QuizState extends State<Quiz> {
         ),
         //onpress button for choices
         onPressed: () {
+          questions.add(quiz.tanong[int.parse(widget.y)][randomNumber]);
+          numQuestion.add(quiz.tanong[int.parse(widget.y)][randomNumber] + "-");
+          answers.add(quiz.sagot[int.parse(widget.y)][randomNumber][x]);
+          answersEval.add(quiz.tama[int.parse(widget.y)][randomNumber]);
           if (quiz.sagot[int.parse(widget.y)][randomNumber][x] ==
               quiz.tama[int.parse(widget.y)][randomNumber]) {
             correctAnswer++;
@@ -94,8 +112,8 @@ class _QuizState extends State<Quiz> {
 
 //initialization for timer
   bool canceltimer = false;
-  int timeLeft = 10;
-  var timestring = "10";
+  int timeLeft = 30;
+  var timestring = "30";
   @override
   void initState() {
     starttimer();
@@ -110,6 +128,10 @@ class _QuizState extends State<Quiz> {
         if (canceltimer == true) {
           t.cancel();
         } else if (timeLeft < 1) {
+          questions.add(quiz.tanong[int.parse(widget.y)][randomNumber]);
+          numQuestion.add(quiz.tanong[int.parse(widget.y)][randomNumber] + "-");
+          answers.add("None");
+          answersEval.add(quiz.tama[int.parse(widget.y)][randomNumber]);
           skipQuestion++;
           debugPrint("skip" + skipQuestion.toString());
           t.cancel();
@@ -271,6 +293,13 @@ class _QuizState extends State<Quiz> {
                     ),
                     //onpress for skip button
                     onPressed: () => {
+                      questions
+                          .add(quiz.tanong[int.parse(widget.y)][randomNumber]),
+                      numQuestion.add(
+                          quiz.tanong[int.parse(widget.y)][randomNumber] + "-"),
+                      answers.add("None"),
+                      answersEval
+                          .add(quiz.tama[int.parse(widget.y)][randomNumber]),
                       //Generate random number from 0 to number of question
                       randomNumber = Random()
                           .nextInt(quiz.tanong[int.parse(widget.y)].length),
@@ -292,7 +321,7 @@ class _QuizState extends State<Quiz> {
     setState(() {
       if (questionNumber < totalQuizQuest) {
         canceltimer = false;
-        timeLeft = 10; //delay display 10
+        timeLeft = 30; //delay display 10
 
         //proceed to next question
         randomNumber =
@@ -302,6 +331,16 @@ class _QuizState extends State<Quiz> {
 
         //Proceed to the result page
       } else if (questionNumber == totalQuizQuest) {
+        _createItem({
+          "title": widget.titl.toString(),
+          "questions": numQuestion.toString(),
+          "answers": answers.toString(),
+          "correctAnswer": answersEval.toString(),
+          "numCorrect": correctAnswer.toString(),
+          "numWrong": wrongAnswer.toString(),
+          "numSkipped": skipQuestion.toString(),
+          "timeTaken": timeTaken.toString()
+        });
         canceltimer = true;
         Navigator.push(
             context,
@@ -314,6 +353,7 @@ class _QuizState extends State<Quiz> {
                         timeTaken[0],
                         timeTaken[1]
                       ],
+                      title: widget.titl,
                     )));
       }
     });

@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:investor_quizapp/pages/history.dart';
-import 'package:investor_quizapp/pages/home.dart';
-import 'package:investor_quizapp/pages/profile.dart';
-import 'package:investor_quizapp/pages/settings.dart';
+import '/pages/history.dart';
+import '/pages/home.dart';
+import '/pages/profile.dart';
+import '/pages/settings.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Hive.initFlutter();
+  await Hive.openBox('historyBox');
   runApp(const MyApp());
 }
 
