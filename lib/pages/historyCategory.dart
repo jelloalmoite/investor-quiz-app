@@ -1,245 +1,105 @@
 import 'package:flutter/material.dart';
+import '/pages/history.dart';
 import 'package:percent_indicator/percent_indicator.dart';
-import '/data/personalHistory.dart';
-import '/pages/quiz.dart';
 
-class HistoryCategory extends StatefulWidget {
-  final String category;
-  const HistoryCategory({Key? key, required this.category}) : super(key: key);
+class HistoryPages extends StatelessWidget {
+  const HistoryPages({Key? key}) : super(key: key);
 
-  @override
-  State<HistoryCategory> createState() => _HistoryCategoryState();
-}
-
-class _HistoryCategoryState extends State<HistoryCategory> {
-  get categoryN => widget.category;
-  List<Widget> historyData = [];
-
-  String scorePercent(int correct) {
-    var percent = (correct / totalQuizQuest) * 100;
-    return percent.round().toString() + "%";
-  }
-
-  //====================Card Generator
-  void getPostsData() {
-    List<dynamic> responseList =
-        PERSONAL_HISTORY; //pwedeng paltan to para sa ibang categories
-    List<Widget> listItems = [];
-    responseList.forEach((post) {
-      listItems.add(
-        Column(
-          children: [
-            SizedBox(height: 5),
-            Material(
-              borderRadius: BorderRadius.circular(15),
-              clipBehavior: Clip.antiAliasWithSaveLayer,
-              child: Container(
-                padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: <Widget>[
-                    Column(
-                      children: <Widget>[
-                        SizedBox(
-                          width: 120,
-                          height: 120,
-                          child: CircularPercentIndicator(
-                            radius: 120.0,
-                            lineWidth: 12.0,
-                            animation: true,
-                            percent: post["correct"] / totalQuizQuest,
-                            center: Text(
-                              scorePercent(post["correct"]),
-                              style: TextStyle(
-                                  fontFamily: 'Poppins-SemiBold',
-                                  fontWeight: FontWeight.w600,
-                                  fontSize: 30.0),
-                            ),
-                            circularStrokeCap: CircularStrokeCap.round,
-                            progressColor: Color.fromRGBO(5, 195, 107, 100),
-                            backgroundColor: Color.fromRGBO(83, 215, 80, 0.3),
-                          ),
-                        ),
-                        SizedBox(height: 10),
-                        SizedBox(
-                          width: 120,
-                          height: 30,
-                          child: MaterialButton(
-                            color: const Color.fromRGBO(81, 231, 168, 1),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(15),
-                            ),
-                            child: const Text(
-                              "Details",
-                              style: TextStyle(
-                                fontFamily: 'Poppins-Medium',
-                                fontSize: 20.0,
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
-                            onPressed: () => {},
-                            splashColor: const Color.fromRGBO(5, 195, 107, 100),
-                          ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(width: 20),
-                    Column(
-                      children: <Widget>[
-                        const Text(
-                          "Time Taken:",
-                          style: TextStyle(
-                            fontSize: 18,
-                            fontFamily: 'Poppins',
-                          ),
-                        ),
-                        Text(
-                          post["time"],
-                          style: TextStyle(
-                            fontSize: 18,
-                            fontFamily: 'Poppins',
-                          ),
-                        ),
-                        const SizedBox(height: 20),
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: <Widget>[
-                            //==========================Correct
-                            Column(
-                              children: [
-                                Container(
-                                  height: 40,
-                                  width: 40,
-                                  decoration: BoxDecoration(
-                                    color: Colors.green,
-                                    borderRadius: BorderRadius.circular(25),
-                                  ),
-                                  child: Center(
-                                    child: Text(
-                                      post["correct"].toString(),
-                                      style: TextStyle(
-                                        fontSize: 20,
-                                        fontFamily: 'Poppins-Medium',
-                                        color: Colors.white,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                const Center(
-                                  child: Text(
-                                    "Correct",
-                                    style: TextStyle(
-                                      fontSize: 12,
-                                      fontFamily: 'Poppins-Medium',
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                            SizedBox(width: 12),
-                            //==========================Skipped
-                            Column(
-                              children: [
-                                Container(
-                                  height: 40,
-                                  width: 40,
-                                  decoration: BoxDecoration(
-                                    color: Colors.yellow,
-                                    borderRadius: BorderRadius.circular(25),
-                                  ),
-                                  child: Center(
-                                    child: Text(
-                                      post["skip"].toString(),
-                                      style: TextStyle(
-                                        fontSize: 20,
-                                        fontFamily: 'Poppins-Medium',
-                                        color: Colors.white,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                const Center(
-                                  child: Text(
-                                    "Skipped",
-                                    style: TextStyle(
-                                      fontSize: 12,
-                                      fontFamily: 'Poppins-Medium',
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                            SizedBox(width: 12),
-                            //==========================Wrong
-                            Column(
-                              children: [
-                                Container(
-                                  height: 40,
-                                  width: 40,
-                                  decoration: BoxDecoration(
-                                    color: Colors.red,
-                                    borderRadius: BorderRadius.circular(25),
-                                  ),
-                                  child: Center(
-                                    child: Text(
-                                      post["wrong"].toString(),
-                                      style: TextStyle(
-                                        fontSize: 20,
-                                        fontFamily: 'Poppins-Medium',
-                                        color: Colors.white,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                const Center(
-                                  child: Text(
-                                    "Wrong",
-                                    style: TextStyle(
-                                      fontSize: 12,
-                                      fontFamily: 'Poppins-Medium',
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(15),
-                  border: Border.all(
-                    color: const Color.fromRGBO(5, 195, 107, 50),
-                    width: 3,
+  //Category history builder
+  Widget History(double progress, String title, int attempts,
+      BuildContext context, String databaseName) {
+    return Material(
+      borderRadius: BorderRadius.circular(15),
+      clipBehavior: Clip.antiAliasWithSaveLayer,
+      child: InkWell(
+        child: Container(
+          padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
+          child: Stack(
+            children: [
+              Align(
+                alignment: Alignment.centerLeft,
+                child: SizedBox(
+                  width: 60,
+                  height: 60,
+                  child: CircularPercentIndicator(
+                    radius: 60.0,
+                    lineWidth: 7.0,
+                    animation: true,
+                    percent: progress,
+                    center: Icon(Icons.lock_open_rounded, size: 30),
+                    circularStrokeCap: CircularStrokeCap.round,
+                    progressColor: Color.fromRGBO(5, 195, 107, 100),
+                    backgroundColor: Color.fromRGBO(83, 215, 80, 0.3),
                   ),
                 ),
               ),
+              Align(
+                alignment: Alignment(0.3, 1),
+                child: SizedBox(
+                  width: 200,
+                  height: 60,
+                  child: Center(
+                    child: RichText(
+                      textAlign: TextAlign.center,
+                      text: TextSpan(
+                        children: [
+                          TextSpan(
+                            text: title,
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 17.0,
+                              fontFamily: 'Poppins-SemiBold',
+                              height: 0.9,
+                            ),
+                          ),
+                          TextSpan(
+                            text: '\nQuizzes Attempted: $attempts',
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 15.0,
+                              fontFamily: 'Poppins',
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              Align(
+                alignment: Alignment(1.1, 1),
+                child: SizedBox(
+                  height: 60,
+                  child: Icon(Icons.arrow_forward_ios_rounded,
+                      color: Color.fromRGBO(5, 195, 107, 100), size: 45),
+                ),
+              ),
+            ],
+          ),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(15),
+            border: Border.all(
+              color: const Color.fromRGBO(5, 195, 107, 50),
+              width: 3,
             ),
-            SizedBox(height: 5),
-          ],
+          ),
         ),
-      );
-    });
-    setState(() {
-      historyData = listItems;
-    });
+        onTap: () => {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => HistoryPage(
+                      category: databaseName,
+                    )),
+          )
+        },
+      ),
+    );
   }
 
   @override
-  void initState() {
-    super.initState();
-    getPostsData();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final Size size = MediaQuery.of(context).size;
-    return SafeArea(
-      child: Scaffold(
+  Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(
           title: const Text(
             'HISTORY',
@@ -250,28 +110,22 @@ class _HistoryCategoryState extends State<HistoryCategory> {
               fontWeight: FontWeight.w900,
             ),
           ),
-          automaticallyImplyLeading: false,
           backgroundColor: Colors.transparent,
           elevation: 0,
-          actions: [
-            Image.asset("assets/images/logo.png"),
-          ],
         ),
         body: Container(
-          height: size.height,
           margin: const EdgeInsets.fromLTRB(26.0, 10.0, 26.0, 35),
           child: SafeArea(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.start,
               mainAxisSize: MainAxisSize.max,
-              children: [
+              children: <Widget>[
                 Container(
                   alignment: Alignment.topCenter,
-                  child: Text(
-                    "Overview of $categoryN",
-                    textAlign: TextAlign.center,
-                    style: const TextStyle(
+                  child: const Text(
+                    "Choose a topic to view history.",
+                    style: TextStyle(
                       fontSize: 18,
                       color: Colors.black,
                       fontFamily: 'Poppins',
@@ -279,28 +133,34 @@ class _HistoryCategoryState extends State<HistoryCategory> {
                     ),
                   ),
                 ),
-                const Padding(padding: EdgeInsets.all(6.0)),
-                Expanded(
-                  child: ListView.builder(
-                      scrollDirection: Axis.vertical,
-                      itemCount: historyData.length,
-                      shrinkWrap: true,
-                      itemBuilder: (BuildContext context, int index) {
-                        return historyData[index];
-                      }
+                const Padding(
+                    padding: EdgeInsets.all(6.0)), //Space between rows
 
-                      // //String time, int correct, int skip, int wrong
-                      // History(8, '1 min', 1, 1, 1, 1),
-                      // const SizedBox(height: 10),
-                      // History(4, '10 min 30 secs', 2, 10, 10, 10),
-                      // const SizedBox(height: 10),
-                      ),
-                ),
+                //============Personal Finance
+                History(
+                    0.75, 'Personal Finance', 1, context, 'Personal_Finance'),
+                const Padding(
+                    padding: EdgeInsets.all(6.0)), //Space between rows
+
+                //============Capital Markets
+                History(0.25, 'Capital Markets', 0, context, 'Capital_Market'),
+                const Padding(
+                    padding: EdgeInsets.all(6.0)), //Space between rows
+
+                //============Behavioral Finance
+                History(0.0, 'Behavioral Finance', 0, context,
+                    'Behavioral_Finance'),
+                const Padding(
+                    padding: EdgeInsets.all(6.0)), //Space between rows
+
+                //============Investment and Portfolio Management
+                History(0.0, 'Investment and Portfolio Management', 0, context,
+                    'Investment_and_Portfolio_Management'),
+                const Padding(
+                    padding: EdgeInsets.all(6.0)), //Space between rows
               ],
             ),
           ),
         ),
-      ),
-    );
-  }
+      );
 }

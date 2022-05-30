@@ -1,7 +1,8 @@
+// ignore_for_file: file_names, prefer_typing_uninitialized_variables
 import 'package:flutter/material.dart';
+import '/pages/quiz.dart';
 import 'package:toggle_switch/toggle_switch.dart';
 import 'package:url_launcher/link.dart';
-import '/pages/quiz.dart';
 import '/data/questionandanswer.dart';
 
 var categ = Categories();
@@ -70,7 +71,7 @@ class _CategoryPage extends State<CategoryPage> {
 
   @override
   Widget build(BuildContext context) => Scaffold(
-      backgroundColor: categ.bgColor[int.parse(widget.title)],
+      backgroundColor: const Color.fromRGBO(83, 215, 80, 1),
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0, // 0 yung value para mawala yung back shadow sa app bar
@@ -126,7 +127,9 @@ class _CategoryPage extends State<CategoryPage> {
                     children: <Widget>[
                       //===============Description & Add to Bookmarks button
                       Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          mainAxisSize: MainAxisSize.max,
                           children: <Widget>[
                             Text(screens2[selectedIndex],
                                 style: const TextStyle(
@@ -135,8 +138,12 @@ class _CategoryPage extends State<CategoryPage> {
                                   fontFamily: 'Poppins-ExtraBold',
                                   fontWeight: FontWeight.w800,
                                 )),
+                            IconButton(
+                              iconSize: 30,
+                              icon: const Icon(Icons.bookmark_add_outlined),
+                              onPressed: () => {},
+                            ),
                           ]),
-                      const SizedBox(height: 10),
                       //===============Description/Sources Toggle Switch buttons
                       ToggleSwitch(
                         totalSwitches: 2,
@@ -234,19 +241,19 @@ class _CategoryPage extends State<CategoryPage> {
     if (x == 0) {
       //for finance quiz
       nums = "0";
-      titles = "Personal Finance";
+      titles = "Personal_Finance";
     } else if (x == 1) {
       //for investment quiz
       nums = "1";
-      titles = "Investment and Portfolio Management";
+      titles = "Investment_and_Portfolio_Management";
     } else if (x == 2) {
       //for behavioral quiz
       nums = "2";
-      titles = "Behavioral Finance";
+      titles = "Behavioral_Finance";
     } else if (x == 3) {
       // for capital quiz
       nums = "3";
-      titles = "Capital Market";
+      titles = "Capital_Market";
     }
     Navigator.push(
       context,

@@ -13,10 +13,10 @@ var questionNumber = 1; //initialize start of number question
 var skipQuestion = 0;
 var correctAnswer = 0;
 var wrongAnswer = 0;
-List<String> questions = [];
-List<String> answers = [];
-List<String> answersEval = [];
-List<String> numQuestion = [];
+List<dynamic> questions = [];
+List<dynamic> answers = [];
+List<dynamic> answersEval = [];
+List<dynamic> numQuestion = [];
 var timeTaken = [0, 0]; //[min, sec]
 //number of skipped question/ correct answer/ wrong answer/ time taken
 
@@ -41,12 +41,6 @@ class Quiz extends StatefulWidget {
 }
 
 class _QuizState extends State<Quiz> {
-  final _historybox = Hive.box('historyBox');
-  //add value to box
-  Future<void> _createItem(Map<String, dynamic> newItem) async {
-    await _historybox.add(newItem);
-  }
-
   //Generate random number from 0 to number of question
   int randomNumber = Random().nextInt(2);
   //widget for choices
@@ -318,7 +312,7 @@ class _QuizState extends State<Quiz> {
       );
 
   void updateQuestion() {
-    setState(() {
+    setState(() async {
       if (questionNumber < totalQuizQuest) {
         canceltimer = false;
         timeLeft = 30; //delay display 10
@@ -331,6 +325,13 @@ class _QuizState extends State<Quiz> {
 
         //Proceed to the result page
       } else if (questionNumber == totalQuizQuest) {
+        await Hive.openBox(widget.titl);
+        final _historybox = Hive.box(widget.titl);
+        //add value to box
+        Future<void> _createItem(Map<String, dynamic> newItem) async {
+          await _historybox.add(newItem);
+        }
+
         _createItem({
           "title": widget.titl.toString(),
           "questions": numQuestion.toString(),
