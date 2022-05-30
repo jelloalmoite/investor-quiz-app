@@ -110,7 +110,10 @@ class _SettingsPageState extends State<SettingsPage> {
               //ACCOUNT
               settingText("Account"),
               const SizedBox(height: 4.0),
-              settingCard("Avatar", const Icon(Icons.account_circle_outlined),
+              settingCard(
+                  "Avatar",
+                  const Icon(Icons.account_circle_outlined,
+                      color: Colors.black),
                   () => {}),
               settingCard(
                   "Name",
