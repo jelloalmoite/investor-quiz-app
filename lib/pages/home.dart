@@ -37,16 +37,45 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(
           title: const Text(
-            'TOPICS',
+            "TOPICS",
             style: TextStyle(
+              fontSize: 24,
               color: Colors.black,
               fontFamily: 'Poppins-ExtraBold',
-              fontSize: 30,
-              fontWeight: FontWeight.w900,
+              fontWeight: FontWeight.w800,
             ),
           ),
+          actions: <Widget>[
+            Container(
+              margin: const EdgeInsets.fromLTRB(0, 8, 15, 8),
+              padding: const EdgeInsets.fromLTRB(5, 0, 10, 0),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                border: Border.all(
+                  color: const Color.fromRGBO(5, 195, 107, 50),
+                  width: 3,
+                ),
+              ),
+              child: Row(
+                children: [
+                  const Icon(
+                    Icons.star_rounded,
+                    size: 30,
+                    color: Colors.yellow,
+                  ),
+                  Text(catLevel.toString(),
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 22,
+                        fontFamily: 'Poppins',
+                        fontWeight: FontWeight.bold,
+                      )),
+                ],
+              ),
+            ),
+          ],
           backgroundColor: Colors.transparent,
-          elevation: 0, // 0 yung value para mawala yung back shadow sa app bar
+          elevation: 0,
         ),
         body: Column(
           crossAxisAlignment: CrossAxisAlignment.center,

@@ -108,14 +108,23 @@ class _HistoryPagesState extends State<HistoryPages> {
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(
           title: const Text(
-            'HISTORY',
+            "HISTORY",
             style: TextStyle(
+              fontSize: 24,
               color: Colors.black,
               fontFamily: 'Poppins-ExtraBold',
-              fontSize: 30,
-              fontWeight: FontWeight.w900,
+              fontWeight: FontWeight.w800,
             ),
           ),
+          actions: <Widget>[
+            Image.asset(
+              "assets/images/logo.png",
+              width: 50,
+            ),
+            SizedBox(
+              width: 15,
+            ),
+          ],
           backgroundColor: Colors.transparent,
           elevation: 0,
         ),

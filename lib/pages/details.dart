@@ -131,7 +131,7 @@ class _DetailsState extends State<Details> {
         appBar: AppBar(
           centerTitle: true,
           title: const Text(
-            "RESULT",
+            "Quiz Details",
             style: TextStyle(
               fontSize: 24,
               color: Colors.black,

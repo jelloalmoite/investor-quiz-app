@@ -66,13 +66,38 @@ class _HistoryPageState extends State<HistoryPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('History'),
+        automaticallyImplyLeading: false,
+        title: const Text(
+          "HISTORY",
+          style: TextStyle(
+            fontSize: 24,
+            color: Colors.black,
+            fontFamily: 'Poppins-ExtraBold',
+            fontWeight: FontWeight.w800,
+          ),
+        ),
+        actions: <Widget>[
+          Image.asset(
+            "assets/images/logo.png",
+            width: 50,
+          ),
+          SizedBox(
+            width: 15,
+          ),
+        ],
+        backgroundColor: Colors.transparent,
+        elevation: 0,
       ),
       body: _items.isEmpty
           ? const Center(
               child: Text(
-                'No Data',
-                style: TextStyle(fontSize: 30),
+                'No history entries found.',
+                style: TextStyle(
+                  fontFamily: 'Poppins-Medium',
+                  fontSize: 25,
+                  fontWeight: FontWeight.w600,
+                  color: Colors.black,
+                ),
               ),
             )
           : ListView.builder(
@@ -82,229 +107,231 @@ class _HistoryPageState extends State<HistoryPage> {
                 final currentItem = _items[index];
                 return Column(
                   children: [
-                    const SizedBox(height: 5),
-                    Material(
-                      borderRadius: BorderRadius.circular(15),
-                      clipBehavior: Clip.antiAliasWithSaveLayer,
-                      child: Container(
-                        padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: <Widget>[
-                            Column(
-                              children: <Widget>[
-                                SizedBox(
-                                  width: 120,
-                                  height: 120,
-                                  child: CircularPercentIndicator(
-                                    radius: 120.0,
-                                    lineWidth: 12.0,
-                                    animation: true,
-                                    percent:
-                                        int.parse(currentItem['numCorrect']) /
-                                            totalQuizQuest,
-                                    center: Text(
-                                      ((int.parse(currentItem['numCorrect']) /
-                                                  10) *
-                                              100)
-                                          .toString(),
-                                      style: const TextStyle(
-                                          fontFamily: 'Poppins-SemiBold',
-                                          fontWeight: FontWeight.w600,
-                                          fontSize: 30.0),
-                                    ),
-                                    circularStrokeCap: CircularStrokeCap.round,
-                                    progressColor:
-                                        const Color.fromRGBO(5, 195, 107, 100),
-                                    backgroundColor:
-                                        const Color.fromRGBO(83, 215, 80, 0.3),
-                                  ),
-                                ),
-                                const SizedBox(height: 10),
-                                SizedBox(
-                                  width: 120,
-                                  height: 30,
-                                  child: MaterialButton(
-                                    color:
-                                        const Color.fromRGBO(81, 231, 168, 1),
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(15),
-                                    ),
-                                    child: const Text(
-                                      "Details",
-                                      style: TextStyle(
-                                        fontFamily: 'Poppins-Medium',
-                                        fontSize: 20.0,
+                    Container(
+                      padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
+                      margin: const EdgeInsets.fromLTRB(20, 10, 20, 10),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: <Widget>[
+                          Column(
+                            children: <Widget>[
+                              //==========================Circular_Percent_Indicator
+                              SizedBox(
+                                width: 120,
+                                height: 120,
+                                child: CircularPercentIndicator(
+                                  radius: 120.0,
+                                  lineWidth: 12.0,
+                                  animation: true,
+                                  percent:
+                                      int.parse(currentItem['numCorrect']) /
+                                          totalQuizQuest,
+                                  center: Text(
+                                    ((int.parse(currentItem['numCorrect']) /
+                                                    10) *
+                                                100)
+                                            .toInt()
+                                            .toString() +
+                                        "%",
+                                    style: const TextStyle(
+                                        fontFamily: 'Poppins-SemiBold',
                                         fontWeight: FontWeight.w600,
-                                      ),
-                                    ),
-                                    onPressed: () => {
-                                      tohistoryDetails(
-                                          currentItem['questions'],
-                                          currentItem['answers'],
-                                          currentItem['correctAnswer'])
-                                    },
-                                    splashColor:
-                                        const Color.fromRGBO(5, 195, 107, 100),
+                                        fontSize: 30.0),
                                   ),
+                                  circularStrokeCap: CircularStrokeCap.round,
+                                  progressColor:
+                                      const Color.fromRGBO(5, 195, 107, 100),
+                                  backgroundColor:
+                                      const Color.fromRGBO(83, 215, 80, 0.3),
                                 ),
-                              ],
-                            ),
-                            const SizedBox(width: 20),
-                            Column(
-                              children: <Widget>[
-                                const Text(
-                                  "Time Taken:",
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                    fontFamily: 'Poppins',
+                              ),
+                              const SizedBox(height: 10),
+                              //==========================Details_Button
+                              SizedBox(
+                                width: 120,
+                                height: 30,
+                                child: MaterialButton(
+                                  color: const Color.fromRGBO(81, 231, 168, 1),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(15),
                                   ),
-                                ),
-                                Text(
-                                  currentItem['timeTaken'].toString(),
-                                  style: const TextStyle(
-                                    fontSize: 18,
-                                    fontFamily: 'Poppins',
+                                  child: const Text(
+                                    "Details",
+                                    style: TextStyle(
+                                      fontFamily: 'Poppins-Medium',
+                                      fontSize: 20.0,
+                                      fontWeight: FontWeight.w600,
+                                    ),
                                   ),
+                                  onPressed: () => {
+                                    tohistoryDetails(
+                                        currentItem['questions'],
+                                        currentItem['answers'],
+                                        currentItem['correctAnswer'])
+                                  },
+                                  splashColor:
+                                      const Color.fromRGBO(5, 195, 107, 100),
                                 ),
-                                const SizedBox(height: 20),
-                                Row(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
-                                  children: <Widget>[
-                                    //==========================Correct
-                                    Column(
-                                      children: [
-                                        Container(
-                                          height: 40,
-                                          width: 40,
-                                          decoration: BoxDecoration(
-                                            color: Colors.green,
-                                            borderRadius:
-                                                BorderRadius.circular(25),
-                                          ),
-                                          child: Center(
-                                            child: Text(
-                                              currentItem['numCorrect'],
-                                              style: const TextStyle(
-                                                fontSize: 20,
-                                                fontFamily: 'Poppins-Medium',
-                                                color: Colors.white,
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                        const Center(
-                                          child: Text(
-                                            "Correct",
-                                            style: TextStyle(
-                                              fontSize: 12,
-                                              fontFamily: 'Poppins-Medium',
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    const SizedBox(width: 12),
-                                    //==========================Skipped
-                                    Column(
-                                      children: [
-                                        Container(
-                                          height: 40,
-                                          width: 40,
-                                          decoration: BoxDecoration(
-                                            color: Colors.yellow,
-                                            borderRadius:
-                                                BorderRadius.circular(25),
-                                          ),
-                                          child: Center(
-                                            child: Text(
-                                              currentItem['numSkipped'],
-                                              style: const TextStyle(
-                                                fontSize: 20,
-                                                fontFamily: 'Poppins-Medium',
-                                                color: Colors.white,
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                        const Center(
-                                          child: Text(
-                                            "Skipped",
-                                            style: TextStyle(
-                                              fontSize: 12,
-                                              fontFamily: 'Poppins-Medium',
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    const SizedBox(width: 12),
-                                    //==========================Wrong
-                                    Column(
-                                      children: [
-                                        Container(
-                                          height: 40,
-                                          width: 40,
-                                          decoration: BoxDecoration(
-                                            color: Colors.red,
-                                            borderRadius:
-                                                BorderRadius.circular(25),
-                                          ),
-                                          child: Center(
-                                            child: Text(
-                                              currentItem['numWrong'],
-                                              style: const TextStyle(
-                                                fontSize: 20,
-                                                fontFamily: 'Poppins-Medium',
-                                                color: Colors.white,
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                        const Center(
-                                          child: Text(
-                                            "Wrong",
-                                            style: TextStyle(
-                                              fontSize: 12,
-                                              fontFamily: 'Poppins-Medium',
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    //=========date
-                                    Row(
-                                      children: [
-                                        Center(
-                                          child: Text(
-                                            currentItem["date"],
-                                            style: TextStyle(
-                                              fontSize: 12,
-                                              fontFamily: 'Poppins-Medium',
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(15),
-                          border: Border.all(
-                            color: const Color.fromRGBO(5, 195, 107, 50),
-                            width: 3,
+                              ),
+                            ],
                           ),
+                          const SizedBox(width: 20),
+                          Column(
+                            children: <Widget>[
+                              //==========================Time_Taken
+                              const Text(
+                                "Time Taken:",
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  fontFamily: 'Poppins',
+                                ),
+                              ),
+                              Text(
+                                currentItem['timeTaken'].toString(),
+                                style: const TextStyle(
+                                  fontSize: 18,
+                                  fontFamily: 'Poppins',
+                                  height: 1,
+                                ),
+                              ),
+                              const SizedBox(height: 5),
+                              //==========================Correct_Skip_Wrong_Column
+                              const Text(
+                                "Attempts:",
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  fontFamily: 'Poppins',
+                                ),
+                              ),
+                              Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: <Widget>[
+                                  //==========================Correct
+                                  Column(
+                                    children: [
+                                      Container(
+                                        height: 40,
+                                        width: 40,
+                                        decoration: BoxDecoration(
+                                          color: Colors.green,
+                                          borderRadius:
+                                              BorderRadius.circular(25),
+                                        ),
+                                        child: Center(
+                                          child: Text(
+                                            currentItem['numCorrect'],
+                                            style: const TextStyle(
+                                              fontSize: 20,
+                                              fontFamily: 'Poppins-Medium',
+                                              color: Colors.white,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      const Center(
+                                        child: Text(
+                                          "Correct",
+                                          style: TextStyle(
+                                            fontSize: 12,
+                                            fontFamily: 'Poppins-Medium',
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  const SizedBox(width: 12),
+                                  //==========================Skipped
+                                  Column(
+                                    children: [
+                                      Container(
+                                        height: 40,
+                                        width: 40,
+                                        decoration: BoxDecoration(
+                                          color: Colors.yellow,
+                                          borderRadius:
+                                              BorderRadius.circular(25),
+                                        ),
+                                        child: Center(
+                                          child: Text(
+                                            currentItem['numSkipped'],
+                                            style: const TextStyle(
+                                              fontSize: 20,
+                                              fontFamily: 'Poppins-Medium',
+                                              color: Colors.white,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      const Center(
+                                        child: Text(
+                                          "Skipped",
+                                          style: TextStyle(
+                                            fontSize: 12,
+                                            fontFamily: 'Poppins-Medium',
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  const SizedBox(width: 12),
+                                  //==========================Wrong
+                                  Column(
+                                    children: [
+                                      Container(
+                                        height: 40,
+                                        width: 40,
+                                        decoration: BoxDecoration(
+                                          color: Colors.red,
+                                          borderRadius:
+                                              BorderRadius.circular(25),
+                                        ),
+                                        child: Center(
+                                          child: Text(
+                                            currentItem['numWrong'],
+                                            style: const TextStyle(
+                                              fontSize: 20,
+                                              fontFamily: 'Poppins-Medium',
+                                              color: Colors.white,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      const Center(
+                                        child: Text(
+                                          "Wrong",
+                                          style: TextStyle(
+                                            fontSize: 12,
+                                            fontFamily: 'Poppins-Medium',
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                              //==========================Date
+                              Text(
+                                currentItem["date"],
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  fontFamily: 'Poppins',
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(15),
+                        border: Border.all(
+                          color: const Color.fromRGBO(5, 195, 107, 50),
+                          width: 3,
                         ),
                       ),
                     ),
-                    const SizedBox(height: 5),
                   ],
                 );
               }),
