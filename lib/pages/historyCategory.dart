@@ -1,10 +1,16 @@
 import 'package:flutter/material.dart';
 import '/pages/history.dart';
 import 'package:percent_indicator/percent_indicator.dart';
+import 'package:hive/hive.dart';
 
-class HistoryPages extends StatelessWidget {
+class HistoryPages extends StatefulWidget {
   const HistoryPages({Key? key}) : super(key: key);
 
+  @override
+  State<HistoryPages> createState() => _HistoryPagesState();
+}
+
+class _HistoryPagesState extends State<HistoryPages> {
   //Category history builder
   Widget History(double progress, String title, int attempts,
       BuildContext context, String databaseName) {
@@ -26,15 +32,15 @@ class HistoryPages extends StatelessWidget {
                     lineWidth: 7.0,
                     animation: true,
                     percent: progress,
-                    center: Icon(Icons.lock_open_rounded, size: 30),
+                    center: const Icon(Icons.lock_open_rounded, size: 30),
                     circularStrokeCap: CircularStrokeCap.round,
-                    progressColor: Color.fromRGBO(5, 195, 107, 100),
-                    backgroundColor: Color.fromRGBO(83, 215, 80, 0.3),
+                    progressColor: const Color.fromRGBO(5, 195, 107, 100),
+                    backgroundColor: const Color.fromRGBO(83, 215, 80, 0.3),
                   ),
                 ),
               ),
               Align(
-                alignment: Alignment(0.3, 1),
+                alignment: const Alignment(0.3, 1),
                 child: SizedBox(
                   width: 200,
                   height: 60,
@@ -45,7 +51,7 @@ class HistoryPages extends StatelessWidget {
                         children: [
                           TextSpan(
                             text: title,
-                            style: TextStyle(
+                            style: const TextStyle(
                               color: Colors.black,
                               fontSize: 17.0,
                               fontFamily: 'Poppins-SemiBold',
@@ -54,7 +60,7 @@ class HistoryPages extends StatelessWidget {
                           ),
                           TextSpan(
                             text: '\nQuizzes Attempted: $attempts',
-                            style: TextStyle(
+                            style: const TextStyle(
                               color: Colors.black,
                               fontSize: 15.0,
                               fontFamily: 'Poppins',
@@ -67,7 +73,7 @@ class HistoryPages extends StatelessWidget {
                   ),
                 ),
               ),
-              Align(
+              const Align(
                 alignment: Alignment(1.1, 1),
                 child: SizedBox(
                   height: 60,
@@ -138,23 +144,40 @@ class HistoryPages extends StatelessWidget {
 
                 //============Personal Finance
                 History(
-                    0.75, 'Personal Finance', 1, context, 'Personal_Finance'),
+                    0.75,
+                    'Personal Finance',
+                    Hive.box("Personal_Finance").length,
+                    context,
+                    'Personal_Finance'),
                 const Padding(
                     padding: EdgeInsets.all(6.0)), //Space between rows
 
                 //============Capital Markets
-                History(0.25, 'Capital Markets', 0, context, 'Capital_Market'),
+                History(
+                    0.25,
+                    'Capital Markets',
+                    Hive.box("Capital_Market").length,
+                    context,
+                    'Capital_Market'),
                 const Padding(
                     padding: EdgeInsets.all(6.0)), //Space between rows
 
                 //============Behavioral Finance
-                History(0.0, 'Behavioral Finance', 0, context,
+                History(
+                    0.0,
+                    'Behavioral Finance',
+                    Hive.box("Behavioral_Finance").length,
+                    context,
                     'Behavioral_Finance'),
                 const Padding(
                     padding: EdgeInsets.all(6.0)), //Space between rows
 
                 //============Investment and Portfolio Management
-                History(0.0, 'Investment and Portfolio Management', 0, context,
+                History(
+                    0.0,
+                    'Investment and Portfolio Management',
+                    Hive.box("Investment_and_Portfolio_Management").length,
+                    context,
                     'Investment_and_Portfolio_Management'),
                 const Padding(
                     padding: EdgeInsets.all(6.0)), //Space between rows

@@ -13,12 +13,15 @@ var questionNumber = 1; //initialize start of number question
 var skipQuestion = 0;
 var correctAnswer = 0;
 var wrongAnswer = 0;
+var catLevel = 0;
 List<dynamic> questions = [];
 List<dynamic> answers = [];
 List<dynamic> answersEval = [];
 List<dynamic> numQuestion = [];
+
 var timeTaken = [0, 0]; //[min, sec]
 //number of skipped question/ correct answer/ wrong answer/ time taken
+DateTime dt = DateTime.now();
 
 void reset() {
   questions.removeRange(0, 10);
@@ -151,7 +154,7 @@ class _QuizState extends State<Quiz> {
           extendBodyBehindAppBar: true,
           appBar: AppBar(
             title: Text(
-              widget.titl,
+              widget.titl.replaceAll("_", " "),
               style: const TextStyle(
                 fontSize: 24,
                 color: Colors.black,
@@ -312,8 +315,9 @@ class _QuizState extends State<Quiz> {
       );
 
   void updateQuestion() {
-    setState(() async {
+    setState(() {
       if (questionNumber < totalQuizQuest) {
+        questionNumber++;
         canceltimer = false;
         timeLeft = 30; //delay display 10
 
@@ -321,11 +325,10 @@ class _QuizState extends State<Quiz> {
         randomNumber =
             Random().nextInt(quiz.tanong[int.parse(widget.y)].length);
 
-        questionNumber++;
-
         //Proceed to the result page
       } else if (questionNumber == totalQuizQuest) {
-        await Hive.openBox(widget.titl);
+        Hive.openBox(widget.titl);
+
         final _historybox = Hive.box(widget.titl);
         //add value to box
         Future<void> _createItem(Map<String, dynamic> newItem) async {
@@ -340,7 +343,15 @@ class _QuizState extends State<Quiz> {
           "numCorrect": correctAnswer.toString(),
           "numWrong": wrongAnswer.toString(),
           "numSkipped": skipQuestion.toString(),
-          "timeTaken": timeTaken.toString()
+          "timeTaken": timeTaken[0].toString() +
+              "mins " +
+              timeTaken[1].toString() +
+              "secs",
+          "date": dt.month.toString() +
+              "-" +
+              dt.day.toString() +
+              "-" +
+              dt.year.toString()
         });
         canceltimer = true;
         Navigator.push(
@@ -354,7 +365,7 @@ class _QuizState extends State<Quiz> {
                         timeTaken[0],
                         timeTaken[1]
                       ],
-                      title: widget.titl,
+                      title: widget.titl.replaceAll("_", " "),
                     )));
       }
     });

@@ -34,7 +34,8 @@ class _HistoryPageState extends State<HistoryPage> {
         "numCorrect": value['numCorrect'],
         "numWrong": value['numWrong'],
         "numSkipped": value['numSkipped'],
-        "timeTaken": value['timeTaken']
+        "timeTaken": value['timeTaken'],
+        "date": value['date']
       };
     }).toList();
     _items = data.reversed.toList();
@@ -47,8 +48,11 @@ class _HistoryPageState extends State<HistoryPage> {
     a = a.replaceAll("]", " ");
     c = c.replaceAll("]", " ");
     var Q = ((q.replaceAll("[", " ")).split('-,')); //remove first char [
-    var A = ((a.replaceAll("[", " ")).split(', '));
-    var C = ((c.replaceAll("[", " ")).split(', '));
+    var A = ((a.replaceAll("[", " ")).split(','));
+    var C = ((c.replaceAll("[", " ")).split(','));
+    print(Q);
+    print(A);
+    print(C);
 
     Navigator.push(
       context,
@@ -158,7 +162,7 @@ class _HistoryPageState extends State<HistoryPage> {
                                   ),
                                 ),
                                 Text(
-                                  currentItem['key'].toString(),
+                                  currentItem['timeTaken'].toString(),
                                   style: const TextStyle(
                                     fontSize: 18,
                                     fontFamily: 'Poppins',
@@ -263,6 +267,20 @@ class _HistoryPageState extends State<HistoryPage> {
                                         const Center(
                                           child: Text(
                                             "Wrong",
+                                            style: TextStyle(
+                                              fontSize: 12,
+                                              fontFamily: 'Poppins-Medium',
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    //=========date
+                                    Row(
+                                      children: [
+                                        Center(
+                                          child: Text(
+                                            currentItem["date"],
                                             style: TextStyle(
                                               fontSize: 12,
                                               fontFamily: 'Poppins-Medium',

@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import '/pages/categorypage.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+import '/pages/quiz.dart';
 
 class HomePage extends StatefulWidget {
+  const HomePage({Key? key}) : super(key: key);
+
   @override
   State<HomePage> createState() => _HomePageState();
 }
@@ -90,7 +94,12 @@ class _HomePageState extends State<HomePage> {
                   borderRadius: BorderRadius.circular(15),
                   clipBehavior: Clip.antiAliasWithSaveLayer,
                   child: InkWell(
-                    onTap: () => {toCategoryPage(2)},
+                    onTap: () => {
+                      if (catLevel > 100)
+                        {toCategoryPage(2)}
+                      else if (catLevel < 100)
+                        {print("Need to finish Personal Finance first")}
+                    },
                     child: Ink.image(
                       image: const AssetImage('assets/images/investment.png'),
                       height: 210,
@@ -113,7 +122,15 @@ class _HomePageState extends State<HomePage> {
                   borderRadius: BorderRadius.circular(15),
                   clipBehavior: Clip.antiAliasWithSaveLayer,
                   child: InkWell(
-                    onTap: () => {toCategoryPage(3)},
+                    onTap: () => {
+                      if (catLevel > 200)
+                        {toCategoryPage(3)}
+                      else if (catLevel < 200)
+                        {
+                          print(
+                              "Need to finish Investment and Management first")
+                        }
+                    },
                     child: Ink.image(
                       image: const AssetImage('assets/images/behavioral.png'),
                       height: 210,
@@ -129,7 +146,12 @@ class _HomePageState extends State<HomePage> {
                   borderRadius: BorderRadius.circular(15),
                   clipBehavior: Clip.antiAliasWithSaveLayer,
                   child: InkWell(
-                    onTap: () => {toCategoryPage(4)},
+                    onTap: () => {
+                      if (catLevel > 300)
+                        {toCategoryPage(4)}
+                      else if (catLevel < 300)
+                        {print("Need to finish Behavioral Finance first")}
+                    },
                     child: Ink.image(
                       image: const AssetImage('assets/images/capital.png'),
                       height: 210,

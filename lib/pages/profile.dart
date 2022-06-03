@@ -29,16 +29,19 @@ class ProfilePage extends StatelessWidget {
                 fit: BoxFit.cover,
               ),
               const SizedBox(width: 12),
-              Text(
-                title,
-                maxLines: 3,
-                style: TextStyle(
-                  color: Colors.black,
-                  fontFamily: 'Poppins-SemiBold',
-                  fontWeight: FontWeight.bold,
-                  fontSize: 24,
-                  letterSpacing: 4.0,
-                  height: 0.9,
+              Container(
+                width: 200,
+                child: Text(
+                  title,
+                  maxLines: 3,
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontFamily: 'Poppins-SemiBold',
+                    fontWeight: FontWeight.bold,
+                    fontSize: 24,
+                    letterSpacing: 4.0,
+                    height: 0.9,
+                  ),
                 ),
               ),
             ],
@@ -215,159 +218,153 @@ class ProfilePage extends StatelessWidget {
                       ),
                       Container(
                         height: 260,
-                        child: CupertinoScrollbar(
-                          child: ListView(children: <Widget>[
-                            //Accuracy
-                            Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: <Widget>[
-                                  Text("Accuracy:",
-                                      style: const TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 20,
-                                        fontFamily: 'Poppins-Medium',
+                        child: ListView(children: <Widget>[
+                          //Accuracy
+                          Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: <Widget>[
+                                Text("Accuracy:",
+                                    style: const TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 20,
+                                      fontFamily: 'Poppins-Medium',
+                                      fontWeight: FontWeight.w600,
+                                    )),
+                              ]),
+                          const SizedBox(height: 10.0),
+                          Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: <Widget>[
+                                CircularPercentIndicator(
+                                  radius: 85.0,
+                                  lineWidth: 9.0,
+                                  animation: true,
+                                  percent: 0.5,
+                                  center: Text(
+                                    "50%",
+                                    style: TextStyle(
+                                        fontFamily: 'Poppins-SemiBold',
                                         fontWeight: FontWeight.w600,
-                                      )),
-                                ]),
-                            const SizedBox(height: 10.0),
-                            Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
-                                children: <Widget>[
-                                  CircularPercentIndicator(
-                                    radius: 85.0,
-                                    lineWidth: 9.0,
-                                    animation: true,
-                                    percent: 0.5,
-                                    center: Text(
-                                      "50%",
+                                        fontSize: 20.0),
+                                  ),
+                                  circularStrokeCap: CircularStrokeCap.round,
+                                  progressColor:
+                                      Color.fromRGBO(5, 195, 107, 100),
+                                  backgroundColor:
+                                      Color.fromRGBO(83, 215, 80, 0.3),
+                                ),
+                                const SizedBox(width: 8.0),
+                                RichText(
+                                  text: TextSpan(children: [
+                                    TextSpan(
+                                      text: "Highest: 12/20",
                                       style: TextStyle(
-                                          fontFamily: 'Poppins-SemiBold',
-                                          fontWeight: FontWeight.w600,
-                                          fontSize: 20.0),
+                                          color: Colors.black,
+                                          fontSize: 22,
+                                          fontFamily: 'Poppins',
+                                          fontWeight: FontWeight.w500),
                                     ),
-                                    circularStrokeCap: CircularStrokeCap.round,
-                                    progressColor:
-                                        Color.fromRGBO(5, 195, 107, 100),
-                                    backgroundColor:
-                                        Color.fromRGBO(83, 215, 80, 0.3),
-                                  ),
-                                  const SizedBox(width: 8.0),
-                                  RichText(
-                                    text: TextSpan(children: [
-                                      TextSpan(
-                                        text: "Highest: 12/20",
-                                        style: TextStyle(
-                                            color: Colors.black,
-                                            fontSize: 22,
-                                            fontFamily: 'Poppins',
-                                            fontWeight: FontWeight.w500),
-                                      ),
-                                      TextSpan(
-                                        text: "\nLowest: 2/20",
-                                        style: TextStyle(
-                                            color: Colors.black,
-                                            fontSize: 22,
-                                            fontFamily: 'Poppins',
-                                            fontWeight: FontWeight.w500),
-                                      ),
-                                    ]),
-                                  ),
-                                ]),
-                            const SizedBox(height: 10.0),
-                            Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: <Widget>[
-                                  Text("Average Time:",
-                                      style: const TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 20,
-                                        fontFamily: 'Poppins-Medium',
+                                    TextSpan(
+                                      text: "\nLowest: 2/20",
+                                      style: TextStyle(
+                                          color: Colors.black,
+                                          fontSize: 22,
+                                          fontFamily: 'Poppins',
+                                          fontWeight: FontWeight.w500),
+                                    ),
+                                  ]),
+                                ),
+                              ]),
+                          const SizedBox(height: 10.0),
+                          Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: <Widget>[
+                                Text("Average Time:",
+                                    style: const TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 20,
+                                      fontFamily: 'Poppins-Medium',
+                                      fontWeight: FontWeight.w600,
+                                    )),
+                              ]),
+                          //Average Time
+                          const SizedBox(height: 10.0),
+                          Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: <Widget>[
+                                CircularPercentIndicator(
+                                  radius: 85.0,
+                                  lineWidth: 9.0,
+                                  animation: true,
+                                  percent: 0.5,
+                                  center: Text(
+                                    "50%",
+                                    style: TextStyle(
+                                        fontFamily: 'Poppins-SemiBold',
                                         fontWeight: FontWeight.w600,
-                                      )),
-                                ]),
-                            //Average Time
-                            const SizedBox(height: 10.0),
-                            Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
-                                children: <Widget>[
-                                  CircularPercentIndicator(
-                                    radius: 85.0,
-                                    lineWidth: 9.0,
-                                    animation: true,
-                                    percent: 0.5,
-                                    center: Text(
-                                      "50%",
+                                        fontSize: 20.0),
+                                  ),
+                                  circularStrokeCap: CircularStrokeCap.round,
+                                  progressColor:
+                                      Color.fromRGBO(5, 195, 107, 100),
+                                  backgroundColor:
+                                      Color.fromRGBO(83, 215, 80, 0.3),
+                                ),
+                                const SizedBox(width: 8.0),
+                                RichText(
+                                  text: TextSpan(children: [
+                                    TextSpan(
+                                      text: "Max: 02:30 sec",
                                       style: TextStyle(
-                                          fontFamily: 'Poppins-SemiBold',
-                                          fontWeight: FontWeight.w600,
-                                          fontSize: 20.0),
+                                          color: Colors.black,
+                                          fontSize: 22,
+                                          fontFamily: 'Poppins',
+                                          fontWeight: FontWeight.w500),
                                     ),
-                                    circularStrokeCap: CircularStrokeCap.round,
-                                    progressColor:
-                                        Color.fromRGBO(5, 195, 107, 100),
-                                    backgroundColor:
-                                        Color.fromRGBO(83, 215, 80, 0.3),
-                                  ),
-                                  const SizedBox(width: 8.0),
-                                  RichText(
-                                    text: TextSpan(children: [
-                                      TextSpan(
-                                        text: "Max: 02:30 sec",
-                                        style: TextStyle(
-                                            color: Colors.black,
-                                            fontSize: 22,
-                                            fontFamily: 'Poppins',
-                                            fontWeight: FontWeight.w500),
-                                      ),
-                                      TextSpan(
-                                        text: "\nMin: 01:30 sec",
-                                        style: TextStyle(
-                                            color: Colors.black,
-                                            fontSize: 22,
-                                            fontFamily: 'Poppins',
-                                            fontWeight: FontWeight.w500),
-                                      ),
-                                    ]),
-                                  ),
-                                ]),
-                            const SizedBox(height: 15.0),
-                            const Text("Category Stats:",
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 20,
-                                  fontFamily: 'Poppins-Medium',
-                                  fontWeight: FontWeight.w600,
-                                )),
-                            const SizedBox(height: 15),
-                            category(
-                                "assets/images/personal_finance.png",
-                                "Personal Finance",
-                                const Color.fromRGBO(83, 215, 80, 75),
-                                () => {}),
-                            const SizedBox(height: 10),
-                            category(
-                                "assets/images/investment_and_portfolio_management.png",
-                                "Investment and \nPortfolio \nManagement",
-                                const Color.fromRGBO(103, 81, 239, 81),
-                                () => {}),
-                            const SizedBox(height: 10),
-                            category(
-                                "assets/images/behavioral_finance.png",
-                                "Behavioral Finance",
-                                const Color.fromRGBO(255, 78, 109, 90),
-                                () => {}),
-                            const SizedBox(height: 10),
-                            category(
-                                "assets/images/capital_markets.png",
-                                "Capital Markets",
-                                const Color.fromRGBO(255, 147, 81, 1),
-                                () => {}),
-                          ]),
-                        ),
+                                    TextSpan(
+                                      text: "\nMin: 01:30 sec",
+                                      style: TextStyle(
+                                          color: Colors.black,
+                                          fontSize: 22,
+                                          fontFamily: 'Poppins',
+                                          fontWeight: FontWeight.w500),
+                                    ),
+                                  ]),
+                                ),
+                              ]),
+                          const SizedBox(height: 15.0),
+                          const Text("Category Stats:",
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 20,
+                                fontFamily: 'Poppins-Medium',
+                                fontWeight: FontWeight.w600,
+                              )),
+                          const SizedBox(height: 15),
+                          category(
+                              "assets/images/personal_finance.png",
+                              "Personal Finance",
+                              const Color.fromRGBO(83, 215, 80, 75),
+                              () => {print("asd")}),
+                          const SizedBox(height: 10),
+                          category(
+                              "assets/images/investment_and_portfolio_management.png",
+                              "Investment and Portfolio Management",
+                              const Color.fromRGBO(103, 81, 239, 81),
+                              () => {print("asd")}),
+                          const SizedBox(height: 10),
+                          category(
+                              "assets/images/behavioral_finance.png",
+                              "Behavioral Finance",
+                              const Color.fromRGBO(255, 78, 109, 90),
+                              () => {print("asd")}),
+                          const SizedBox(height: 10),
+                          category(
+                              "assets/images/capital_markets.png",
+                              "Capital Markets",
+                              const Color.fromRGBO(255, 147, 81, 1),
+                              () => {print("asd")}),
+                        ]),
                       ),
                     ],
                   ),
