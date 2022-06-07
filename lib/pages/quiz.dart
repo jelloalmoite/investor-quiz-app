@@ -13,11 +13,12 @@ var questionNumber = 1; //initialize start of number question
 var skipQuestion = 0;
 var correctAnswer = 0;
 var wrongAnswer = 0;
-var catLevel = 0;
+var catLevel = 100;
 List<dynamic> questions = [];
 List<dynamic> answers = [];
 List<dynamic> answersEval = [];
 List<dynamic> numQuestion = [];
+//for profile data
 
 var timeTaken = [0, 0]; //[min, sec]
 //number of skipped question/ correct answer/ wrong answer/ time taken
@@ -316,6 +317,8 @@ class _QuizState extends State<Quiz> {
 
   void updateQuestion() {
     setState(() {
+      final categorybox = Hive.box("Profile_data");
+      print(categorybox.length.toString());
       if (questionNumber < totalQuizQuest) {
         questionNumber++;
         canceltimer = false;
@@ -328,6 +331,105 @@ class _QuizState extends State<Quiz> {
         //Proceed to the result page
       } else if (questionNumber == totalQuizQuest) {
         Hive.openBox(widget.titl);
+        print(numQuestion.length.toString());
+        print(correctAnswer.toString());
+        print(skipQuestion.toString());
+        print(wrongAnswer.toString());
+
+        if (categorybox.length == 0) {
+          categorybox.put('Personal_FinancenumQuestion', 0);
+          categorybox.put('Personal_FinancenumCorrect', 0);
+          categorybox.put('Personal_FinancenumWrong', 0);
+          categorybox.put('Personal_FinancenumSkip', 0);
+          categorybox.put('Investment_and_Portfolio_ManagementnumQuestion', 0);
+          categorybox.put('Investment_and_Portfolio_ManagementnumCorrect', 0);
+          categorybox.put('Investment_and_Portfolio_ManagementnumWrong', 0);
+          categorybox.put('Investment_and_Portfolio_ManagementnumSkip', 0);
+          categorybox.put('Behavioral_FinancenumQuestion', 0);
+          categorybox.put('Behavioral_FinancenumCorrect', 0);
+          categorybox.put('Behavioral_FinancenumWrong', 0);
+          categorybox.put('Behavioral_FinancenumSkip', 0);
+          categorybox.put('Capital_MarketnumQuestion', 0);
+          categorybox.put('Capital_MarketnumCorrect', 0);
+          categorybox.put('Capital_MarketnumWrong', 0);
+          categorybox.put('Capital_MarketnumSkip', 0);
+          categorybox.put('correctHighest', correctAnswer);
+          categorybox.put('correctLowest', correctAnswer);
+          categorybox.put('timeHighestM', timeTaken[0]);
+          categorybox.put('timeHighestS', timeTaken[1]);
+          categorybox.put('timeLowestM', timeTaken[0]);
+          categorybox.put('timeLowestS', timeTaken[1]);
+        }
+        if (widget.titl == "Personal_Finance") {
+          categorybox.put('Personal_FinancenumQuestion',
+              categorybox.get('Personal_FinancenumQuestion') + 10);
+          categorybox.put('Personal_FinancenumCorrect',
+              categorybox.get('Personal_FinancenumCorrect') + correctAnswer);
+          categorybox.put('Personal_FinancenumWrong',
+              categorybox.get('Personal_FinancenumWrong') + wrongAnswer);
+          categorybox.put('Personal_FinancenumSkip',
+              categorybox.get('Personal_FinancenumSkip') + skipQuestion);
+        } else if (widget.titl == "Investment_and_Portfolio_Management") {
+          categorybox.put(
+              'Investment_and_Portfolio_ManagementnumQuestion',
+              categorybox
+                      .get('Investment_and_Portfolio_ManagementnumQuestion') +
+                  10);
+          categorybox.put(
+              'Investment_and_Portfolio_ManagementnumCorrect',
+              categorybox.get('Investment_and_Portfolio_ManagementnumCorrect') +
+                  correctAnswer);
+          categorybox.put(
+              'Investment_and_Portfolio_ManagementnumWrong',
+              categorybox.get('Investment_and_Portfolio_ManagementnumWrong') +
+                  wrongAnswer);
+          categorybox.put(
+              'Investment_and_Portfolio_ManagementnumSkip',
+              categorybox.get('Investment_and_Portfolio_ManagementnumSkip') +
+                  skipQuestion);
+        } else if (widget.titl == "Behavioral_Finance") {
+          categorybox.put('Behavioral_FinancenumQuestion',
+              categorybox.get('Behavioral_FinancenumQuestion') + 10);
+          categorybox.put('Behavioral_FinancenumCorrect',
+              categorybox.get('Behavioral_FinancenumCorrect') + correctAnswer);
+          categorybox.put('Behavioral_FinancenumWrong',
+              categorybox.get('Behavioral_FinancenumWrong') + wrongAnswer);
+          categorybox.put('Behavioral_FinancenumSkip',
+              categorybox.get('Behavioral_FinancenumSkip') + skipQuestion);
+        } else if (widget.titl == "Capital_Market") {
+          categorybox.put('Capital_MarketnumQuestion',
+              categorybox.get('Capital_MarketnumQuestion') + 10);
+          categorybox.put('Capital_MarketnumCorrect',
+              categorybox.get('Capital_MarketnumCorrect') + correctAnswer);
+          categorybox.put('Capital_MarketnumWrong',
+              categorybox.get('Capital_MarketnumWrong') + wrongAnswer);
+          categorybox.put('Capital_MarketnumSkip',
+              categorybox.get('Capital_MarketnumSkip') + skipQuestion);
+        }
+        //time condition
+        var x = (timeTaken[0] * 60) + timeTaken[1];
+        print(x.toString());
+        var y = ((categorybox.get('timeHighestM') * 60) +
+            categorybox.get('timeHighestS'));
+        print(y.toString());
+        var z = ((categorybox.get('timeLowestM') * 60) +
+            categorybox.get('timeLowestS'));
+        print(z.toString());
+        if (x >= y) {
+          categorybox.put('timeHighestM', timeTaken[0]);
+          categorybox.put('timeHighestS', timeTaken[1]);
+        } else if (x <= z) {
+          categorybox.put('timeLowestM', timeTaken[0]);
+          categorybox.put('timeLowestS', timeTaken[1]);
+        }
+        //correctanswer condition
+        var xx = categorybox.get('correctHighest');
+        var yy = categorybox.get('correctLowest');
+        if (correctAnswer >= xx) {
+          categorybox.put('correctHighest', correctAnswer);
+        } else if (correctAnswer <= yy) {
+          categorybox.put('correctLowest', correctAnswer);
+        }
 
         final _historybox = Hive.box(widget.titl);
         //add value to box
@@ -353,6 +455,7 @@ class _QuizState extends State<Quiz> {
               "-" +
               dt.year.toString()
         });
+
         canceltimer = true;
         Navigator.push(
             context,

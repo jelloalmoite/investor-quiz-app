@@ -1,11 +1,43 @@
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import '/pages/categoryStats.dart';
+import '/pages/quiz.dart';
 
-class ProfilePage extends StatelessWidget {
+final categoryboxa = Hive.box("Profile_data");
+var pFq = categoryboxa.get('Personal_FinancenumQuestion');
+var pFc = categoryboxa.get('Personal_FinancenumCorrect');
+var pFw = categoryboxa.get('Personal_FinancenumWrong');
+var pFss = categoryboxa.get('Personal_FinancenumSkip');
+var iPMq = categoryboxa.get('Investment_and_Portfolio_ManagementnumQuestion');
+var iPMc = categoryboxa.get('Investment_and_Portfolio_ManagementnumCorrect');
+var iPMw = categoryboxa.get('Investment_and_Portfolio_ManagementnumWrong');
+var iPMs = categoryboxa.get('Investment_and_Portfolio_ManagementnumSkip');
+var bFq = categoryboxa.get('Behavioral_FinancenumQuestion');
+var bFc = categoryboxa.get('Behavioral_FinancenumCorrect');
+var bFw = categoryboxa.get('Behavioral_FinancenumWrong');
+var bFs = categoryboxa.get('Behavioral_FinancenumSkip');
+var cMq = categoryboxa.get('Capital_MarketnumQuestion');
+var cMc = categoryboxa.get('Capital_MarketnumCorrect');
+var cMw = categoryboxa.get('Capital_MarketnumWrong');
+var cMs = categoryboxa.get('Capital_MarketnumSkip');
+var cH = categoryboxa.get('correctHighest');
+var cL = categoryboxa.get('correctLowest');
+var tHm = categoryboxa.get('timeHighestM');
+var tHs = categoryboxa.get('timeHighestS');
+var tLm = categoryboxa.get('timeLowestM');
+var tLs = categoryboxa.get('timeLowestS');
+
+class ProfilePage extends StatefulWidget {
   const ProfilePage({Key? key}) : super(key: key);
 
+  @override
+  State<ProfilePage> createState() => _ProfilePageState();
+}
+
+class _ProfilePageState extends State<ProfilePage> {
   Widget category(String image, String title, Color color, VoidCallback func) {
     return Material(
       borderRadius: BorderRadius.circular(15),
@@ -262,7 +294,7 @@ class ProfilePage extends StatelessWidget {
                               RichText(
                                 text: TextSpan(children: [
                                   TextSpan(
-                                    text: "Highest: 12/20",
+                                    text: "Highest: " + cH.toString() + "/10",
                                     style: TextStyle(
                                         color: Colors.black,
                                         fontSize: 22,
@@ -270,7 +302,7 @@ class ProfilePage extends StatelessWidget {
                                         fontWeight: FontWeight.w500),
                                   ),
                                   TextSpan(
-                                    text: "\nLowest: 2/20",
+                                    text: "\nLowest: " + cL.toString() + "/10",
                                     style: TextStyle(
                                         color: Colors.black,
                                         fontSize: 22,
@@ -318,7 +350,10 @@ class ProfilePage extends StatelessWidget {
                               RichText(
                                 text: TextSpan(children: [
                                   TextSpan(
-                                    text: "Max: 02:30 sec",
+                                    text: "Max: " +
+                                        tHm.toString() +
+                                        ":" +
+                                        tHs.toString(),
                                     style: TextStyle(
                                         color: Colors.black,
                                         fontSize: 22,
@@ -326,7 +361,10 @@ class ProfilePage extends StatelessWidget {
                                         fontWeight: FontWeight.w500),
                                   ),
                                   TextSpan(
-                                    text: "\nMin: 01:30 sec",
+                                    text: "\nMin: " +
+                                        tLm.toString() +
+                                        ":" +
+                                        tLs.toString(),
                                     style: TextStyle(
                                         color: Colors.black,
                                         fontSize: 22,
@@ -349,7 +387,14 @@ class ProfilePage extends StatelessWidget {
                             "assets/images/personal_finance.png",
                             "Personal Finance",
                             const Color.fromRGBO(83, 215, 80, 75),
-                            () => {toCategoryStats("Personal Finance")}),
+                            () => {
+                                  toCategoryStats("Personal Finance"),
+                                  print("PersonalFinance:"),
+                                  print("total questions:" + pFq.toString()),
+                                  print("total correct:" + pFc.toString()),
+                                  print("total wrong:" + pFw.toString()),
+                                  print("total skip:" + pFss.toString())
+                                }),
                         const SizedBox(height: 10),
                         category(
                             "assets/images/investment_and_portfolio_management.png",
@@ -357,20 +402,39 @@ class ProfilePage extends StatelessWidget {
                             const Color.fromRGBO(103, 81, 239, 81),
                             () => {
                                   toCategoryStats(
-                                      "Investment and Portfolio Management")
+                                      "Investment and Portfolio Management"),
+                                  print("InvestmentPortfolio:"),
+                                  print("total questions:" + iPMq.toString()),
+                                  print("total correct:" + iPMc.toString()),
+                                  print("total wrong:" + iPMw.toString()),
+                                  print("total skip:" + iPMs.toString())
                                 }),
                         const SizedBox(height: 10),
                         category(
                             "assets/images/behavioral_finance.png",
                             "Behavioral Finance",
                             const Color.fromRGBO(255, 78, 109, 90),
-                            () => {toCategoryStats("Behavioral Finance")}),
+                            () => {
+                                  toCategoryStats("Behavioral Finance"),
+                                  print("Behavioral Finance:"),
+                                  print("total questions:" + bFq.toString()),
+                                  print("total correct:" + bFc.toString()),
+                                  print("total wrong:" + bFw.toString()),
+                                  print("total skip:" + bFs.toString())
+                                }),
                         const SizedBox(height: 10),
                         category(
                             "assets/images/capital_markets.png",
                             "Capital Markets",
                             const Color.fromRGBO(255, 147, 81, 1),
-                            () => {toCategoryStats("Capital Markets")}),
+                            () => {
+                                  toCategoryStats("Capital Markets"),
+                                  print("Capital Markets:"),
+                                  print("total questions:" + cMq.toString()),
+                                  print("total correct:" + cMc.toString()),
+                                  print("total wrong:" + cMw.toString()),
+                                  print("total skip:" + cMs.toString())
+                                }),
                       ]),
                     ),
                   ],
