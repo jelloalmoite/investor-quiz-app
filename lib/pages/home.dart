@@ -34,6 +34,7 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
+  //==========Category locking/unlocking
   categoryLock(String title, VoidCallback func) {
     if (title == 'Personal Finance') {
       return func;
@@ -49,6 +50,45 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
+  //==========Category color change
+  categoryBGColor(String title, Color color, int grayColorNo) {
+    List<Color> grayColor = [
+      const Color.fromRGBO(150, 150, 150, 100),
+      const Color.fromRGBO(90, 90, 90, 100)
+    ];
+    if (title == 'Personal Finance') {
+      return color;
+    } else if (title == 'Investment and Portfolio Management' &&
+        catLevel >= 100) {
+      return color;
+    } else if (title == 'Behavioral Finance' && catLevel >= 200) {
+      return color;
+    } else if (title == 'Capital Markets' && catLevel >= 300) {
+      return color;
+    } else {
+      return grayColor[grayColorNo];
+    }
+  }
+
+  //==========Category card image/icon
+  cardImage(String title, String image) {
+    Image picture = Image(
+        image: AssetImage(image), height: 130, width: 130, fit: BoxFit.cover);
+
+    if (title == 'Personal Finance') {
+      return picture;
+    } else if (title == 'Investment and Portfolio Management' &&
+        catLevel >= 100) {
+      return picture;
+    } else if (title == 'Behavioral Finance' && catLevel >= 200) {
+      return picture;
+    } else if (title == 'Capital Markets' && catLevel >= 300) {
+      return picture;
+    } else {
+      return const Icon(Icons.lock_rounded, size: 60, color: Colors.black87);
+    }
+  }
+
   Widget category(String title, String image, Color color1, Color color2,
       VoidCallback func) {
     return Container(
@@ -56,14 +96,17 @@ class _HomePageState extends State<HomePage> {
       width: 160,
       decoration: BoxDecoration(
         gradient: LinearGradient(
-          colors: [color1, color2],
+          colors: [
+            categoryBGColor(title, color1, 0),
+            categoryBGColor(title, color2, 1),
+          ],
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
         ),
         borderRadius: BorderRadius.circular(15),
         boxShadow: [
           BoxShadow(
-            color: color1,
+            color: categoryBGColor(title, color1, 0),
             offset: const Offset(-3.0, 4.0),
             blurRadius: 10.0,
           ),
@@ -90,13 +133,8 @@ class _HomePageState extends State<HomePage> {
                     )),
               ),
               Align(
-                alignment: Alignment.bottomCenter,
-                child: Image(
-                  image: AssetImage(image),
-                  height: 130,
-                  width: 130,
-                  fit: BoxFit.cover,
-                ),
+                alignment: const Alignment(0, 0.6),
+                child: cardImage(title, image),
               ),
             ],
           ),
@@ -137,7 +175,7 @@ class _HomePageState extends State<HomePage> {
                     color: Colors.yellow,
                   ),
                   Text(catLevel.toString(),
-                      style: TextStyle(
+                      style: const TextStyle(
                         color: Colors.black,
                         fontSize: 22,
                         fontFamily: 'Poppins',

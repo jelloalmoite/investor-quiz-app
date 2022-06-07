@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '/pages/history.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:hive/hive.dart';
+import '/pages/quiz.dart';
 
 class HistoryPages extends StatefulWidget {
   const HistoryPages({Key? key}) : super(key: key);
@@ -11,8 +12,41 @@ class HistoryPages extends StatefulWidget {
 }
 
 class _HistoryPagesState extends State<HistoryPages> {
+  cardIcon(String title) {
+    Icon unlocked = const Icon(Icons.lock_open_rounded, size: 30);
+
+    if (title == 'Personal Finance') {
+      return unlocked;
+    } else if (title == 'Investment and Portfolio Management' &&
+        catLevel >= 100) {
+      return unlocked;
+    } else if (title == 'Behavioral Finance' && catLevel >= 200) {
+      return unlocked;
+    } else if (title == 'Capital Markets' && catLevel >= 300) {
+      return unlocked;
+    } else {
+      return const Icon(Icons.lock_rounded, size: 30);
+    }
+  }
+
+  double indicator(String title) {
+    if (title == 'PF') {
+      return (catLevel / 100).toDouble();
+    } else if (title == 'IPM' && catLevel >= 100) {
+      return ((catLevel - 100) / 100).toDouble();
+    } else if (title == 'BF' && catLevel >= 200) {
+      return ((catLevel - 200) / 100).toDouble();
+      ;
+    } else if (title == 'CM' && catLevel >= 300) {
+      return ((catLevel - 300) / 100).toDouble();
+      ;
+    } else {
+      return 0.0;
+    }
+  }
+
   //Category history builder
-  Widget History(double progress, String title, int attempts,
+  Widget history(double progress, String title, int attempts,
       BuildContext context, String databaseName) {
     return Material(
       borderRadius: BorderRadius.circular(15),
@@ -32,7 +66,7 @@ class _HistoryPagesState extends State<HistoryPages> {
                     lineWidth: 7.0,
                     animation: true,
                     percent: progress,
-                    center: const Icon(Icons.lock_open_rounded, size: 30),
+                    center: cardIcon(title),
                     circularStrokeCap: CircularStrokeCap.round,
                     progressColor: const Color.fromRGBO(5, 195, 107, 100),
                     backgroundColor: const Color.fromRGBO(83, 215, 80, 0.3),
@@ -121,9 +155,7 @@ class _HistoryPagesState extends State<HistoryPages> {
               "assets/images/logo.png",
               width: 50,
             ),
-            SizedBox(
-              width: 15,
-            ),
+            const SizedBox(width: 15),
           ],
           backgroundColor: Colors.transparent,
           elevation: 0,
@@ -133,10 +165,11 @@ class _HistoryPagesState extends State<HistoryPages> {
           child: SafeArea(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               mainAxisSize: MainAxisSize.max,
               children: <Widget>[
                 Container(
+                  padding: const EdgeInsets.fromLTRB(0, 0, 0, 6),
                   alignment: Alignment.topCenter,
                   child: const Text(
                     "Choose a topic to view history.",
@@ -148,48 +181,38 @@ class _HistoryPagesState extends State<HistoryPages> {
                     ),
                   ),
                 ),
-                const Padding(
-                    padding: EdgeInsets.all(6.0)), //Space between rows
 
                 //============Personal Finance
-                History(
-                    0.75,
+                history(
+                    indicator('PF'),
                     'Personal Finance',
                     Hive.box("Personal_Finance").length,
                     context,
                     'Personal_Finance'),
-                const Padding(
-                    padding: EdgeInsets.all(6.0)), //Space between rows
-
-                //============Capital Markets
-                History(
-                    0.25,
-                    'Capital Markets',
-                    Hive.box("Capital_Market").length,
-                    context,
-                    'Capital_Market'),
-                const Padding(
-                    padding: EdgeInsets.all(6.0)), //Space between rows
-
-                //============Behavioral Finance
-                History(
-                    0.0,
-                    'Behavioral Finance',
-                    Hive.box("Behavioral_Finance").length,
-                    context,
-                    'Behavioral_Finance'),
-                const Padding(
-                    padding: EdgeInsets.all(6.0)), //Space between rows
 
                 //============Investment and Portfolio Management
-                History(
-                    0.0,
+                history(
+                    indicator('IPM'),
                     'Investment and Portfolio Management',
                     Hive.box("Investment_and_Portfolio_Management").length,
                     context,
                     'Investment_and_Portfolio_Management'),
-                const Padding(
-                    padding: EdgeInsets.all(6.0)), //Space between rows
+
+                //============Behavioral Finance
+                history(
+                    indicator('BF'),
+                    'Behavioral Finance',
+                    Hive.box("Behavioral_Finance").length,
+                    context,
+                    'Behavioral_Finance'),
+
+                //============Capital Markets
+                history(
+                    indicator('CM'),
+                    'Capital Markets',
+                    Hive.box("Capital_Market").length,
+                    context,
+                    'Capital_Market'),
               ],
             ),
           ),
