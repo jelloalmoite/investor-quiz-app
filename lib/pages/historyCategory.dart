@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import '/pages/history.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:hive/hive.dart';
-import '/pages/quiz.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+
+var cat1 = 0, cat2 = 0, cat3 = 0;
 
 class HistoryPages extends StatefulWidget {
   const HistoryPages({Key? key}) : super(key: key);
@@ -12,42 +14,63 @@ class HistoryPages extends StatefulWidget {
 }
 
 class _HistoryPagesState extends State<HistoryPages> {
+  //==========Category locking/unlocking
+  categoryLock(String title, VoidCallback func) {
+    if (title == 'Personal Finance') {
+      return func;
+    } else if (title == 'Investment and Portfolio Management' && cat1 >= 100) {
+      return func;
+    } else if (title == 'Behavioral Finance' && cat2 >= 100) {
+      return func;
+    } else if (title == 'Capital Markets' && cat3 >= 100) {
+      return func;
+    } else {
+      return null;
+    }
+  }
+
+  //==========Icon change (locked/unlocked)
   cardIcon(String title) {
     Icon unlocked = const Icon(Icons.lock_open_rounded, size: 30);
 
     if (title == 'Personal Finance') {
       return unlocked;
-    } else if (title == 'Investment and Portfolio Management' &&
-        catLevel >= 100) {
+    } else if (title == 'Investment and Portfolio Management' && cat1 >= 100) {
       return unlocked;
-    } else if (title == 'Behavioral Finance' && catLevel >= 200) {
+    } else if (title == 'Behavioral Finance' && cat2 >= 100) {
       return unlocked;
-    } else if (title == 'Capital Markets' && catLevel >= 300) {
+    } else if (title == 'Capital Markets' && cat3 >= 100) {
       return unlocked;
     } else {
       return const Icon(Icons.lock_rounded, size: 30);
     }
   }
 
-  double indicator(String title) {
-    if (title == 'PF') {
-      return (catLevel / 100).toDouble();
-    } else if (title == 'IPM' && catLevel >= 100) {
-      return ((catLevel - 100) / 100).toDouble();
-    } else if (title == 'BF' && catLevel >= 200) {
-      return ((catLevel - 200) / 100).toDouble();
-      ;
-    } else if (title == 'CM' && catLevel >= 300) {
-      return ((catLevel - 300) / 100).toDouble();
-      ;
-    } else {
-      return 0.0;
+  @override
+  void initState() {
+    final catlevel = Hive.box("Profile_data");
+    if (catlevel.isNotEmpty) {
+      cat1 = catlevel.get('Personal_FinancenumCorrect');
+      cat2 = catlevel.get('Investment_and_Portfolio_ManagementnumCorrect');
+      cat3 = catlevel.get('Behavioral_FinancenumCorrect');
     }
+    setState(() {
+      if (cat1 >= 100) {
+        cat1 = 100;
+      }
+      if (cat2 >= 100) {
+        cat2 = 100;
+      }
+      if (cat3 >= 100) {
+        cat3 = 100;
+      }
+    });
+    super.initState();
   }
 
   //Category history builder
   Widget history(double progress, String title, int attempts,
-      BuildContext context, String databaseName) {
+      BuildContext context, String databaseName, Function() func) {
     return Material(
       borderRadius: BorderRadius.circular(15),
       clipBehavior: Clip.antiAliasWithSaveLayer,
@@ -125,15 +148,7 @@ class _HistoryPagesState extends State<HistoryPages> {
             ),
           ),
         ),
-        onTap: () => {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => HistoryPage(
-                      category: databaseName,
-                    )),
-          )
-        },
+        onTap: categoryLock(title, func),
       ),
     );
   }
@@ -184,35 +199,88 @@ class _HistoryPagesState extends State<HistoryPages> {
 
                 //============Personal Finance
                 history(
-                    indicator('PF'),
+                    100 / 100,
                     'Personal Finance',
                     Hive.box("Personal_Finance").length,
                     context,
-                    'Personal_Finance'),
+                    'Personal_Finance', () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const HistoryPage(
+                              category: "Personal_Finance",
+                            )),
+                  );
+                }),
 
                 //============Investment and Portfolio Management
                 history(
-                    indicator('IPM'),
+                    cat1 / 100,
                     'Investment and Portfolio Management',
                     Hive.box("Investment_and_Portfolio_Management").length,
                     context,
-                    'Investment_and_Portfolio_Management'),
-
-                //============Behavioral Finance
-                history(
-                    indicator('BF'),
-                    'Behavioral Finance',
-                    Hive.box("Behavioral_Finance").length,
-                    context,
-                    'Behavioral_Finance'),
+                    'Investment_and_Portfolio_Management', () {
+                  if (cat1 >= 100) {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const HistoryPage(
+                                category: "Investment_and_Portfolio_Management",
+                              )),
+                    );
+                  } else {
+                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                      content: Text('This category is locked'),
+                      backgroundColor: Color.fromARGB(255, 170, 7, 7),
+                    ));
+                  }
+                }),
 
                 //============Capital Markets
                 history(
-                    indicator('CM'),
+                    cat2 / 100,
                     'Capital Markets',
                     Hive.box("Capital_Market").length,
                     context,
-                    'Capital_Market'),
+                    'Capital_Market', () {
+                  if (cat2 >= 100) {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const HistoryPage(
+                                category: "Investment_and_Portfolio_Management",
+                              )),
+                    );
+                  } else {
+                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                      content: Text('This category is locked'),
+                      backgroundColor: Color.fromARGB(255, 170, 7, 7),
+                    ));
+                  }
+                }),
+
+                //============Behavioral Finance
+                history(
+                    cat3 / 100,
+                    'Behavioral Finance',
+                    Hive.box("Behavioral_Finance").length,
+                    context,
+                    'Behavioral_Finance', () {
+                  if (cat3 >= 100) {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const HistoryPage(
+                                category: "Investment_and_Portfolio_Management",
+                              )),
+                    );
+                  } else {
+                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                      content: Text('This category is locked'),
+                      backgroundColor: Color.fromARGB(255, 170, 7, 7),
+                    ));
+                  }
+                }),
               ],
             ),
           ),

@@ -13,7 +13,6 @@ var questionNumber = 1; //initialize start of number question
 var skipQuestion = 0;
 var correctAnswer = 0;
 var wrongAnswer = 0;
-var catLevel = 100;
 List<dynamic> questions = [];
 List<dynamic> answers = [];
 List<dynamic> answersEval = [];
@@ -359,7 +358,14 @@ class _QuizState extends State<Quiz> {
           categorybox.put('timeHighestS', timeTaken[1]);
           categorybox.put('timeLowestM', timeTaken[0]);
           categorybox.put('timeLowestS', timeTaken[1]);
+          categorybox.put("totalScore", correctAnswer);
+          categorybox.put("totalAttempt", 1);
+        } else {
+          categorybox.put(
+              'totalScore', categorybox.get('totalScore') + correctAnswer);
+          categorybox.put('totalAttempt', categorybox.get('totalAttempt') + 1);
         }
+
         if (widget.titl == "Personal_Finance") {
           categorybox.put('Personal_FinancenumQuestion',
               categorybox.get('Personal_FinancenumQuestion') + 10);

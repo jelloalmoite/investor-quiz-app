@@ -1,8 +1,10 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import '/pages/profile.dart';
 import '/pages/categorypage.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import '/pages/quiz.dart';
+
+var cat1 = 0, cat2 = 0, cat3 = 0;
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -12,6 +14,19 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  @override
+  void initState() {
+    final catlevel = Hive.box("Profile_data");
+    if (catlevel.isNotEmpty) {
+      cat1 = catlevel.get('Personal_FinancenumCorrect');
+      cat2 = catlevel.get('Investment_and_Portfolio_ManagementnumCorrect');
+      cat3 = catlevel.get('Behavioral_FinancenumCorrect');
+    }
+    tS = catlevel.get('totalScore');
+
+    super.initState();
+  }
+
   void toCategoryPage(x) {
     // ignore: prefer_typing_uninitialized_variables
     var numCat;
@@ -38,12 +53,11 @@ class _HomePageState extends State<HomePage> {
   categoryLock(String title, VoidCallback func) {
     if (title == 'Personal Finance') {
       return func;
-    } else if (title == 'Investment and Portfolio Management' &&
-        catLevel >= 100) {
+    } else if (title == 'Investment and Portfolio Management' && cat1 >= 100) {
       return func;
-    } else if (title == 'Behavioral Finance' && catLevel >= 200) {
+    } else if (title == 'Behavioral Finance' && cat2 >= 100) {
       return func;
-    } else if (title == 'Capital Markets' && catLevel >= 300) {
+    } else if (title == 'Capital Markets' && cat3 >= 100) {
       return func;
     } else {
       return null;
@@ -58,12 +72,11 @@ class _HomePageState extends State<HomePage> {
     ];
     if (title == 'Personal Finance') {
       return color;
-    } else if (title == 'Investment and Portfolio Management' &&
-        catLevel >= 100) {
+    } else if (title == 'Investment and Portfolio Management' && cat1 >= 100) {
       return color;
-    } else if (title == 'Behavioral Finance' && catLevel >= 200) {
+    } else if (title == 'Behavioral Finance' && cat2 >= 100) {
       return color;
-    } else if (title == 'Capital Markets' && catLevel >= 300) {
+    } else if (title == 'Capital Markets' && cat3 >= 100) {
       return color;
     } else {
       return grayColor[grayColorNo];
@@ -77,12 +90,11 @@ class _HomePageState extends State<HomePage> {
 
     if (title == 'Personal Finance') {
       return picture;
-    } else if (title == 'Investment and Portfolio Management' &&
-        catLevel >= 100) {
+    } else if (title == 'Investment and Portfolio Management' && cat1 >= 100) {
       return picture;
-    } else if (title == 'Behavioral Finance' && catLevel >= 200) {
+    } else if (title == 'Behavioral Finance' && cat2 >= 100) {
       return picture;
-    } else if (title == 'Capital Markets' && catLevel >= 300) {
+    } else if (title == 'Capital Markets' && cat3 >= 100) {
       return picture;
     } else {
       return const Icon(Icons.lock_rounded, size: 60, color: Colors.black87);
@@ -174,7 +186,7 @@ class _HomePageState extends State<HomePage> {
                     size: 30,
                     color: Colors.yellow,
                   ),
-                  Text(catLevel.toString(),
+                  Text(nullToZero(tS).toString(),
                       style: const TextStyle(
                         color: Colors.black,
                         fontSize: 22,
@@ -237,7 +249,19 @@ class _HomePageState extends State<HomePage> {
                   'assets/images/investment_and_portfolio_management.png',
                   const Color.fromRGBO(213, 162, 244, 1),
                   const Color.fromRGBO(81, 90, 218, 1),
-                  () => {toCategoryPage(2)},
+                  () => {
+                    if (cat1 >= 100)
+                      {toCategoryPage(2)}
+                    else if (cat1 < 100)
+                      {
+                        ScaffoldMessenger.of(context)
+                            .showSnackBar(const SnackBar(
+                          content:
+                              Text('Need to finish Personal Finance first'),
+                          backgroundColor: Color.fromARGB(255, 170, 7, 7),
+                        )),
+                      }
+                  },
                 ),
               ],
             ),
@@ -251,14 +275,38 @@ class _HomePageState extends State<HomePage> {
                   'assets/images/behavioral_finance.png',
                   const Color.fromRGBO(255, 143, 163, 0.86),
                   const Color.fromRGBO(215, 32, 32, 1),
-                  () => {toCategoryPage(3)},
+                  () => {
+                    if (cat2 >= 100)
+                      {toCategoryPage(3)}
+                    else if (cat2 < 100)
+                      {
+                        ScaffoldMessenger.of(context)
+                            .showSnackBar(const SnackBar(
+                          content: Text(
+                              'Need to finish Investment and Portfolio Management first'),
+                          backgroundColor: Color.fromARGB(255, 170, 7, 7),
+                        )),
+                      }
+                  },
                 ),
                 category(
                   'Capital Markets',
                   'assets/images/capital_markets.png',
                   const Color.fromRGBO(241, 106, 47, 1),
                   const Color.fromRGBO(240, 243, 60, 1),
-                  () => {toCategoryPage(4)},
+                  () => {
+                    if (cat3 >= 100)
+                      {toCategoryPage(4)}
+                    else if (cat3 < 100)
+                      {
+                        ScaffoldMessenger.of(context)
+                            .showSnackBar(const SnackBar(
+                          content:
+                              Text('Need to finish Behavioral Finance first'),
+                          backgroundColor: Color.fromARGB(255, 170, 7, 7),
+                        )),
+                      }
+                  },
                 ),
               ],
             ),

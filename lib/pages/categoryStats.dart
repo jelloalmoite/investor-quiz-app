@@ -3,8 +3,17 @@ import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 class CategoryStats extends StatefulWidget {
-  const CategoryStats({Key? mykey, required this.title}) : super(key: mykey);
+  const CategoryStats(
+      {Key? mykey,
+      required this.title,
+      required this.nC,
+      required this.nW,
+      required this.nS})
+      : super(key: mykey);
   final String title;
+  final int nC;
+  final int nW;
+  final int nS;
 
   @override
   State<CategoryStats> createState() => _CategoryStatsState();
@@ -14,7 +23,9 @@ class _CategoryStatsState extends State<CategoryStats> {
   late List<Stats> _chartData;
   late TooltipBehavior _tooltipBehavior;
   get title => widget.title;
-
+  get nC => widget.nC;
+  get nW => widget.nW;
+  get nS => widget.nS;
   Widget statBox(String text, int num, Color color) {
     return Container(
       height: 60,
@@ -107,9 +118,9 @@ class _CategoryStatsState extends State<CategoryStats> {
                   ),
                 ],
               ),
-              statBox("Correct: ", 40, const Color.fromRGBO(5, 195, 107, 38)),
-              statBox("Wrong: ", 40, const Color.fromRGBO(243, 83, 86, 60)),
-              statBox("Skipped: ", 40, const Color.fromRGBO(240, 243, 60, 50)),
+              statBox("Correct: ", nC, const Color.fromRGBO(5, 195, 107, 38)),
+              statBox("Wrong: ", nW, const Color.fromRGBO(243, 83, 86, 60)),
+              statBox("Skipped: ", nS, const Color.fromRGBO(240, 243, 60, 50)),
             ],
           ),
         ),
@@ -117,9 +128,9 @@ class _CategoryStatsState extends State<CategoryStats> {
 
   List<Stats> getChartData() {
     final List<Stats> chartData = [
-      Stats('Wrong', 20, const Color.fromRGBO(242, 83, 85, 75)),
-      Stats('Skipped', 10, const Color.fromRGBO(239, 242, 62, 75)),
-      Stats('Correct', 70, const Color.fromRGBO(6, 194, 106, 75)),
+      Stats('Wrong', nW, const Color.fromRGBO(242, 83, 85, 75)),
+      Stats('Skipped', nS, const Color.fromRGBO(239, 242, 62, 75)),
+      Stats('Correct', nC, const Color.fromRGBO(6, 194, 106, 75)),
     ];
     return chartData;
   }
