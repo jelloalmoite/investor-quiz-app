@@ -4,7 +4,7 @@ import 'package:percent_indicator/percent_indicator.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
-var cat1 = 0, cat2 = 0, cat3 = 0;
+var cat1 = 0, cat2 = 0, cat3 = 0, cat4 = 0;
 
 class HistoryPages extends StatefulWidget {
   const HistoryPages({Key? key}) : super(key: key);
@@ -14,6 +14,32 @@ class HistoryPages extends StatefulWidget {
 }
 
 class _HistoryPagesState extends State<HistoryPages> {
+  @override
+  void initState() {
+    final catlevel = Hive.box("Profile_data");
+    if (catlevel.isNotEmpty) {
+      cat1 = catlevel.get('Personal_FinancenumCorrect');
+      cat2 = catlevel.get('Investment_and_Portfolio_ManagementnumCorrect');
+      cat3 = catlevel.get('Behavioral_FinancenumCorrect');
+      cat4 = catlevel.get('Capital_MarketnumCorrect');
+    }
+    setState(() {
+      if (cat1 >= 100) {
+        cat1 = 100;
+      }
+      if (cat2 >= 100) {
+        cat2 = 100;
+      }
+      if (cat3 >= 100) {
+        cat3 = 100;
+      }
+      if (cat4 >= 100) {
+        cat4 = 100;
+      }
+    });
+    super.initState();
+  }
+
   //==========Category locking/unlocking
   categoryLock(String title, VoidCallback func) {
     if (title == 'Personal Finance') {
@@ -46,26 +72,24 @@ class _HistoryPagesState extends State<HistoryPages> {
     }
   }
 
-  @override
-  void initState() {
-    final catlevel = Hive.box("Profile_data");
-    if (catlevel.isNotEmpty) {
-      cat1 = catlevel.get('Personal_FinancenumCorrect');
-      cat2 = catlevel.get('Investment_and_Portfolio_ManagementnumCorrect');
-      cat3 = catlevel.get('Behavioral_FinancenumCorrect');
+  //==========Widget color change
+  widgetColor(String title, Color color, int grayColorNo) {
+    List<Color> grayColor = [
+      const Color.fromRGBO(200, 200, 200, 100),
+      const Color.fromRGBO(90, 90, 90, 100),
+      Colors.transparent
+    ];
+    if (title == 'Personal Finance') {
+      return color;
+    } else if (title == 'Investment and Portfolio Management' && cat1 >= 100) {
+      return color;
+    } else if (title == 'Behavioral Finance' && cat2 >= 100) {
+      return color;
+    } else if (title == 'Capital Markets' && cat3 >= 100) {
+      return color;
+    } else {
+      return grayColor[grayColorNo];
     }
-    setState(() {
-      if (cat1 >= 100) {
-        cat1 = 100;
-      }
-      if (cat2 >= 100) {
-        cat2 = 100;
-      }
-      if (cat3 >= 100) {
-        cat3 = 100;
-      }
-    });
-    super.initState();
   }
 
   //Category history builder
@@ -92,7 +116,8 @@ class _HistoryPagesState extends State<HistoryPages> {
                     center: cardIcon(title),
                     circularStrokeCap: CircularStrokeCap.round,
                     progressColor: const Color.fromRGBO(5, 195, 107, 100),
-                    backgroundColor: const Color.fromRGBO(83, 215, 80, 0.3),
+                    backgroundColor: widgetColor(
+                        title, const Color.fromRGBO(83, 215, 80, 0.3), 2),
                   ),
                 ),
               ),
@@ -130,20 +155,26 @@ class _HistoryPagesState extends State<HistoryPages> {
                   ),
                 ),
               ),
-              const Align(
-                alignment: Alignment(1.1, 1),
+              Align(
+                alignment: const Alignment(1.1, 1),
                 child: SizedBox(
                   height: 60,
-                  child: Icon(Icons.arrow_forward_ios_rounded,
-                      color: Color.fromRGBO(5, 195, 107, 100), size: 45),
+                  child: Icon(
+                    Icons.arrow_forward_ios_rounded,
+                    color: widgetColor(
+                        title, const Color.fromRGBO(5, 195, 107, 100), 2),
+                    size: 45,
+                  ),
                 ),
               ),
             ],
           ),
           decoration: BoxDecoration(
+            color: widgetColor(title, Colors.transparent, 0),
             borderRadius: BorderRadius.circular(15),
             border: Border.all(
-              color: const Color.fromRGBO(5, 195, 107, 50),
+              color:
+                  widgetColor(title, const Color.fromRGBO(5, 195, 107, 50), 1),
               width: 3,
             ),
           ),
@@ -199,7 +230,7 @@ class _HistoryPagesState extends State<HistoryPages> {
 
                 //============Personal Finance
                 history(
-                    100 / 100,
+                    cat1 / 100,
                     'Personal Finance',
                     Hive.box("Personal_Finance").length,
                     context,
@@ -215,7 +246,7 @@ class _HistoryPagesState extends State<HistoryPages> {
 
                 //============Investment and Portfolio Management
                 history(
-                    cat1 / 100,
+                    cat2 / 100,
                     'Investment and Portfolio Management',
                     Hive.box("Investment_and_Portfolio_Management").length,
                     context,
@@ -236,19 +267,19 @@ class _HistoryPagesState extends State<HistoryPages> {
                   }
                 }),
 
-                //============Capital Markets
+                //============Behavioral Finance
                 history(
-                    cat2 / 100,
-                    'Capital Markets',
-                    Hive.box("Capital_Market").length,
+                    cat4 / 100,
+                    'Behavioral Finance',
+                    Hive.box("Behavioral_Finance").length,
                     context,
-                    'Capital_Market', () {
+                    'Behavioral_Finance', () {
                   if (cat2 >= 100) {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
                           builder: (context) => const HistoryPage(
-                                category: "Investment_and_Portfolio_Management",
+                                category: "Behavioral_Finance",
                               )),
                     );
                   } else {
@@ -259,19 +290,19 @@ class _HistoryPagesState extends State<HistoryPages> {
                   }
                 }),
 
-                //============Behavioral Finance
+                //============Capital Markets
                 history(
                     cat3 / 100,
-                    'Behavioral Finance',
-                    Hive.box("Behavioral_Finance").length,
+                    'Capital Markets',
+                    Hive.box("Capital_Market").length,
                     context,
-                    'Behavioral_Finance', () {
+                    'Capital_Market', () {
                   if (cat3 >= 100) {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
                           builder: (context) => const HistoryPage(
-                                category: "Investment_and_Portfolio_Management",
+                                category: "Capital_Market",
                               )),
                     );
                   } else {

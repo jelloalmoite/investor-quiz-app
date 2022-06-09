@@ -3,7 +3,10 @@ import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:percent_indicator/percent_indicator.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import '/pages/categoryStats.dart';
+
+var cat1 = 0, cat2 = 0, cat3 = 0;
 
 final categoryboxa = Hive.box("Profile_data");
 var pFq,
@@ -80,7 +83,65 @@ class _ProfilePageState extends State<ProfilePage> {
     tS = categoryboxa.get('totalScore');
     tA = categoryboxa.get('totalAttempt');
 
+    if (categoryboxa.isNotEmpty) {
+      cat1 = pFc;
+      cat2 = iPMc;
+      cat3 = bFc;
+    }
+
     super.initState();
+  }
+
+  //==========Category locking/unlocking
+  categoryLock(String title, VoidCallback func) {
+    if (title == 'Personal Finance') {
+      return func;
+    } else if (title == 'Investment and Portfolio Management' && cat1 >= 100) {
+      return func;
+    } else if (title == 'Behavioral Finance' && cat2 >= 100) {
+      return func;
+    } else if (title == 'Capital Markets' && cat3 >= 100) {
+      return func;
+    } else {
+      return null;
+    }
+  }
+
+  //==========Category card image/icon
+  cardImage(String title, String image) {
+    Image picture = Image(
+        image: AssetImage(image), height: 80, width: 80, fit: BoxFit.cover);
+
+    if (title == 'Personal Finance') {
+      return picture;
+    } else if (title == 'Investment and Portfolio Management' && cat1 >= 100) {
+      return picture;
+    } else if (title == 'Behavioral Finance' && cat2 >= 100) {
+      return picture;
+    } else if (title == 'Capital Markets' && cat3 >= 100) {
+      return picture;
+    } else {
+      return const Icon(Icons.lock_rounded, size: 50, color: Colors.black87);
+    }
+  }
+
+  //==========Category color change
+  categoryBGColor(String title, Color color) {
+    List<Color> grayColor = [
+      const Color.fromRGBO(150, 150, 150, 100),
+      const Color.fromRGBO(90, 90, 90, 100)
+    ];
+    if (title == 'Personal Finance') {
+      return color;
+    } else if (title == 'Investment and Portfolio Management' && cat1 >= 100) {
+      return color;
+    } else if (title == 'Behavioral Finance' && cat2 >= 100) {
+      return color;
+    } else if (title == 'Capital Markets' && cat3 >= 100) {
+      return color;
+    } else {
+      return const Color.fromRGBO(150, 150, 150, 100);
+    }
   }
 
   Widget category(String image, String title, Color color, VoidCallback func) {
@@ -88,27 +149,26 @@ class _ProfilePageState extends State<ProfilePage> {
       borderRadius: BorderRadius.circular(15),
       clipBehavior: Clip.antiAliasWithSaveLayer,
       child: InkWell(
-        onTap: func,
+        onTap: categoryLock(title, func),
         child: Container(
           padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
           height: 90,
           width: 310,
           decoration: BoxDecoration(
-            color: color,
+            color: categoryBGColor(title, color),
             borderRadius: BorderRadius.circular(15),
           ),
           child: Row(
             children: <Widget>[
-              Image(
-                image: AssetImage(image),
+              SizedBox(
                 height: 80,
                 width: 80,
-                fit: BoxFit.cover,
+                child: cardImage(title, image),
               ),
               const SizedBox(width: 12),
               SizedBox(
                 width: 200,
-                child: Text(
+                child: AutoSizeText(
                   title,
                   maxLines: 3,
                   style: const TextStyle(
