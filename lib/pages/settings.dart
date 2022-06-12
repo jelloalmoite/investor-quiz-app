@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:share_plus/share_plus.dart';
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({Key? key}) : super(key: key);
@@ -76,7 +77,15 @@ class _SettingsPageState extends State<SettingsPage> {
             children: <Widget>[
               settingText("General"),
               const SizedBox(height: 4.0),
-
+              settingCard(
+                "Share the App",
+                const Icon(Icons.share_outlined, color: Colors.black),
+                () async {
+                  final urlPreview =
+                      'https://play.google.com/store/apps/details?id=no.mobitroll.kahoot.android&hl=en&gl=US';
+                  await Share.share('Available Now\n\n$urlPreview');
+                },
+              ),
               Card(
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(4),
