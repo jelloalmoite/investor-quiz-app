@@ -83,9 +83,7 @@ class _CategoryPage extends State<CategoryPage> {
             icon: const Icon(Icons.arrow_back_ios_rounded),
             iconSize: 35,
             color: Colors.black,
-            onPressed: () => {
-              Navigator.pop(context),
-            },
+            onPressed: () => {setState(() {}), Navigator.pop(context)},
           ),
         ),
         body: SafeArea(

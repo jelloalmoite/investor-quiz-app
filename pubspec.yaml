@@ -40,6 +40,8 @@ dependencies:
   animated_splash_screen: ^1.2.0
   syncfusion_flutter_charts: ^19.1.56
   share_plus: ^4.0.7
+  launch_review: ^3.0.1
+  rating_dialog: ^2.0.4
 
 
   # The following adds the Cupertino Icons font to your application.

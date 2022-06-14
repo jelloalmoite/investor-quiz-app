@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:rating_dialog/rating_dialog.dart';
+import 'package:launch_review/launch_review.dart';
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({Key? key}) : super(key: key);
@@ -9,6 +11,63 @@ class SettingsPage extends StatefulWidget {
 }
 
 class _SettingsPageState extends State<SettingsPage> {
+  late TextEditingController controller;
+  String name = ' ';
+
+  @override
+  void initState() {
+    super.initState();
+
+    controller = TextEditingController();
+  }
+
+  @override
+  void dispose() {
+    controller.dispose();
+
+    super.dispose();
+  }
+
+  //==========Start of Rating
+  final _dialog = RatingDialog(
+    initialRating: 1.0,
+    // your app's name?
+    title: const Text(
+      'Investor Quiz App',
+      textAlign: TextAlign.center,
+      style: TextStyle(
+        fontSize: 25,
+        fontWeight: FontWeight.bold,
+      ),
+    ),
+
+    message: const Text(
+      'Tap a star to set your rating.',
+      textAlign: TextAlign.center,
+      style: TextStyle(fontSize: 15),
+    ),
+    image: Image.asset(
+      "assets/images/logo.png",
+      width: 50,
+    ),
+    submitButtonText: 'Submit',
+    commentHint: 'Set your custom comment hint',
+    onCancelled: () => print('cancelled'),
+    onSubmitted: (response) {
+      print('rating: ${response.rating}, comment: ${response.comment}');
+
+      //
+      if (response.rating < 3.0) {
+        print('response.rating: ${response.rating}');
+      } else {
+        LaunchReview.launch(
+          androidAppId: "com.kiloo.subwaysurf",
+        );
+      }
+    },
+  );
+  //==========End of Rating
+
   Widget settingText(word) {
     return Text(
       word,
@@ -125,9 +184,14 @@ class _SettingsPageState extends State<SettingsPage> {
                       color: Colors.black),
                   () => {}),
               settingCard(
-                  "Name",
-                  const Icon(Icons.account_circle, color: Colors.black),
-                  () => {}),
+                "Name",
+                const Icon(Icons.account_circle, color: Colors.black),
+                () async {
+                  final name = await openDialog();
+                  if (name == null || name.isEmpty) return;
+                  setState(() => this.name = name);
+                },
+              ),
               settingCard(
                   "Email",
                   const Icon(Icons.alternate_email_outlined,
@@ -147,10 +211,14 @@ class _SettingsPageState extends State<SettingsPage> {
               // FEEDBACK
               settingText("Feedback"),
               const SizedBox(height: 4.0),
-              settingCard(
-                  "Rate our App",
-                  const Icon(Icons.grade_rounded, color: Colors.yellow),
-                  () => {}),
+              settingCard("Rate our App",
+                  const Icon(Icons.grade_rounded, color: Colors.yellow), () {
+                showDialog(
+                  context: context,
+                  barrierDismissible: true,
+                  builder: (context) => _dialog,
+                );
+              }),
               settingCard(
                   "Report a problem",
                   const Icon(Icons.bug_report_rounded, color: Colors.red),
@@ -177,4 +245,28 @@ class _SettingsPageState extends State<SettingsPage> {
           ),
         ),
       );
+
+  Future<String?> openDialog() => showDialog<String>(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: Text('Your Name'),
+          content: TextField(
+            autofocus: true,
+            decoration: InputDecoration(hintText: 'Enter Your Name'),
+            controller: controller,
+            onSubmitted: (_) => submit(),
+          ),
+          actions: [
+            TextButton(
+              child: Text('OK'),
+              onPressed: submit,
+            )
+          ],
+        ),
+      );
+
+  void submit() {
+    Navigator.of(context).pop(controller.text);
+    controller.clear();
+  }
 }
