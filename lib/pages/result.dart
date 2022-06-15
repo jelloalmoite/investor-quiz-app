@@ -77,7 +77,12 @@ class _ResultState extends State<Result> {
 
   @override
   Widget build(BuildContext context) => WillPopScope(
-        onWillPop: () async => false,
+        onWillPop: () {
+          Navigator.pop(context);
+          Navigator.pop(context);
+          reset();
+          return Future.value(false);
+        },
         child: Scaffold(
           extendBodyBehindAppBar: true,
           appBar: AppBar(

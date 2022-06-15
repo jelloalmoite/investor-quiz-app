@@ -153,13 +153,15 @@ class _QuizState extends State<Quiz> {
         child: Scaffold(
           extendBodyBehindAppBar: true,
           appBar: AppBar(
-            title: Text(
+            title: AutoSizeText(
               widget.titl.replaceAll("_", " "),
+              maxLines: 2,
               style: const TextStyle(
                 fontSize: 24,
                 color: Colors.black,
                 fontFamily: 'Poppins-ExtraBold',
                 fontWeight: FontWeight.w800,
+                height: 0.8,
               ),
             ),
             automaticallyImplyLeading: false,
