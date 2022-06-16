@@ -1,10 +1,11 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:investor_quizapp/pages/historyCategory.dart';
 import '/pages/profile.dart';
 import '/pages/categorypage.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
-var cat1 = 0, cat2 = 0, cat3 = 0;
+var cat1 = 0, cat2 = 0, cat3 = 0, cat4 = 0;
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -21,6 +22,7 @@ class _HomePageState extends State<HomePage> {
       cat1 = catlevel.get('Personal_FinancenumCorrect');
       cat2 = catlevel.get('Investment_and_Portfolio_ManagementnumCorrect');
       cat3 = catlevel.get('Behavioral_FinancenumCorrect');
+      cat4 = catlevel.get('Capital_MarketnumCorrect');
     }
     tS = catlevel.get('totalScore');
 
@@ -68,7 +70,8 @@ class _HomePageState extends State<HomePage> {
   categoryBGColor(String title, Color color, int grayColorNo) {
     List<Color> grayColor = [
       const Color.fromRGBO(150, 150, 150, 100),
-      const Color.fromRGBO(90, 90, 90, 100)
+      const Color.fromRGBO(90, 90, 90, 100),
+      Colors.transparent
     ];
     if (title == 'Personal Finance') {
       return color;
@@ -102,7 +105,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget category(String title, String image, Color color1, Color color2,
-      VoidCallback func) {
+      VoidCallback func, int catNo) {
     return Container(
       height: 210,
       width: 160,
@@ -140,13 +143,31 @@ class _HomePageState extends State<HomePage> {
                       fontSize: 18,
                       fontFamily: 'Poppins-Black',
                       fontWeight: FontWeight.w900,
-                      height: 1.1,
+                      height: 1,
                       letterSpacing: 1,
                     )),
               ),
               Align(
-                alignment: const Alignment(0, 0.6),
+                alignment: const Alignment(0, 0.4),
                 child: cardImage(title, image),
+              ),
+              Align(
+                alignment: const Alignment(0, 1.08),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Icon(Icons.star_rounded,
+                        size: 25,
+                        color: categoryBGColor(title, Colors.yellow, 2)),
+                    Text(catNo.toString(),
+                        style: TextStyle(
+                          color: categoryBGColor(title, Colors.black, 2),
+                          fontSize: 16,
+                          fontFamily: 'Poppins',
+                          fontWeight: FontWeight.bold,
+                        )),
+                  ],
+                ),
               ),
             ],
           ),
@@ -243,6 +264,7 @@ class _HomePageState extends State<HomePage> {
                   const Color.fromRGBO(83, 215, 80, 1),
                   const Color.fromRGBO(186, 229, 61, 1),
                   () => {toCategoryPage(1)},
+                  cat1,
                 ),
                 category(
                   'Investment and Portfolio Management',
@@ -262,6 +284,7 @@ class _HomePageState extends State<HomePage> {
                         )),
                       }
                   },
+                  cat2,
                 ),
               ],
             ),
@@ -288,6 +311,7 @@ class _HomePageState extends State<HomePage> {
                         )),
                       }
                   },
+                  cat3,
                 ),
                 category(
                   'Capital Markets',
@@ -307,6 +331,7 @@ class _HomePageState extends State<HomePage> {
                         )),
                       }
                   },
+                  cat4,
                 ),
               ],
             ),

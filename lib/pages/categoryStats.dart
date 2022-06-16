@@ -20,6 +20,7 @@ class CategoryStats extends StatefulWidget {
 }
 
 class _CategoryStatsState extends State<CategoryStats> {
+  bool _hasData = false;
   late List<Stats> _chartData;
   late TooltipBehavior _tooltipBehavior;
   get title => widget.title;
@@ -53,7 +54,10 @@ class _CategoryStatsState extends State<CategoryStats> {
 
   @override
   void initState() {
-    _chartData = getChartData();
+    if (getChartData() != null) {
+      _hasData = true;
+      _chartData = getChartData();
+    }
     _tooltipBehavior = TooltipBehavior(enable: true);
     super.initState();
   }
@@ -84,55 +88,74 @@ class _CategoryStatsState extends State<CategoryStats> {
           backgroundColor: Colors.transparent,
           elevation: 0,
         ),
-        body: SafeArea(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            mainAxisSize: MainAxisSize.max,
-            children: <Widget>[
-              SfCircularChart(
-                title: ChartTitle(
-                    text: "Overall Stats of $title",
-                    textStyle: const TextStyle(
-                      color: Colors.black,
-                      fontFamily: 'Poppins',
-                      fontWeight: FontWeight.bold,
-                      fontSize: 15,
-                      letterSpacing: 1.0,
-                      height: 1,
-                    )),
-                // legend: Legend(
-                //   isVisible: true,
-                //   overflowMode: LegendItemOverflowMode.wrap,
-                // ),
-                tooltipBehavior: _tooltipBehavior,
-                series: <CircularSeries>[
-                  PieSeries<Stats, String>(
-                    dataSource: _chartData,
-                    pointColorMapper: (Stats data, _) => data.color,
-                    xValueMapper: (Stats data, _) => data.stats,
-                    yValueMapper: (Stats data, _) => data.percent,
-                    dataLabelSettings:
-                        const DataLabelSettings(isVisible: false),
-                    enableTooltip: true,
+        body: _hasData == false
+            ? const Center(
+                child: Text(
+                  'No data found.',
+                  style: TextStyle(
+                    fontFamily: 'Poppins-Medium',
+                    fontSize: 25,
+                    fontWeight: FontWeight.w600,
+                    color: Colors.black,
                   ),
-                ],
+                ),
+              )
+            : SafeArea(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  mainAxisSize: MainAxisSize.max,
+                  children: <Widget>[
+                    SfCircularChart(
+                      title: ChartTitle(
+                          text: "Overall Stats of $title",
+                          textStyle: const TextStyle(
+                            color: Colors.black,
+                            fontFamily: 'Poppins',
+                            fontWeight: FontWeight.bold,
+                            fontSize: 15,
+                            letterSpacing: 1.0,
+                            height: 1,
+                          )),
+                      // legend: Legend(
+                      //   isVisible: true,
+                      //   overflowMode: LegendItemOverflowMode.wrap,
+                      // ),
+                      tooltipBehavior: _tooltipBehavior,
+                      series: <CircularSeries>[
+                        PieSeries<Stats, String>(
+                          dataSource: _chartData,
+                          pointColorMapper: (Stats data, _) => data.color,
+                          xValueMapper: (Stats data, _) => data.stats,
+                          yValueMapper: (Stats data, _) => data.percent,
+                          dataLabelSettings:
+                              const DataLabelSettings(isVisible: false),
+                          enableTooltip: true,
+                        ),
+                      ],
+                    ),
+                    statBox(
+                        "Correct: ", nC, const Color.fromRGBO(5, 195, 107, 38)),
+                    statBox(
+                        "Wrong: ", nW, const Color.fromRGBO(243, 83, 86, 60)),
+                    statBox("Skipped: ", nS,
+                        const Color.fromRGBO(240, 243, 60, 50)),
+                  ],
+                ),
               ),
-              statBox("Correct: ", nC, const Color.fromRGBO(5, 195, 107, 38)),
-              statBox("Wrong: ", nW, const Color.fromRGBO(243, 83, 86, 60)),
-              statBox("Skipped: ", nS, const Color.fromRGBO(240, 243, 60, 50)),
-            ],
-          ),
-        ),
       );
 
-  List<Stats> getChartData() {
+  getChartData() {
     final List<Stats> chartData = [
       Stats('Wrong', nW, const Color.fromRGBO(242, 83, 85, 75)),
       Stats('Skipped', nS, const Color.fromRGBO(239, 242, 62, 75)),
       Stats('Correct', nC, const Color.fromRGBO(6, 194, 106, 75)),
     ];
-    return chartData;
+    if (nW == 0 && nS == 0 && nC == 0) {
+      return null;
+    } else {
+      return chartData;
+    }
   }
 }
 

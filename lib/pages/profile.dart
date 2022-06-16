@@ -512,21 +512,11 @@ class _ProfilePageState extends State<ProfilePage> {
                             "Personal Finance",
                             const Color.fromRGBO(83, 215, 80, 75),
                             () => {
-                                  if (pFc != null)
-                                    {
-                                      toCategoryStats(
-                                          "Personal Finance", pFc, pFw, pFss)
-                                    }
-                                  else
-                                    {
-                                      ScaffoldMessenger.of(context)
-                                          .showSnackBar(const SnackBar(
-                                        content: Text(
-                                            'This category does not have data yet'),
-                                        backgroundColor:
-                                            Color.fromARGB(255, 170, 7, 7),
-                                      ))
-                                    }
+                                  toCategoryStats(
+                                      "Personal Finance",
+                                      nullToZero(pFc),
+                                      nullToZero(pFw),
+                                      nullToZero(pFss))
                                 }),
                         const SizedBox(height: 10),
                         category(
