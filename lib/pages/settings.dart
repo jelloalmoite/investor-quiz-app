@@ -1,7 +1,16 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:rating_dialog/rating_dialog.dart';
 import 'package:launch_review/launch_review.dart';
+import 'package:syncfusion_flutter_pdf/pdf.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:path/path.dart';
+import 'package:investor_quizapp/pages/documents.dart';
+
+var documents = Documents();
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({Key? key}) : super(key: key);
@@ -13,6 +22,8 @@ class SettingsPage extends StatefulWidget {
 class _SettingsPageState extends State<SettingsPage> {
   late TextEditingController controller;
   String name = ' ';
+  String bugReport = ' ';
+  File? image;
 
   @override
   void initState() {
@@ -30,7 +41,7 @@ class _SettingsPageState extends State<SettingsPage> {
 
   //==========Start of Rating
   final _dialog = RatingDialog(
-    initialRating: 1.0,
+    initialRating: 5.0,
     // your app's name?
     title: const Text(
       'Investor Quiz App',
@@ -51,7 +62,7 @@ class _SettingsPageState extends State<SettingsPage> {
       width: 50,
     ),
     submitButtonText: 'Submit',
-    commentHint: 'Set your custom comment hint',
+    commentHint: 'Add comment',
     onCancelled: () => print('cancelled'),
     onSubmitted: (response) {
       print('rating: ${response.rating}, comment: ${response.comment}');
@@ -182,25 +193,17 @@ class _SettingsPageState extends State<SettingsPage> {
                   "Avatar",
                   const Icon(Icons.account_circle_outlined,
                       color: Colors.black),
-                  () => {}),
+                  () => {openAvatarDialog(context)}),
               settingCard(
                 "Name",
                 const Icon(Icons.account_circle, color: Colors.black),
                 () async {
-                  final name = await openDialog();
+                  final name = await openNameDialog(context);
                   if (name == null || name.isEmpty) return;
                   setState(() => this.name = name);
                 },
               ),
-              settingCard(
-                  "Email",
-                  const Icon(Icons.alternate_email_outlined,
-                      color: Colors.black),
-                  () => {}),
-              settingCard(
-                  "Password",
-                  const Icon(Icons.pin_outlined, color: Colors.black),
-                  () => {}),
+
               settingCard(
                   "Linked Account",
                   const Icon(Icons.link_outlined, color: Colors.black),
@@ -220,9 +223,14 @@ class _SettingsPageState extends State<SettingsPage> {
                 );
               }),
               settingCard(
-                  "Report a problem",
-                  const Icon(Icons.bug_report_rounded, color: Colors.red),
-                  () => {}),
+                "Report a problem",
+                const Icon(Icons.bug_report_rounded, color: Colors.red),
+                () async {
+                  final report = await openReportDialog(context);
+                  if (report == null || report.isEmpty) return;
+                  setState(() => this.bugReport = report);
+                },
+              ),
 
               const SizedBox(height: 12.0),
               //LEGAL
@@ -230,9 +238,15 @@ class _SettingsPageState extends State<SettingsPage> {
               const SizedBox(height: 4.0),
 
               settingCard(
-                  "Privacy Policy",
-                  const Icon(Icons.policy_outlined, color: Colors.black),
-                  () => {}),
+                "Privacy Policy",
+                const Icon(Icons.policy_outlined, color: Colors.black),
+                () {
+                  // getPdfText(
+                  //     "Privacy Policy", 'inqui_privacy_policy.pdf', context);
+                  _showAlert(
+                      context, "Privacy Policy", documents.privacyPolicy);
+                },
+              ),
               settingCard(
                   "About Us",
                   const Icon(Icons.groups_outlined, color: Colors.black),
@@ -246,27 +260,234 @@ class _SettingsPageState extends State<SettingsPage> {
         ),
       );
 
-  Future<String?> openDialog() => showDialog<String>(
+  Future<String?> openNameDialog(BuildContext context) => showDialog<String>(
         context: context,
         builder: (context) => AlertDialog(
-          title: Text('Your Name'),
+          title: const Text('Your Name'),
           content: TextField(
             autofocus: true,
-            decoration: InputDecoration(hintText: 'Enter Your Name'),
+            decoration: const InputDecoration(hintText: 'Enter Your Name'),
             controller: controller,
-            onSubmitted: (_) => submit(),
+            onSubmitted: (_) => submit(context),
           ),
           actions: [
             TextButton(
-              child: Text('OK'),
-              onPressed: submit,
-            )
+              child: const Text('OK'),
+              onPressed: () {
+                submit(context);
+              },
+            ),
           ],
         ),
       );
 
-  void submit() {
+  Future<String?> openReportDialog(BuildContext context) => showDialog<String>(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: const Text('What Happened?'),
+          content: TextField(
+            maxLines: 18,
+            autofocus: true,
+            decoration: const InputDecoration(
+              hintText:
+                  'Briefly explain what happened and what we need to do to reproduce the problem.',
+              border: OutlineInputBorder(),
+            ),
+            controller: controller,
+            onSubmitted: (_) => submit(context),
+          ),
+          actions: [
+            Container(
+              padding: const EdgeInsets.all(10),
+              alignment: FractionalOffset.topRight,
+              child: GestureDetector(
+                child: TextButton.icon(
+                  label: const Text('Send'),
+                  icon: const Icon(Icons.send_outlined),
+                  style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all<Color>(
+                      const Color.fromRGBO(5, 195, 107, 50),
+                    ),
+                    foregroundColor:
+                        MaterialStateProperty.all<Color>(Colors.white),
+                  ),
+                  onPressed: () {
+                    submit(context);
+                  },
+                ),
+              ),
+            ),
+          ],
+        ),
+      );
+
+  void submit(BuildContext context) {
     Navigator.of(context).pop(controller.text);
     controller.clear();
   }
+
+  //For PDF/Docs Reader(Getting text content of file)
+  /*
+  Future<String> _readFilesFromAssets(String fileName) async {
+    String text = await rootBundle.loadString('documents/$fileName');
+    return text;
+  }
+
+  getDocxText(String title, String fileName, BuildContext context) async {
+    String text = await _readFilesFromAssets(fileName);
+    _showAlert(context, title, text);
+  }
+
+  //==========PDF Text Reader
+  Future<List<int>> _readDocumentData(String name) async {
+    final ByteData data = await rootBundle.load('assets/documents/$name');
+    return data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
+  }
+
+  getPdfText(String title, String pdfName, BuildContext context) async {
+    String text = "";
+
+    PdfDocument document =
+        PdfDocument(inputBytes: await _readDocumentData(pdfName));
+
+    // final List<TextLine> textLine =
+    //     PdfTextExtractor(document).extractTextLines();
+
+    // for (int i = 0; i < textLine.length; i++) {
+    //   text = text + "\n" + textLine[i].text;
+    // }
+
+    text = PdfTextExtractor(document).extractText();
+
+    _showAlert(context, title, text);
+  }
+  //==========End of PDF Text Reader
+  */
+
+  void _showAlert(BuildContext context, String title, RichText text) {
+    showDialog(
+        context: context,
+        barrierDismissible: true,
+        builder: (BuildContext context) => AlertDialog(
+              actions: [
+                Container(
+                  alignment: FractionalOffset.bottomCenter,
+                  child: GestureDetector(
+                    child: TextButton(
+                      child: const Text('Close'),
+                      style: TextButton.styleFrom(
+                        primary: Colors.white,
+                        backgroundColor: const Color.fromRGBO(5, 195, 107, 50),
+                        shape: const RoundedRectangleBorder(
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(10))),
+                      ),
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                    ),
+                  ),
+                )
+              ],
+              backgroundColor: Colors.white,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10.0),
+                side: const BorderSide(
+                  color: Color.fromRGBO(5, 195, 107, 50),
+                ),
+              ),
+              title: Text(
+                title,
+                style: const TextStyle(
+                    fontSize: 22.0,
+                    fontFamily: 'Poppins-Bold',
+                    fontWeight: FontWeight.w700),
+              ),
+              content: text,
+              scrollable: true,
+            ));
+  }
+
+  buildButton(String title, IconData icon, VoidCallback func) {
+    return SizedBox(
+      width: 180,
+      child: ElevatedButton.icon(
+        onPressed: func,
+        icon: Icon(icon, color: Colors.black, size: 25),
+        label: Text(
+          title,
+          style: const TextStyle(
+            color: Colors.black,
+            fontSize: 18.0,
+            fontFamily: 'Poppins',
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+        style: ButtonStyle(
+          backgroundColor:
+              MaterialStateProperty.all(const Color.fromRGBO(81, 231, 168, 1)),
+        ),
+      ),
+    );
+  }
+
+  Future pickImage(ImageSource source, BuildContext context) async {
+    try {
+      final image = await ImagePicker().pickImage(source: source);
+      if (image == null) return;
+
+      //final imageTemporary = File(image.path);
+      final imagePermanent = await saveImagePermanently(image.path);
+      setState(() => this.image = imagePermanent);
+    } on PlatformException catch (e) {
+      print('Failed to pick image: $e');
+    }
+    Navigator.pop(context);
+    openAvatarDialog(context);
+  }
+
+  Future<File> saveImagePermanently(String imagePath) async {
+    final directory = await getApplicationDocumentsDirectory();
+    final name = basename(imagePath);
+    final image = File('${directory.path}/$name');
+
+    return File(imagePath).copy(image.path);
+  }
+
+  Future openAvatarDialog(BuildContext context) => showDialog(
+        context: context,
+        barrierDismissible: true,
+        builder: (context) => AlertDialog(
+          title: const Text('Select Profile Picture'),
+          content: SizedBox(
+            height: 240,
+            child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Container(
+                    height: 100,
+                    width: 100,
+                    child: image != null
+                        ? ClipOval(child: Image.file(image!, fit: BoxFit.cover))
+                        : const Image(
+                            image: AssetImage('assets/images/logo.png')),
+                  ),
+                  const SizedBox(height: 20),
+                  buildButton('Gallery', Icons.photo_library_rounded,
+                      () => {pickImage(ImageSource.gallery, context)}),
+                  const SizedBox(height: 10),
+                  buildButton('Camera', Icons.photo_camera_rounded,
+                      () => {pickImage(ImageSource.camera, context)}),
+                ]),
+          ),
+          actions: [
+            TextButton(
+              child: const Text('OK'),
+              onPressed: () {
+                submit(context);
+              },
+            )
+          ],
+        ),
+      );
 }
