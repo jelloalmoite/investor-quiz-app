@@ -47,15 +47,22 @@ class _SettingsPageState extends State<SettingsPage> {
       'Investor Quiz App',
       textAlign: TextAlign.center,
       style: TextStyle(
-        fontSize: 25,
-        fontWeight: FontWeight.bold,
+        color: Colors.black,
+        fontSize: 25.0,
+        fontFamily: 'Poppins',
+        fontWeight: FontWeight.w600,
       ),
     ),
 
     message: const Text(
       'Tap a star to set your rating.',
       textAlign: TextAlign.center,
-      style: TextStyle(fontSize: 15),
+      style: TextStyle(
+        color: Colors.black,
+        fontSize: 15.0,
+        fontFamily: 'Poppins',
+        fontWeight: FontWeight.w600,
+      ),
     ),
     image: Image.asset(
       "assets/images/logo.png",
@@ -199,8 +206,9 @@ class _SettingsPageState extends State<SettingsPage> {
                 const Icon(Icons.account_circle, color: Colors.black),
                 () async {
                   final name = await openNameDialog(context);
-                  if (name == null || name.isEmpty) return;
-                  setState(() => this.name = name);
+                  if (name == null || name.isEmpty) {
+                    controller.clear();
+                  }
                 },
               ),
 
@@ -237,24 +245,21 @@ class _SettingsPageState extends State<SettingsPage> {
               settingText("Legal"),
               const SizedBox(height: 4.0),
 
-              settingCard(
-                "Privacy Policy",
-                const Icon(Icons.policy_outlined, color: Colors.black),
-                () {
-                  // getPdfText(
-                  //     "Privacy Policy", 'inqui_privacy_policy.pdf', context);
-                  _showAlert(
-                      context, "Privacy Policy", documents.privacyPolicy);
-                },
-              ),
-              settingCard(
-                  "About Us",
-                  const Icon(Icons.groups_outlined, color: Colors.black),
-                  () => {}),
-              settingCard(
-                  "Terms of Use",
+              settingCard("Privacy Policy",
+                  const Icon(Icons.policy_outlined, color: Colors.black), () {
+                // getPdfText(
+                //     "Privacy Policy", 'inqui_privacy_policy.pdf', context);
+                _showAlert(context, "Privacy Policy", documents.privacyPolicy);
+              }),
+              settingCard("About Us",
+                  const Icon(Icons.groups_outlined, color: Colors.black), () {
+                _showAlert(context, "About Us", documents.aboutUs);
+              }),
+              settingCard("Terms of Use",
                   const Icon(Icons.text_snippet_outlined, color: Colors.black),
-                  () => {}),
+                  () {
+                _showAlert(context, "Terms & Conditions", documents.termsOfUse);
+              }),
             ],
           ),
         ),
@@ -263,18 +268,35 @@ class _SettingsPageState extends State<SettingsPage> {
   Future<String?> openNameDialog(BuildContext context) => showDialog<String>(
         context: context,
         builder: (context) => AlertDialog(
-          title: const Text('Your Name'),
+          title: const Text(
+            'Your Name',
+            style: TextStyle(
+              color: Colors.black,
+              fontSize: 20.0,
+              fontFamily: 'Poppins',
+              fontWeight: FontWeight.w600,
+            ),
+          ),
           content: TextField(
             autofocus: true,
             decoration: const InputDecoration(hintText: 'Enter Your Name'),
             controller: controller,
-            onSubmitted: (_) => submit(context),
+            onSubmitted: (_) => submitText(context),
           ),
           actions: [
             TextButton(
-              child: const Text('OK'),
+              child: const Text(
+                'OK',
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 16.0,
+                  fontFamily: 'Poppins',
+                  fontWeight: FontWeight.w600,
+                  letterSpacing: 1,
+                ),
+              ),
               onPressed: () {
-                submit(context);
+                submitText(context);
               },
             ),
           ],
@@ -284,7 +306,15 @@ class _SettingsPageState extends State<SettingsPage> {
   Future<String?> openReportDialog(BuildContext context) => showDialog<String>(
         context: context,
         builder: (context) => AlertDialog(
-          title: const Text('What Happened?'),
+          title: const Text(
+            'What Happened?',
+            style: TextStyle(
+              color: Colors.black,
+              fontSize: 20.0,
+              fontFamily: 'Poppins',
+              fontWeight: FontWeight.w600,
+            ),
+          ),
           content: TextField(
             maxLines: 18,
             autofocus: true,
@@ -294,7 +324,7 @@ class _SettingsPageState extends State<SettingsPage> {
               border: OutlineInputBorder(),
             ),
             controller: controller,
-            onSubmitted: (_) => submit(context),
+            onSubmitted: (_) => submitText(context),
           ),
           actions: [
             Container(
@@ -302,7 +332,15 @@ class _SettingsPageState extends State<SettingsPage> {
               alignment: FractionalOffset.topRight,
               child: GestureDetector(
                 child: TextButton.icon(
-                  label: const Text('Send'),
+                  label: const Text(
+                    'Send',
+                    style: TextStyle(
+                      fontSize: 16.0,
+                      fontFamily: 'Poppins',
+                      fontWeight: FontWeight.w600,
+                      letterSpacing: 1,
+                    ),
+                  ),
                   icon: const Icon(Icons.send_outlined),
                   style: ButtonStyle(
                     backgroundColor: MaterialStateProperty.all<Color>(
@@ -312,7 +350,7 @@ class _SettingsPageState extends State<SettingsPage> {
                         MaterialStateProperty.all<Color>(Colors.white),
                   ),
                   onPressed: () {
-                    submit(context);
+                    submitText(context);
                   },
                 ),
               ),
@@ -321,9 +359,9 @@ class _SettingsPageState extends State<SettingsPage> {
         ),
       );
 
-  void submit(BuildContext context) {
+  void submitText(BuildContext context) {
     Navigator.of(context).pop(controller.text);
-    controller.clear();
+    setState(() => name = name);
   }
 
   //For PDF/Docs Reader(Getting text content of file)
@@ -374,7 +412,15 @@ class _SettingsPageState extends State<SettingsPage> {
                   alignment: FractionalOffset.bottomCenter,
                   child: GestureDetector(
                     child: TextButton(
-                      child: const Text('Close'),
+                      child: const Text(
+                        'Close',
+                        style: TextStyle(
+                          fontSize: 16.0,
+                          fontFamily: 'Poppins',
+                          fontWeight: FontWeight.w600,
+                          letterSpacing: 1,
+                        ),
+                      ),
                       style: TextButton.styleFrom(
                         primary: Colors.white,
                         backgroundColor: const Color.fromRGBO(5, 195, 107, 50),
@@ -458,7 +504,15 @@ class _SettingsPageState extends State<SettingsPage> {
         context: context,
         barrierDismissible: true,
         builder: (context) => AlertDialog(
-          title: const Text('Select Profile Picture'),
+          title: const Text(
+            'Select Profile Picture',
+            style: TextStyle(
+              color: Colors.black,
+              fontSize: 20.0,
+              fontFamily: 'Poppins',
+              fontWeight: FontWeight.w600,
+            ),
+          ),
           content: SizedBox(
             height: 240,
             child: Column(
@@ -482,10 +536,17 @@ class _SettingsPageState extends State<SettingsPage> {
           ),
           actions: [
             TextButton(
-              child: const Text('OK'),
-              onPressed: () {
-                submit(context);
-              },
+              child: const Text(
+                'OK',
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 16.0,
+                  fontFamily: 'Poppins',
+                  fontWeight: FontWeight.w600,
+                  letterSpacing: 1,
+                ),
+              ),
+              onPressed: () => {},
             )
           ],
         ),
