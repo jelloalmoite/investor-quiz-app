@@ -9,8 +9,10 @@ import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart';
 import 'package:investor_quizapp/pages/documents.dart';
+import 'package:flutter_switch/flutter_switch.dart';
 
 var documents = Documents();
+bool status = true;
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({Key? key}) : super(key: key);
@@ -94,6 +96,36 @@ class _SettingsPageState extends State<SettingsPage> {
         color: Colors.black,
         fontFamily: 'Poppins-Medium',
         fontWeight: FontWeight.w500,
+      ),
+    );
+  }
+
+  Widget toggleSwitch() {
+    return SizedBox(
+      width: 60,
+      height: 25,
+      child: FlutterSwitch(
+        width: 60.0,
+        height: 25.0,
+        valueFontSize: 18.0,
+        toggleSize: 20.0,
+        value: status,
+        borderRadius: 30.0,
+        padding: 2.0,
+        activeColor: const Color.fromRGBO(81, 231, 168, 1),
+        showOnOff: true,
+        onToggle: (val) {
+          if (status == true) {
+            status = false;
+            print(status);
+          } else if (status == false) {
+            status = true;
+            print(status);
+          }
+          setState(() {
+            status = val;
+          });
+        },
       ),
     );
   }
@@ -184,12 +216,16 @@ class _SettingsPageState extends State<SettingsPage> {
                       fontWeight: FontWeight.w500,
                     ),
                   ),
-                  trailing: const Icon(
-                    Icons.toggle_on_outlined,
-                    color: Color.fromRGBO(5, 195, 107, 50),
-                    size: 35,
-                  ),
-                  onTap: () => {},
+                  trailing: toggleSwitch(),
+                  onTap: () => {
+                    if (status == true)
+                      {status = false, print(status)}
+                    else if (status == false)
+                      {status = true, print(status)},
+                    setState(() {
+                      status = status;
+                    })
+                  },
                 ),
               ),
               const SizedBox(height: 12.0),

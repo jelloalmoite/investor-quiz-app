@@ -45,6 +45,7 @@ dependencies:
   # Para sa PDF Reader (pero ndi nagamit)
   syncfusion_flutter_pdf: ^19.4.56-beta
   image_picker: ^0.8.5+3
+  flutter_switch: ^0.3.2
 
 
   # The following adds the Cupertino Icons font to your application.
