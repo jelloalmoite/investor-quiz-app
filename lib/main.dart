@@ -46,9 +46,9 @@ class MyApp extends StatelessWidget {
       DeviceOrientation.portraitDown,
     ]);
     return MaterialApp(
-      title: 'Investor Quiz App',
+      title: 'inQui',
       theme: ThemeData(
-        primarySwatch: Colors.green,
+        primarySwatch: myColor,
         scaffoldBackgroundColor: const Color.fromRGBO(254, 254, 254, 1),
       ),
       home: const SplashScreen(),
@@ -56,6 +56,19 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+
+const MaterialColor myColor = MaterialColor(0xFF51E7A8, <int, Color>{
+  50: Color(0xFF51E7A8),
+  100: Color(0xFF51E7A8),
+  200: Color(0xFF51E7A8),
+  300: Color(0xFF51E7A8),
+  400: Color(0xFF51E7A8),
+  500: Color(0xFF51E7A8),
+  600: Color(0xFF51E7A8),
+  700: Color(0xFF51E7A8),
+  800: Color(0xFF51E7A8),
+  900: Color(0xFF51E7A8),
+});
 
 class MainPage extends StatefulWidget {
   const MainPage({Key? key}) : super(key: key);
@@ -86,7 +99,7 @@ class _MainPageState extends State<MainPage> {
         if (isWarning) {
           lastPressed = DateTime.now();
           final snackBar = SnackBar(
-            content: Text('Double Tap to Close App'),
+            content: const Text('Double Tap to Close App'),
             duration: maxDuration,
           );
 

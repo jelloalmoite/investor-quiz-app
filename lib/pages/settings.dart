@@ -364,10 +364,10 @@ class _SettingsPageState extends State<SettingsPage> {
           ),
           actions: [
             Container(
-              padding: const EdgeInsets.all(10),
+              padding: const EdgeInsets.all(12),
               alignment: FractionalOffset.topRight,
               child: GestureDetector(
-                child: TextButton.icon(
+                child: FloatingActionButton.extended(
                   label: const Text(
                     'Send',
                     style: TextStyle(
@@ -377,14 +377,8 @@ class _SettingsPageState extends State<SettingsPage> {
                       letterSpacing: 1,
                     ),
                   ),
-                  icon: const Icon(Icons.send_outlined),
-                  style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all<Color>(
-                      const Color.fromRGBO(5, 195, 107, 50),
-                    ),
-                    foregroundColor:
-                        MaterialStateProperty.all<Color>(Colors.white),
-                  ),
+                  backgroundColor: const Color.fromRGBO(5, 195, 107, 50),
+                  icon: const Icon(Icons.send_outlined, size: 18),
                   onPressed: () {
                     submitText(context);
                   },
