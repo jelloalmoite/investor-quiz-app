@@ -109,7 +109,7 @@ class _HistoryPagesState extends State<HistoryPages> {
                   width: 60,
                   height: 60,
                   child: CircularPercentIndicator(
-                    radius: 60.0,
+                    radius: 30.0,
                     lineWidth: 7.0,
                     animation: true,
                     percent: progress,

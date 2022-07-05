@@ -127,10 +127,6 @@ class _ProfilePageState extends State<ProfilePage> {
 
   //==========Category color change
   categoryBGColor(String title, Color color) {
-    List<Color> grayColor = [
-      const Color.fromRGBO(150, 150, 150, 100),
-      const Color.fromRGBO(90, 90, 90, 100)
-    ];
     if (title == 'Personal Finance') {
       return color;
     } else if (title == 'Investment and Portfolio Management' && cat1 >= 100) {
@@ -296,12 +292,12 @@ class _ProfilePageState extends State<ProfilePage> {
                               child: Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: <Widget>[
-                                    Icon(
+                                    const Icon(
                                       Icons.star_border_outlined,
                                       size: 30,
                                       color: Colors.black,
                                     ),
-                                    Text(
+                                    const Text(
                                       'SCORE',
                                       style: TextStyle(
                                           color: Colors.black,
@@ -311,7 +307,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                     ),
                                     Text(
                                       nullToZero(tS).toString(),
-                                      style: TextStyle(
+                                      style: const TextStyle(
                                           color: Colors.black,
                                           fontSize: 30,
                                           fontFamily: 'Poppins-Medium',
@@ -335,12 +331,12 @@ class _ProfilePageState extends State<ProfilePage> {
                               child: Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: <Widget>[
-                                    Icon(
+                                    const Icon(
                                       Icons.restart_alt_outlined,
                                       size: 30,
                                       color: Colors.black,
                                     ),
-                                    Text(
+                                    const Text(
                                       'ATTEMPTS',
                                       style: TextStyle(
                                           color: Colors.black,
@@ -350,7 +346,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                     ),
                                     Text(
                                       nullToZero(tA).toString(),
-                                      style: TextStyle(
+                                      style: const TextStyle(
                                           color: Colors.black,
                                           fontSize: 30,
                                           fontFamily: 'Poppins-Medium',
@@ -361,14 +357,14 @@ class _ProfilePageState extends State<ProfilePage> {
                             ),
                           ]),
                     ),
-                    Container(
+                    SizedBox(
                       height: 260,
                       child: ListView(children: <Widget>[
                         //Accuracy
                         Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: <Widget>[
-                              const Text("Accuracy:",
+                            children: const <Widget>[
+                              Text("Accuracy:",
                                   style: TextStyle(
                                     color: Colors.black,
                                     fontSize: 20,
@@ -381,7 +377,7 @@ class _ProfilePageState extends State<ProfilePage> {
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: <Widget>[
                               CircularPercentIndicator(
-                                radius: 85.0,
+                                radius: 55.0,
                                 lineWidth: 9.0,
                                 animation: true,
                                 percent:
@@ -431,8 +427,8 @@ class _ProfilePageState extends State<ProfilePage> {
                         const SizedBox(height: 10.0),
                         Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: <Widget>[
-                              const Text("Average Time:",
+                            children: const <Widget>[
+                              Text("Average Time:",
                                   style: TextStyle(
                                     color: Colors.black,
                                     fontSize: 20,
@@ -446,7 +442,7 @@ class _ProfilePageState extends State<ProfilePage> {
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: <Widget>[
                               CircularPercentIndicator(
-                                radius: 85.0,
+                                radius: 55.0,
                                 lineWidth: 9.0,
                                 animation: true,
                                 percent: (((((nullToZero(tHm) * 60) +

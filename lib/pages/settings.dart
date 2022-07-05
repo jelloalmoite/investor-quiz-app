@@ -4,7 +4,6 @@ import 'package:flutter/services.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:rating_dialog/rating_dialog.dart';
 import 'package:launch_review/launch_review.dart';
-import 'package:syncfusion_flutter_pdf/pdf.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart';
@@ -199,7 +198,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(4),
                   side: const BorderSide(
-                      color: const Color.fromRGBO(5, 195, 107, 50), width: 0),
+                      color: Color.fromRGBO(5, 195, 107, 50), width: 0),
                 ),
                 elevation: 2,
                 child: ListTile(
@@ -548,7 +547,7 @@ class _SettingsPageState extends State<SettingsPage> {
             child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  Container(
+                  SizedBox(
                     height: 100,
                     width: 100,
                     child: image != null

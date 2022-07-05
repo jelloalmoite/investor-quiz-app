@@ -526,7 +526,7 @@ packages:
       name: percent_indicator
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "3.4.0"
+    version: "4.2.2"
   petitparser:
     dependency: transitive
     description:
@@ -699,21 +699,14 @@ packages:
       name: syncfusion_flutter_charts
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "19.4.56"
+    version: "20.2.36"
   syncfusion_flutter_core:
     dependency: transitive
     description:
       name: syncfusion_flutter_core
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "19.4.56"
-  syncfusion_flutter_pdf:
-    dependency: "direct main"
-    description:
-      name: syncfusion_flutter_pdf
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "19.4.56-beta"
+    version: "20.2.36"
   term_glyph:
     dependency: transitive
     description:
@@ -856,4 +849,4 @@ packages:
     version: "3.1.1"
 sdks:
   dart: ">=2.17.0-0 <3.0.0"
-  flutter: ">=2.10.0"
+  flutter: ">=2.12.0"

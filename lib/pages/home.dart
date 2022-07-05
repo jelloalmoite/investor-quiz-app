@@ -1,6 +1,5 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
-import 'package:investor_quizapp/pages/historyCategory.dart';
 import '/pages/profile.dart';
 import '/pages/categorypage.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -121,9 +120,9 @@ class _HomePageState extends State<HomePage> {
         borderRadius: BorderRadius.circular(15),
         boxShadow: [
           BoxShadow(
-            color: categoryBGColor(title, color1, 0),
-            offset: const Offset(-3.0, 4.0),
-            blurRadius: 10.0,
+            color: categoryBGColor(title, color2, 0),
+            offset: const Offset(-2.5, 4.0),
+            blurRadius: 8.0,
           ),
         ],
       ),
@@ -261,8 +260,8 @@ class _HomePageState extends State<HomePage> {
                 category(
                   'Personal Finance',
                   'assets/images/personal_finance.png',
-                  const Color.fromRGBO(83, 215, 80, 1),
                   const Color.fromRGBO(186, 229, 61, 1),
+                  const Color.fromRGBO(83, 215, 80, 1),
                   () => {toCategoryPage(1)},
                   cat1,
                 ),
@@ -316,8 +315,8 @@ class _HomePageState extends State<HomePage> {
                 category(
                   'Capital Markets',
                   'assets/images/capital_markets.png',
-                  const Color.fromRGBO(241, 106, 47, 1),
                   const Color.fromRGBO(240, 243, 60, 1),
+                  const Color.fromRGBO(241, 106, 47, 1),
                   () => {
                     if (cat3 >= 100)
                       {toCategoryPage(4)}

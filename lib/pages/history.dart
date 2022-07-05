@@ -81,9 +81,7 @@ class _HistoryPageState extends State<HistoryPage> {
             "assets/images/logo.png",
             width: 50,
           ),
-          SizedBox(
-            width: 15,
-          ),
+          const SizedBox(width: 15),
         ],
         backgroundColor: Colors.transparent,
         elevation: 0,
@@ -121,7 +119,7 @@ class _HistoryPageState extends State<HistoryPage> {
                                 width: 120,
                                 height: 120,
                                 child: CircularPercentIndicator(
-                                  radius: 120.0,
+                                  radius: 60.0,
                                   lineWidth: 12.0,
                                   animation: true,
                                   percent:
@@ -315,7 +313,7 @@ class _HistoryPageState extends State<HistoryPage> {
                               //==========================Date
                               Text(
                                 currentItem["date"],
-                                style: TextStyle(
+                                style: const TextStyle(
                                   fontSize: 18,
                                   fontFamily: 'Poppins',
                                 ),

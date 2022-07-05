@@ -110,7 +110,6 @@ class _ResultState extends State<Result> {
                   children: <Widget>[
                     Column(
                       children: [
-                        // text
                         const Text(
                           "COMPLETED",
                           style: TextStyle(
@@ -129,13 +128,12 @@ class _ResultState extends State<Result> {
                       ],
                     ),
                     CircularPercentIndicator(
-                      // add dependencies percent_indicator: ^3.4.0]
-                      radius: 160.0,
+                      radius: 90.0,
                       lineWidth: 16.0,
                       animation: true,
                       percent: correct / totalQuizQuest,
                       center: Text(
-                        scorePercent(), //pedeng score na lang instead of percentage
+                        scorePercent(),
                         style: const TextStyle(
                             fontFamily: 'Poppins-SemiBold',
                             fontWeight: FontWeight.w600,
@@ -145,20 +143,16 @@ class _ResultState extends State<Result> {
                       progressColor: const Color.fromRGBO(5, 195, 107, 100),
                       backgroundColor: const Color.fromRGBO(83, 215, 80, 0.3),
                     ),
-
-                    Column(mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        // crossAxisAlignment: CrossAxisAlignment.center,
+                    Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        crossAxisAlignment: CrossAxisAlignment.center,
                         children: <Widget>[
-                          const SizedBox(height: 6),
-                          Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: <Widget>[]),
-                          //Time-Taken (10mins 35 secs)
-                          const SizedBox(height: 8),
+                          //Time-Taken
+                          const SizedBox(height: 10),
                           Column(children: <Widget>[
                             Text(
                               "Time Taken: $timeTaken",
-                              style: TextStyle(
+                              style: const TextStyle(
                                   fontSize: 25,
                                   fontFamily: 'Poppins-Medium',
                                   fontWeight: FontWeight.w600),
@@ -190,7 +184,7 @@ class _ResultState extends State<Result> {
                         ]),
 
                     const SizedBox(height: 10),
-                    //back button-details
+                    //Back & Details buttons
                     Container(
                       padding: const EdgeInsets.all(14.0),
                       child: Row(
