@@ -9,9 +9,10 @@ import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart';
 import 'package:investor_quizapp/pages/documents.dart';
 import 'package:flutter_switch/flutter_switch.dart';
+import 'package:assets_audio_player/assets_audio_player.dart';
 
 var documents = Documents();
-bool status = true;
+bool status = true; //For Toggle Switch on Sounds Button
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({Key? key}) : super(key: key);
@@ -25,18 +26,33 @@ class _SettingsPageState extends State<SettingsPage> {
   String name = ' ';
   String bugReport = ' ';
   File? image;
+  late final AssetsAudioPlayer _assetsAudioPlayer = AssetsAudioPlayer();
+
+  void startBgMusic() {
+    _assetsAudioPlayer.open(
+      Audio('assets/music/Enjoy_the_Experience.mp3'),
+      autoStart: true,
+      loopMode: LoopMode.single,
+      volume: 0.5,
+      playInBackground: PlayInBackground.disabledRestoreOnForeground,
+    );
+    //_assetsAudioPlayer.'something' [ndi nagana sa initState()]
+  }
 
   @override
   void initState() {
     super.initState();
-
     controller = TextEditingController();
+    if (status == true) {
+      startBgMusic();
+    }
   }
 
   @override
   void dispose() {
     controller.dispose();
-
+    _assetsAudioPlayer.dispose();
+    print('dispose');
     super.dispose();
   }
 
@@ -117,9 +133,14 @@ class _SettingsPageState extends State<SettingsPage> {
           if (status == true) {
             status = false;
             print(status);
+            _assetsAudioPlayer.setVolume(0.0);
           } else if (status == false) {
             status = true;
             print(status);
+            _assetsAudioPlayer.setVolume(0.5);
+            if (_assetsAudioPlayer.isPlaying.value == false) {
+              startBgMusic();
+            }
           }
           setState(() {
             status = val;
@@ -218,9 +239,19 @@ class _SettingsPageState extends State<SettingsPage> {
                   trailing: toggleSwitch(),
                   onTap: () => {
                     if (status == true)
-                      {status = false, print(status)}
+                      {
+                        status = false,
+                        print(status),
+                        _assetsAudioPlayer.setVolume(0.0)
+                      }
                     else if (status == false)
-                      {status = true, print(status)},
+                      {
+                        status = true,
+                        print(status),
+                        _assetsAudioPlayer.setVolume(0.5),
+                        if (_assetsAudioPlayer.isPlaying.value == false)
+                          {startBgMusic()}
+                      },
                     setState(() {
                       status = status;
                     })
