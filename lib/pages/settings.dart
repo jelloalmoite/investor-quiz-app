@@ -36,7 +36,6 @@ class _SettingsPageState extends State<SettingsPage> {
       volume: 0.5,
       playInBackground: PlayInBackground.disabledRestoreOnForeground,
     );
-    //_assetsAudioPlayer.'something' [ndi nagana sa initState()]
   }
 
   @override
@@ -61,7 +60,7 @@ class _SettingsPageState extends State<SettingsPage> {
     initialRating: 5.0,
     // your app's name?
     title: const Text(
-      'Investor Quiz App',
+      'inQui',
       textAlign: TextAlign.center,
       style: TextStyle(
         color: Colors.black,

@@ -1,10 +1,12 @@
 import 'dart:async';
 import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:investor_quizapp/pages/settings.dart';
 import '/pages/result.dart';
 import '/data/questionandanswer.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:assets_audio_player/assets_audio_player.dart';
 
 var quiz = QuestionAnswer(); //place database in a variable
 var totalQuizQuest =
@@ -44,6 +46,18 @@ class Quiz extends StatefulWidget {
 }
 
 class _QuizState extends State<Quiz> {
+  late final AssetsAudioPlayer _assetsAudioPlayerQuiz = AssetsAudioPlayer();
+
+  void startBgMusic() {
+    _assetsAudioPlayerQuiz.open(
+      Audio('assets/music/Progress.mp3'),
+      autoStart: true,
+      loopMode: LoopMode.single,
+      volume: 0.5,
+      playInBackground: PlayInBackground.disabledRestoreOnForeground,
+    );
+  }
+
   //Generate random number from 0 to number of question
   int randomNumber = Random().nextInt(2);
   //widget for choices
@@ -111,10 +125,21 @@ class _QuizState extends State<Quiz> {
   bool canceltimer = false;
   int timeLeft = 30;
   var timestring = "30";
+
   @override
   void initState() {
-    starttimer();
     super.initState();
+    starttimer();
+    if (status == true) {
+      startBgMusic();
+    }
+  }
+
+  @override
+  void dispose() {
+    _assetsAudioPlayerQuiz.dispose();
+    print('dispose');
+    super.dispose();
   }
 
 //timer countdown function

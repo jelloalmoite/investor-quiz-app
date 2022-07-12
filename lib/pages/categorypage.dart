@@ -1,8 +1,6 @@
 // ignore_for_file: file_names, prefer_typing_uninitialized_variables
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
-import '/main.dart';
 import '/pages/quiz.dart';
 import 'package:toggle_switch/toggle_switch.dart';
 import 'package:url_launcher/link.dart';
@@ -77,10 +75,7 @@ class _CategoryPage extends State<CategoryPage> {
     final Size size = MediaQuery.of(context).size;
     return WillPopScope(
       onWillPop: () {
-        Navigator.pushAndRemoveUntil(
-            context,
-            MaterialPageRoute(builder: (context) => const MainPage()),
-            (Route<dynamic> route) => false);
+        Navigator.pop(context);
         return Future.value(false);
       },
       child: Scaffold(
@@ -93,12 +88,7 @@ class _CategoryPage extends State<CategoryPage> {
               icon: const Icon(Icons.arrow_back_ios_rounded),
               iconSize: 35,
               color: Colors.black,
-              onPressed: () => {
-                Navigator.pushAndRemoveUntil(
-                    context,
-                    MaterialPageRoute(builder: (context) => const MainPage()),
-                    (Route<dynamic> route) => false)
-              },
+              onPressed: () => {Navigator.pop(context)},
             ),
           ),
           body: SafeArea(
@@ -265,7 +255,7 @@ class _CategoryPage extends State<CategoryPage> {
   }
 
 //function for button redirecting quiz page
-  void toQuiz(x) {
+  toQuiz(x) {
     var nums, titles;
     if (x == 0) {
       //for finance quiz
@@ -284,10 +274,11 @@ class _CategoryPage extends State<CategoryPage> {
       nums = "3";
       titles = "Capital_Market";
     }
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => Quiz(y: nums, titl: titles)),
-    );
+    Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (context) => Quiz(y: nums, titl: titles)),
+        (Route<dynamic> route) => false);
+    return Future.value(false);
   }
 }
 

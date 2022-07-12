@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:investor_quizapp/pages/details.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:percent_indicator/percent_indicator.dart';
+import '/main.dart';
 import '/pages/quiz.dart';
 
 class Result extends StatefulWidget {
@@ -78,9 +79,11 @@ class _ResultState extends State<Result> {
   @override
   Widget build(BuildContext context) => WillPopScope(
         onWillPop: () {
-          Navigator.pop(context);
-          Navigator.pop(context);
           reset();
+          Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(builder: (context) => const MainPage()),
+              (Route<dynamic> route) => false);
           return Future.value(false);
         },
         child: Scaffold(
@@ -210,9 +213,12 @@ class _ResultState extends State<Result> {
                               ),
                             ),
                             onPressed: () => {
-                              Navigator.pop(context),
-                              Navigator.pop(context),
-                              reset()
+                              reset(),
+                              Navigator.pushAndRemoveUntil(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => const MainPage()),
+                                  (Route<dynamic> route) => false),
                             },
                             splashColor: const Color.fromRGBO(5, 195, 107, 50),
                           ),
