@@ -10,6 +10,8 @@ import 'package:path/path.dart';
 import 'package:investor_quizapp/pages/documents.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 import 'package:assets_audio_player/assets_audio_player.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 var documents = Documents();
 bool status = true; //For Toggle Switch on Sounds Button
@@ -346,7 +348,7 @@ class _SettingsPageState extends State<SettingsPage> {
             autofocus: true,
             decoration: const InputDecoration(hintText: 'Enter Your Name'),
             controller: controller,
-            onSubmitted: (_) => submitText(context),
+            onSubmitted: (_) => submitTextName(context),
           ),
           actions: [
             TextButton(
@@ -361,7 +363,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 ),
               ),
               onPressed: () {
-                submitText(context);
+                submitTextName(context);
               },
             ),
           ],
@@ -389,7 +391,7 @@ class _SettingsPageState extends State<SettingsPage> {
               border: OutlineInputBorder(),
             ),
             controller: controller,
-            onSubmitted: (_) => submitText(context),
+            onSubmitted: (_) => submitTextReport(context),
           ),
           actions: [
             Container(
@@ -409,7 +411,12 @@ class _SettingsPageState extends State<SettingsPage> {
                   backgroundColor: const Color.fromRGBO(5, 195, 107, 50),
                   icon: const Icon(Icons.send_outlined, size: 18),
                   onPressed: () {
-                    submitText(context);
+                    submitTextReport(context);
+                    launchEmail(
+                      toEmail: "investorquizapp.mghs@gmail.com",
+                      subject: "Bug Report",
+                      message: controller.text,
+                    );
                   },
                 ),
               ),
@@ -418,7 +425,25 @@ class _SettingsPageState extends State<SettingsPage> {
         ),
       );
 
-  void submitText(BuildContext context) {
+  Future launchEmail({
+    required String toEmail,
+    required String subject,
+    required String message,
+  }) async {
+    final url =
+        'mailto:$toEmail?subject=${Uri.encodeFull(subject)}&body=${Uri.encodeFull(message)}';
+
+    if (await canLaunchUrlString(url)) {
+      await launchUrlString(url);
+    }
+  }
+
+  void submitTextName(BuildContext context) {
+    Navigator.of(context).pop(controller.text);
+    setState(() => name = name);
+  }
+
+  void submitTextReport(BuildContext context) {
     Navigator.of(context).pop(controller.text);
     setState(() => name = name);
   }
