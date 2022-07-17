@@ -82,7 +82,8 @@ class _ResultState extends State<Result> {
           reset();
           Navigator.pushAndRemoveUntil(
               context,
-              MaterialPageRoute(builder: (context) => const MainPage()),
+              MaterialPageRoute(
+                  builder: (context) => const MainPage(chosenIndex: 0)),
               (Route<dynamic> route) => false);
           return Future.value(false);
         },
@@ -217,7 +218,8 @@ class _ResultState extends State<Result> {
                               Navigator.pushAndRemoveUntil(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => const MainPage()),
+                                      builder: (context) =>
+                                          const MainPage(chosenIndex: 0)),
                                   (Route<dynamic> route) => false),
                             },
                             splashColor: const Color.fromRGBO(5, 195, 107, 50),

@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -9,6 +10,8 @@ import '/pages/categoryStats.dart';
 var cat1 = 0, cat2 = 0, cat3 = 0;
 
 final categoryboxa = Hive.box("Profile_data");
+final profilebox = Hive.box('User_info');
+final avatarbox = Hive.box('avatar');
 var pFq,
     pFc,
     pFw,
@@ -32,7 +35,10 @@ var pFq,
     tLm,
     tLs,
     tS,
-    tA;
+    tA,
+    name,
+    email,
+    avatar;
 
 nullToZero(int? num) {
   if (num == null) {
@@ -55,6 +61,8 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
+  File? image;
+
   @override
   void initState() {
     pFq = categoryboxa.get('Personal_FinancenumQuestion');
@@ -87,6 +95,29 @@ class _ProfilePageState extends State<ProfilePage> {
       cat1 = pFc;
       cat2 = iPMc;
       cat3 = bFc;
+    }
+
+    setState(() {
+      //////////FOR NAME AND EMAIL////////// START
+      if (profilebox.isEmpty) {
+        profilebox.put('username', "Anonymous User");
+        profilebox.put('useremail', "No email");
+      }
+      name = profilebox.get('username');
+      email = profilebox.get('useremail');
+      //////////FOR NAME AND EMAIL////////// END
+
+      //////////avatar////////// START
+      // if (avatarbox.isEmpty) {
+      //   avatarbox.put(
+      //       'avatar', 'assets/images/logo.png'); //default avatar profile
+      // }
+      avatar = avatarbox.get('avatar');
+      /////////////avatar////////// END
+    });
+
+    if (avatar != null) {
+      image = File(avatar);
     }
 
     super.initState();
@@ -195,6 +226,7 @@ class _ProfilePageState extends State<ProfilePage> {
       );
     }
 
+    final Size size = MediaQuery.of(context).size;
     return Scaffold(
       extendBodyBehindAppBar: true,
       backgroundColor: const Color.fromRGBO(81, 231, 168, 1),
@@ -220,7 +252,7 @@ class _ProfilePageState extends State<ProfilePage> {
       ),
       body: SafeArea(
         child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             mainAxisSize: MainAxisSize.max,
             children: <Widget>[
@@ -230,38 +262,30 @@ class _ProfilePageState extends State<ProfilePage> {
                   mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
                     Container(
+                      margin: const EdgeInsets.fromLTRB(30, 0, 30, 0),
                       height: 100,
                       width: 100,
-                      decoration: const BoxDecoration(
-                        image: DecorationImage(
-                          image: AssetImage('assets/images/logo.png'),
-                          fit: BoxFit.cover,
-                        ),
-                        shape: BoxShape.circle,
-                      ),
+                      child: image != null
+                          ? ClipOval(
+                              child: Image.file(image!, fit: BoxFit.cover))
+                          : const Icon(
+                              Icons.account_circle_outlined,
+                              size: 100,
+                              color: Colors.black,
+                            ),
                     ),
-                    const SizedBox(width: 20),
-                    RichText(
-                      text: const TextSpan(children: [
-                        TextSpan(
-                          text: "Tzuyu Chou",
-                          style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 24,
-                              fontFamily: 'Poppins-Medium',
-                              fontWeight: FontWeight.w600,
-                              height: 1),
-                        ),
-                        TextSpan(
-                          text: "\nchoutzuyu@gmail.com",
-                          style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 19,
-                              fontFamily: 'Poppins',
-                              fontWeight: FontWeight.w500,
-                              height: 1),
-                        ),
-                      ]),
+                    SizedBox(
+                      width: size.width * 0.6,
+                      child: AutoSizeText(
+                        name.toString(), //name
+                        maxLines: 3,
+                        style: const TextStyle(
+                            color: Colors.black,
+                            fontSize: 24,
+                            fontFamily: 'Poppins-Medium',
+                            fontWeight: FontWeight.w600,
+                            height: 1),
+                      ),
                     ),
                   ]),
               const SizedBox(height: 8.0),

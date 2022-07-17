@@ -12,6 +12,12 @@ import 'package:flutter_switch/flutter_switch.dart';
 import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:url_launcher/url_launcher_string.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+import '/main.dart';
+
+var name, email, avatar;
+final profilebox = Hive.box('User_info');
+final avatarbox = Hive.box('avatar');
 
 var documents = Documents();
 bool status = true; //For Toggle Switch on Sounds Button
@@ -28,6 +34,7 @@ class _SettingsPageState extends State<SettingsPage> {
   String name = ' ';
   String bugReport = ' ';
   File? image;
+  String? imagePath;
   late final AssetsAudioPlayer _assetsAudioPlayer = AssetsAudioPlayer();
 
   void startBgMusic() {
@@ -47,6 +54,25 @@ class _SettingsPageState extends State<SettingsPage> {
     if (status == true) {
       startBgMusic();
     }
+
+    //////////FOR NAME AND EMAIL////////// START
+    if (profilebox.isEmpty) {
+      profilebox.put('username', "Anonymous User");
+      profilebox.put('useremail', "No email");
+    }
+    //////////FOR NAME AND EMAIL////////// END
+
+    //////////avatar////////// START
+    // if (avatarbox.isEmpty) {
+    //   avatarbox.put(
+    //       'avatar', 'assets/images/logo.png'); //default avatar profile
+    // }
+    avatar = avatarbox.get('avatar');
+
+    if (avatar != null) {
+      image = File(avatar);
+    }
+    /////////////avatar////////// END
   }
 
   @override
@@ -267,7 +293,10 @@ class _SettingsPageState extends State<SettingsPage> {
                   "Avatar",
                   const Icon(Icons.account_circle_outlined,
                       color: Colors.black),
-                  () => {openAvatarDialog(context)}),
+                  () => {
+                        if (avatar != null) {image = File(avatar)},
+                        openAvatarDialog(context)
+                      }),
               settingCard(
                 "Name",
                 const Icon(Icons.account_circle, color: Colors.black),
@@ -278,11 +307,10 @@ class _SettingsPageState extends State<SettingsPage> {
                   }
                 },
               ),
-
-              settingCard(
-                  "Linked Account",
-                  const Icon(Icons.link_outlined, color: Colors.black),
-                  () => {}),
+              // settingCard(
+              //     "Linked Account",
+              //     const Icon(Icons.link_outlined, color: Colors.black),
+              //     () => {}),
 
               const SizedBox(height: 12.0),
 
@@ -364,6 +392,7 @@ class _SettingsPageState extends State<SettingsPage> {
               ),
               onPressed: () {
                 submitTextName(context);
+                profilebox.put('username', controller.text);
               },
             ),
           ],
@@ -439,13 +468,27 @@ class _SettingsPageState extends State<SettingsPage> {
   }
 
   void submitTextName(BuildContext context) {
-    Navigator.of(context).pop(controller.text);
+    Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (context) => const MainPage(chosenIndex: 3)),
+        (Route<dynamic> route) => false);
+    //Navigator.of(context).pop(controller.text);
     setState(() => name = name);
   }
 
   void submitTextReport(BuildContext context) {
     Navigator.of(context).pop(controller.text);
-    setState(() => name = name);
+  }
+
+  void submitAvatar(BuildContext context) {
+    Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (context) => const MainPage(chosenIndex: 3)),
+        (Route<dynamic> route) => false);
+    //Navigator.of(context).pop();
+    if (imagePath != null) {
+      avatarbox.put('avatar', imagePath);
+    }
   }
 
   //For PDF/Docs Reader(Getting text content of file)
@@ -581,6 +624,7 @@ class _SettingsPageState extends State<SettingsPage> {
     final name = basename(imagePath);
     final image = File('${directory.path}/$name');
 
+    this.imagePath = imagePath;
     return File(imagePath).copy(image.path);
   }
 
@@ -607,8 +651,11 @@ class _SettingsPageState extends State<SettingsPage> {
                     width: 100,
                     child: image != null
                         ? ClipOval(child: Image.file(image!, fit: BoxFit.cover))
-                        : const Image(
-                            image: AssetImage('assets/images/logo.png')),
+                        : const Icon(
+                            Icons.account_circle_outlined,
+                            size: 100,
+                            color: Colors.black,
+                          ),
                   ),
                   const SizedBox(height: 20),
                   buildButton('Gallery', Icons.photo_library_rounded,
@@ -630,7 +677,9 @@ class _SettingsPageState extends State<SettingsPage> {
                   letterSpacing: 1,
                 ),
               ),
-              onPressed: () => {},
+              onPressed: () => {
+                submitAvatar(context),
+              },
             )
           ],
         ),

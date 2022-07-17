@@ -16,6 +16,8 @@ void main() async {
   await Hive.openBox('Behavioral_Finance');
   await Hive.openBox('Capital_Market');
   await Hive.openBox('Profile_data');
+  await Hive.openBox('User_info');
+  await Hive.openBox('avatar');
   runApp(const MyApp());
 }
 
@@ -28,7 +30,7 @@ class SplashScreen extends StatelessWidget {
       splash: Image.asset('assets/images/logo_animated.gif',
           height: 280, width: 280),
       backgroundColor: Colors.white,
-      nextScreen: const MainPage(),
+      nextScreen: const MainPage(chosenIndex: 0),
       splashIconSize: 280,
       duration: 3000, //1000 = 1 sec (default 2500)
       pageTransitionType: PageTransitionType.leftToRightWithFade,
@@ -71,7 +73,8 @@ const MaterialColor myColor = MaterialColor(0xFF51E7A8, <int, Color>{
 });
 
 class MainPage extends StatefulWidget {
-  const MainPage({Key? key}) : super(key: key);
+  final int? chosenIndex;
+  const MainPage({Key? key, required this.chosenIndex}) : super(key: key);
 
   @override
   State<MainPage> createState() => _MainPageState();
@@ -80,12 +83,20 @@ class MainPage extends StatefulWidget {
 class _MainPageState extends State<MainPage> {
   int selectedIndex = 0;
   final screens = [
-    HomePage(),
+    const HomePage(),
     const HistoryPages(),
     const ProfilePage(),
     const SettingsPage(),
   ];
   DateTime? lastPressed;
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.chosenIndex != null) {
+      selectedIndex = widget.chosenIndex!;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
