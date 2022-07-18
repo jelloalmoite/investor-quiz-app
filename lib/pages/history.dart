@@ -64,6 +64,7 @@ class _HistoryPageState extends State<HistoryPage> {
 
   @override
   Widget build(BuildContext context) {
+    final Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -112,69 +113,73 @@ class _HistoryPageState extends State<HistoryPage> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: <Widget>[
-                          Column(
-                            children: <Widget>[
-                              //==========================Circular_Percent_Indicator
-                              SizedBox(
-                                width: 120,
-                                height: 120,
-                                child: CircularPercentIndicator(
-                                  radius: 60.0,
-                                  lineWidth: 12.0,
-                                  animation: true,
-                                  percent:
-                                      int.parse(currentItem['numCorrect']) /
-                                          totalQuizQuest,
-                                  center: Text(
-                                    ((int.parse(currentItem['numCorrect']) /
-                                                    10) *
-                                                100)
-                                            .toInt()
-                                            .toString() +
-                                        "%",
-                                    style: const TextStyle(
-                                        fontFamily: 'Poppins-SemiBold',
-                                        fontWeight: FontWeight.w600,
-                                        fontSize: 30.0),
-                                  ),
-                                  circularStrokeCap: CircularStrokeCap.round,
-                                  progressColor:
-                                      const Color.fromRGBO(5, 195, 107, 100),
-                                  backgroundColor:
-                                      const Color.fromRGBO(83, 215, 80, 0.3),
-                                ),
-                              ),
-                              const SizedBox(height: 10),
-                              //==========================Details_Button
-                              SizedBox(
-                                width: 120,
-                                height: 30,
-                                child: MaterialButton(
-                                  color: const Color.fromRGBO(81, 231, 168, 1),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(15),
-                                  ),
-                                  child: const Text(
-                                    "Details",
-                                    style: TextStyle(
-                                      fontFamily: 'Poppins-Medium',
-                                      fontSize: 20.0,
-                                      fontWeight: FontWeight.w600,
+                          Container(
+                            margin: const EdgeInsets.fromLTRB(0, 0, 10, 0),
+                            width: size.width * 0.3,
+                            child: Column(
+                              children: <Widget>[
+                                //==========================Circular_Percent_Indicator
+                                SizedBox(
+                                  width: 120,
+                                  height: 120,
+                                  child: CircularPercentIndicator(
+                                    radius: 60.0,
+                                    lineWidth: 12.0,
+                                    animation: true,
+                                    percent:
+                                        int.parse(currentItem['numCorrect']) /
+                                            totalQuizQuest,
+                                    center: Text(
+                                      ((int.parse(currentItem['numCorrect']) /
+                                                      10) *
+                                                  100)
+                                              .toInt()
+                                              .toString() +
+                                          "%",
+                                      style: const TextStyle(
+                                          fontFamily: 'Poppins-SemiBold',
+                                          fontWeight: FontWeight.w600,
+                                          fontSize: 30.0),
                                     ),
+                                    circularStrokeCap: CircularStrokeCap.round,
+                                    progressColor:
+                                        const Color.fromRGBO(5, 195, 107, 100),
+                                    backgroundColor:
+                                        const Color.fromRGBO(83, 215, 80, 0.3),
                                   ),
-                                  onPressed: () => {
-                                    tohistoryDetails(
-                                        currentItem['questions'],
-                                        currentItem['answers'],
-                                        currentItem['correctAnswer'])
-                                  },
-                                  splashColor:
-                                      const Color.fromRGBO(5, 195, 107, 100),
                                 ),
-                              ),
-                            ],
+                                const SizedBox(height: 10),
+                                //==========================Details_Button
+                                SizedBox(
+                                  width: 120,
+                                  height: 30,
+                                  child: MaterialButton(
+                                    color:
+                                        const Color.fromRGBO(81, 231, 168, 1),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(15),
+                                    ),
+                                    child: const Text(
+                                      "Details",
+                                      style: TextStyle(
+                                        fontFamily: 'Poppins-Medium',
+                                        fontSize: 20.0,
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                    ),
+                                    onPressed: () => {
+                                      tohistoryDetails(
+                                          currentItem['questions'],
+                                          currentItem['answers'],
+                                          currentItem['correctAnswer'])
+                                    },
+                                    splashColor:
+                                        const Color.fromRGBO(5, 195, 107, 100),
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
-                          const SizedBox(width: 20),
                           Column(
                             children: <Widget>[
                               //==========================Time_Taken
@@ -204,15 +209,14 @@ class _HistoryPageState extends State<HistoryPage> {
                               ),
                               Row(
                                 crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
+                                mainAxisAlignment: MainAxisAlignment.center,
                                 children: <Widget>[
                                   //==========================Correct
                                   Column(
                                     children: [
                                       Container(
-                                        height: 40,
-                                        width: 40,
+                                        height: 30,
+                                        width: 30,
                                         decoration: BoxDecoration(
                                           color: Colors.green,
                                           borderRadius:
@@ -233,20 +237,20 @@ class _HistoryPageState extends State<HistoryPage> {
                                         child: Text(
                                           "Correct",
                                           style: TextStyle(
-                                            fontSize: 12,
+                                            fontSize: 10,
                                             fontFamily: 'Poppins-Medium',
                                           ),
                                         ),
                                       ),
                                     ],
                                   ),
-                                  const SizedBox(width: 12),
+                                  const SizedBox(width: 6),
                                   //==========================Skipped
                                   Column(
                                     children: [
                                       Container(
-                                        height: 40,
-                                        width: 40,
+                                        height: 30,
+                                        width: 30,
                                         decoration: BoxDecoration(
                                           color: Colors.yellow,
                                           borderRadius:
@@ -267,20 +271,20 @@ class _HistoryPageState extends State<HistoryPage> {
                                         child: Text(
                                           "Skipped",
                                           style: TextStyle(
-                                            fontSize: 12,
+                                            fontSize: 10,
                                             fontFamily: 'Poppins-Medium',
                                           ),
                                         ),
                                       ),
                                     ],
                                   ),
-                                  const SizedBox(width: 12),
+                                  const SizedBox(width: 6),
                                   //==========================Wrong
                                   Column(
                                     children: [
                                       Container(
-                                        height: 40,
-                                        width: 40,
+                                        height: 30,
+                                        width: 30,
                                         decoration: BoxDecoration(
                                           color: Colors.red,
                                           borderRadius:
@@ -301,7 +305,7 @@ class _HistoryPageState extends State<HistoryPage> {
                                         child: Text(
                                           "Wrong",
                                           style: TextStyle(
-                                            fontSize: 12,
+                                            fontSize: 10,
                                             fontFamily: 'Poppins-Medium',
                                           ),
                                         ),

@@ -171,7 +171,8 @@ class _ProfilePageState extends State<ProfilePage> {
     }
   }
 
-  Widget category(String image, String title, Color color, VoidCallback func) {
+  Widget category(String image, String title, Color color, VoidCallback func,
+      double widthSize) {
     return Material(
       borderRadius: BorderRadius.circular(15),
       clipBehavior: Clip.antiAliasWithSaveLayer,
@@ -194,7 +195,7 @@ class _ProfilePageState extends State<ProfilePage> {
               ),
               const SizedBox(width: 12),
               SizedBox(
-                width: 200,
+                width: widthSize * 0.45,
                 child: AutoSizeText(
                   title,
                   maxLines: 3,
@@ -256,44 +257,45 @@ class _ProfilePageState extends State<ProfilePage> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             mainAxisSize: MainAxisSize.max,
             children: <Widget>[
-              Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.min,
-                  children: <Widget>[
-                    Container(
-                      margin: const EdgeInsets.fromLTRB(30, 0, 30, 0),
-                      height: 100,
-                      width: 100,
-                      child: image != null
-                          ? ClipOval(
-                              child: Image.file(image!, fit: BoxFit.cover))
-                          : const Icon(
-                              Icons.account_circle_outlined,
-                              size: 100,
-                              color: Colors.black,
-                            ),
-                    ),
-                    SizedBox(
-                      width: size.width * 0.6,
-                      child: AutoSizeText(
-                        name.toString(), //name
-                        maxLines: 3,
-                        style: const TextStyle(
-                            color: Colors.black,
-                            fontSize: 24,
-                            fontFamily: 'Poppins-Medium',
-                            fontWeight: FontWeight.w600,
-                            height: 1),
+              Container(
+                height: size.height * 0.18,
+                child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: <Widget>[
+                      Container(
+                        margin: const EdgeInsets.fromLTRB(20, 0, 20, 0),
+                        height: 100,
+                        width: 100,
+                        child: image != null
+                            ? ClipOval(
+                                child: Image.file(image!, fit: BoxFit.cover))
+                            : const Icon(
+                                Icons.account_circle_outlined,
+                                size: 100,
+                                color: Colors.black,
+                              ),
                       ),
-                    ),
-                  ]),
-              const SizedBox(height: 8.0),
-              const Padding(padding: EdgeInsets.all(6.0)),
+                      Container(
+                        margin: const EdgeInsets.fromLTRB(0, 0, 20, 0),
+                        width: size.width * 0.6,
+                        child: AutoSizeText(
+                          name.toString(), //name
+                          maxLines: 3,
+                          style: const TextStyle(
+                              color: Colors.black,
+                              fontSize: 24,
+                              fontFamily: 'Poppins-Medium',
+                              fontWeight: FontWeight.w600,
+                              height: 1),
+                        ),
+                      ),
+                    ]),
+              ),
 
               //White Box
               Container(
-                height: 410,
+                height: size.height * 0.6, //410
                 padding: const EdgeInsets.fromLTRB(30, 15, 30, 15),
                 child: Column(
                   children: [
@@ -537,7 +539,8 @@ class _ProfilePageState extends State<ProfilePage> {
                                       nullToZero(pFc),
                                       nullToZero(pFw),
                                       nullToZero(pFss))
-                                }),
+                                },
+                            size.width),
                         const SizedBox(height: 10),
                         category(
                             "assets/images/investment_and_portfolio_management.png",
@@ -562,7 +565,8 @@ class _ProfilePageState extends State<ProfilePage> {
                                             Color.fromARGB(255, 170, 7, 7),
                                       ))
                                     }
-                                }),
+                                },
+                            size.width),
                         const SizedBox(height: 10),
                         category(
                             "assets/images/behavioral_finance.png",
@@ -584,7 +588,8 @@ class _ProfilePageState extends State<ProfilePage> {
                                             Color.fromARGB(255, 170, 7, 7),
                                       ))
                                     }
-                                }),
+                                },
+                            size.width),
                         const SizedBox(height: 10),
                         category(
                             "assets/images/capital_markets.png",
@@ -606,7 +611,8 @@ class _ProfilePageState extends State<ProfilePage> {
                                             Color.fromARGB(255, 170, 7, 7),
                                       ))
                                     }
-                                }),
+                                },
+                            size.width),
                       ]),
                     ),
                   ],
