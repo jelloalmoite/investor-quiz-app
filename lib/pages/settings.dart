@@ -287,7 +287,7 @@ class _SettingsPageState extends State<SettingsPage> {
               ),
               const SizedBox(height: 12.0),
               //ACCOUNT
-              settingText("Account"),
+              settingText("Profile"),
               const SizedBox(height: 4.0),
               settingCard(
                   "Avatar",
