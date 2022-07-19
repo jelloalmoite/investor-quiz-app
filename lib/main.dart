@@ -7,9 +7,11 @@ import '/pages/settings.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  MobileAds.instance.initialize();
   await Hive.initFlutter();
   await Hive.openBox('Personal_Finance');
   await Hive.openBox('Investment_and_Portfolio_Management');
@@ -81,6 +83,26 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
+  late BannerAd _bannerAd;
+  bool _isAdLoaded = false;
+
+  _initBannerAd() {
+    _bannerAd = BannerAd(
+      adUnitId: "ca-app-pub-3940256099942544/6300978111",
+      size: AdSize.banner,
+      request: AdRequest(),
+      listener: BannerAdListener(
+          onAdLoaded: (ad) {
+            setState(() {
+              _isAdLoaded = true;
+            });
+          },
+          onAdFailedToLoad: (ad, error) {}),
+    );
+
+    _bannerAd.load();
+  }
+
   int selectedIndex = 0;
   final screens = [
     const HomePage(),
@@ -93,6 +115,7 @@ class _MainPageState extends State<MainPage> {
   @override
   void initState() {
     super.initState();
+    _initBannerAd();
     if (widget.chosenIndex != null) {
       selectedIndex = widget.chosenIndex!;
     }
@@ -124,6 +147,17 @@ class _MainPageState extends State<MainPage> {
         }
       },
       child: Scaffold(
+        appBar: AppBar(
+          elevation: 3,
+          centerTitle: true,
+          title: _isAdLoaded
+              ? SizedBox(
+                  height: _bannerAd.size.height.toDouble(),
+                  width: _bannerAd.size.width.toDouble(),
+                  child: AdWidget(ad: _bannerAd),
+                )
+              : const SizedBox(),
+        ),
         body: IndexedStack(
           index: selectedIndex,
           children: screens,
@@ -133,11 +167,11 @@ class _MainPageState extends State<MainPage> {
             indicatorColor: const Color.fromRGBO(81, 231, 168, 1),
             labelTextStyle: MaterialStateProperty.all(const TextStyle(
                 fontFamily: 'Poppins',
-                fontSize: 14,
+                fontSize: 12,
                 fontWeight: FontWeight.bold)),
           ),
           child: NavigationBar(
-            height: 70,
+            height: 60,
             selectedIndex: selectedIndex,
             onDestinationSelected: (index) =>
                 setState(() => selectedIndex = index),

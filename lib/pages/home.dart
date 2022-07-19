@@ -88,7 +88,7 @@ class _HomePageState extends State<HomePage> {
   //==========Category card image/icon
   cardImage(String title, String image) {
     Image picture = Image(
-        image: AssetImage(image), height: 130, width: 130, fit: BoxFit.cover);
+        image: AssetImage(image), height: 110, width: 110, fit: BoxFit.cover);
 
     if (title == 'Personal Finance') {
       return picture;
@@ -106,7 +106,7 @@ class _HomePageState extends State<HomePage> {
   Widget category(String title, String image, Color color1, Color color2,
       VoidCallback func, int catNo) {
     return Container(
-      height: 210,
+      height: 190,
       width: 160,
       decoration: BoxDecoration(
         gradient: LinearGradient(
@@ -246,7 +246,7 @@ class _HomePageState extends State<HomePage> {
                         fontSize: 18,
                         fontFamily: 'Poppins',
                         fontWeight: FontWeight.w500,
-                        height: 2,
+                        height: 0,
                         letterSpacing: 0.5,
                       )),
                 ],

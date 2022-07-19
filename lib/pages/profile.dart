@@ -258,15 +258,15 @@ class _ProfilePageState extends State<ProfilePage> {
             mainAxisSize: MainAxisSize.max,
             children: <Widget>[
               Container(
-                height: size.height * 0.18,
+                height: size.height * 0.12,
                 child: Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: <Widget>[
                       Container(
                         margin: const EdgeInsets.fromLTRB(20, 0, 20, 0),
-                        height: 100,
-                        width: 100,
+                        height: 80,
+                        width: 80,
                         child: image != null
                             ? ClipOval(
                                 child: Image.file(image!, fit: BoxFit.cover))
@@ -284,7 +284,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           maxLines: 3,
                           style: const TextStyle(
                               color: Colors.black,
-                              fontSize: 24,
+                              fontSize: 20,
                               fontFamily: 'Poppins-Medium',
                               fontWeight: FontWeight.w600,
                               height: 1),
@@ -295,7 +295,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
               //White Box
               Container(
-                height: size.height * 0.6, //410
+                height: size.height * 0.58, //410
                 padding: const EdgeInsets.fromLTRB(30, 15, 30, 15),
                 child: Column(
                   children: [
@@ -313,21 +313,21 @@ class _ProfilePageState extends State<ProfilePage> {
                           children: <Widget>[
                             //=====Score
                             SizedBox(
-                              height: 90,
-                              width: 90,
+                              height: 75,
+                              width: 75,
                               child: Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: <Widget>[
                                     const Icon(
                                       Icons.star_border_outlined,
-                                      size: 30,
+                                      size: 25,
                                       color: Colors.black,
                                     ),
                                     const Text(
                                       'SCORE',
                                       style: TextStyle(
                                           color: Colors.black,
-                                          fontSize: 15,
+                                          fontSize: 13,
                                           fontFamily: 'Poppins',
                                           fontWeight: FontWeight.w500),
                                     ),
@@ -335,7 +335,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                       nullToZero(tS).toString(),
                                       style: const TextStyle(
                                           color: Colors.black,
-                                          fontSize: 30,
+                                          fontSize: 25,
                                           fontFamily: 'Poppins-Medium',
                                           fontWeight: FontWeight.w500,
                                           height: 1.1),
@@ -344,7 +344,7 @@ class _ProfilePageState extends State<ProfilePage> {
                             ),
                             //=====Divider
                             Container(
-                              height: 70,
+                              height: 60,
                               width: 4,
                               decoration: BoxDecoration(
                                   color: Colors.black,
@@ -352,21 +352,21 @@ class _ProfilePageState extends State<ProfilePage> {
                             ),
                             //=====Attempts
                             SizedBox(
-                              height: 90,
-                              width: 90,
+                              height: 75,
+                              width: 75,
                               child: Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: <Widget>[
                                     const Icon(
                                       Icons.restart_alt_outlined,
-                                      size: 30,
+                                      size: 25,
                                       color: Colors.black,
                                     ),
                                     const Text(
                                       'ATTEMPTS',
                                       style: TextStyle(
                                           color: Colors.black,
-                                          fontSize: 15,
+                                          fontSize: 13,
                                           fontFamily: 'Poppins',
                                           fontWeight: FontWeight.w500),
                                     ),
@@ -374,7 +374,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                       nullToZero(tA).toString(),
                                       style: const TextStyle(
                                           color: Colors.black,
-                                          fontSize: 30,
+                                          fontSize: 25,
                                           fontFamily: 'Poppins-Medium',
                                           fontWeight: FontWeight.w500,
                                           height: 1.1),
@@ -384,7 +384,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           ]),
                     ),
                     SizedBox(
-                      height: 260,
+                      height: size.height * 0.38,
                       child: ListView(children: <Widget>[
                         //Accuracy
                         Row(
