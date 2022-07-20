@@ -55,6 +55,10 @@ class _QuizState extends State<Quiz> {
       loopMode: LoopMode.single,
       volume: 0.5,
       playInBackground: PlayInBackground.disabledRestoreOnForeground,
+      audioFocusStrategy: const AudioFocusStrategy.request(
+        resumeAfterInterruption: true,
+        resumeOthersPlayersAfterDone: true,
+      ),
     );
   }
 

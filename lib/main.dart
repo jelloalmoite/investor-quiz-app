@@ -133,7 +133,7 @@ class _MainPageState extends State<MainPage> {
         if (isWarning) {
           lastPressed = DateTime.now();
           final snackBar = SnackBar(
-            content: const Text('Double Tap to Close App'),
+            content: const Text('Press back again to leave'),
             duration: maxDuration,
           );
 

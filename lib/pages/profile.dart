@@ -187,6 +187,8 @@ class _ProfilePageState extends State<ProfilePage> {
             borderRadius: BorderRadius.circular(15),
           ),
           child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: <Widget>[
               SizedBox(
                 height: 80,
@@ -203,8 +205,8 @@ class _ProfilePageState extends State<ProfilePage> {
                     color: Colors.black,
                     fontFamily: 'Poppins-SemiBold',
                     fontWeight: FontWeight.bold,
-                    fontSize: 24,
-                    letterSpacing: 4.0,
+                    fontSize: 22,
+                    letterSpacing: 1.0,
                     height: 0.9,
                   ),
                 ),

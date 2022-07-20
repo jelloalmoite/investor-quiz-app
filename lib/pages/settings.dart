@@ -44,6 +44,10 @@ class _SettingsPageState extends State<SettingsPage> {
       loopMode: LoopMode.single,
       volume: 0.5,
       playInBackground: PlayInBackground.disabledRestoreOnForeground,
+      audioFocusStrategy: const AudioFocusStrategy.request(
+        resumeAfterInterruption: true,
+        resumeOthersPlayersAfterDone: true,
+      ),
     );
   }
 
@@ -85,6 +89,7 @@ class _SettingsPageState extends State<SettingsPage> {
 
   //==========Start of Rating
   final _dialog = RatingDialog(
+    starSize: 30.0,
     initialRating: 5.0,
     // your app's name?
     title: const Text(
@@ -373,6 +378,7 @@ class _SettingsPageState extends State<SettingsPage> {
             ),
           ),
           content: TextField(
+            maxLength: 80,
             autofocus: true,
             decoration: const InputDecoration(hintText: 'Enter Your Name'),
             controller: controller,

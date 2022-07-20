@@ -51,19 +51,19 @@ class _HomePageState extends State<HomePage> {
   }
 
   //==========Category locking/unlocking
-  categoryLock(String title, VoidCallback func) {
-    if (title == 'Personal Finance') {
-      return func;
-    } else if (title == 'Investment and Portfolio Management' && cat1 >= 100) {
-      return func;
-    } else if (title == 'Behavioral Finance' && cat2 >= 100) {
-      return func;
-    } else if (title == 'Capital Markets' && cat3 >= 100) {
-      return func;
-    } else {
-      return null;
-    }
-  }
+  // categoryLock(String title, VoidCallback func) {
+  //   if (title == 'Personal Finance') {
+  //     return func;
+  //   } else if (title == 'Investment and Portfolio Management' && cat1 >= 100) {
+  //     return func;
+  //   } else if (title == 'Behavioral Finance' && cat2 >= 100) {
+  //     return func;
+  //   } else if (title == 'Capital Markets' && cat3 >= 100) {
+  //     return func;
+  //   } else {
+  //     return null;
+  //   }
+  // }
 
   //==========Category color change
   categoryBGColor(String title, Color color, int grayColorNo) {
@@ -127,7 +127,7 @@ class _HomePageState extends State<HomePage> {
         ],
       ),
       child: MaterialButton(
-        onPressed: categoryLock(title, func),
+        onPressed: func,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
         child: Container(
           padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
@@ -278,8 +278,8 @@ class _HomePageState extends State<HomePage> {
                         ScaffoldMessenger.of(context)
                             .showSnackBar(const SnackBar(
                           content:
-                              Text('Need to finish Personal Finance first'),
-                          backgroundColor: Color.fromARGB(255, 170, 7, 7),
+                              Text('Score 100 on Personal Finance to unlock'),
+                          backgroundColor: Color.fromARGB(255, 175, 50, 50),
                         )),
                       }
                   },
@@ -305,8 +305,8 @@ class _HomePageState extends State<HomePage> {
                         ScaffoldMessenger.of(context)
                             .showSnackBar(const SnackBar(
                           content: Text(
-                              'Need to finish Investment and Portfolio Management first'),
-                          backgroundColor: Color.fromARGB(255, 170, 7, 7),
+                              'Score 100 on Investment and Portfolio Management to unlock'),
+                          backgroundColor: Color.fromARGB(255, 175, 50, 50),
                         )),
                       }
                   },
@@ -325,8 +325,8 @@ class _HomePageState extends State<HomePage> {
                         ScaffoldMessenger.of(context)
                             .showSnackBar(const SnackBar(
                           content:
-                              Text('Need to finish Behavioral Finance first'),
-                          backgroundColor: Color.fromARGB(255, 170, 7, 7),
+                              Text('Score 100 on Behavioral Finance to unlock'),
+                          backgroundColor: Color.fromARGB(255, 175, 50, 50),
                         )),
                       }
                   },
