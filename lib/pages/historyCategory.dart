@@ -3,6 +3,7 @@ import '/pages/history.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 
 var cat1 = 0, cat2 = 0, cat3 = 0, cat4 = 0;
 
@@ -93,8 +94,14 @@ class _HistoryPagesState extends State<HistoryPages> {
   }
 
   //Category history builder
-  Widget history(double progress, String title, int attempts,
-      BuildContext context, String databaseName, Function() func) {
+  Widget history(
+      double progress,
+      String title,
+      int attempts,
+      BuildContext context,
+      String databaseName,
+      Function() func,
+      double widthSize) {
     return Material(
       borderRadius: BorderRadius.circular(15),
       clipBehavior: Clip.antiAliasWithSaveLayer,
@@ -104,7 +111,7 @@ class _HistoryPagesState extends State<HistoryPages> {
           child: Stack(
             children: [
               Align(
-                alignment: Alignment.centerLeft,
+                alignment: const Alignment(-1.05, 1),
                 child: SizedBox(
                   width: 60,
                   height: 60,
@@ -122,41 +129,43 @@ class _HistoryPagesState extends State<HistoryPages> {
                 ),
               ),
               Align(
-                alignment: const Alignment(0.3, 1),
+                alignment: const Alignment(0.45, 1),
                 child: SizedBox(
-                  width: 200,
+                  width: widthSize * 0.48,
                   height: 60,
                   child: Center(
-                    child: RichText(
-                      textAlign: TextAlign.center,
-                      text: TextSpan(
-                        children: [
-                          TextSpan(
-                            text: title,
-                            style: const TextStyle(
-                              color: Colors.black,
-                              fontSize: 17.0,
-                              fontFamily: 'Poppins-SemiBold',
-                              height: 0.9,
-                            ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        AutoSizeText(
+                          title,
+                          maxLines: 2,
+                          textAlign: TextAlign.center,
+                          style: const TextStyle(
+                            color: Colors.black,
+                            fontSize: 17.0,
+                            fontFamily: 'Poppins-SemiBold',
+                            height: 0.9,
                           ),
-                          TextSpan(
-                            text: '\nQuizzes Attempted: $attempts',
-                            style: const TextStyle(
-                              color: Colors.black,
-                              fontSize: 15.0,
-                              fontFamily: 'Poppins',
-                              fontWeight: FontWeight.w500,
-                            ),
+                        ),
+                        AutoSizeText(
+                          'Quizzes Attempted: $attempts',
+                          maxLines: 1,
+                          style: const TextStyle(
+                            color: Colors.black,
+                            fontSize: 15.0,
+                            fontFamily: 'Poppins',
+                            fontWeight: FontWeight.w500,
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                   ),
                 ),
               ),
               Align(
-                alignment: const Alignment(1.1, 1),
+                alignment: const Alignment(1.15, 1),
                 child: SizedBox(
                   height: 60,
                   child: Icon(
@@ -185,56 +194,59 @@ class _HistoryPagesState extends State<HistoryPages> {
   }
 
   @override
-  Widget build(BuildContext context) => Scaffold(
-        appBar: AppBar(
-          title: const Text(
-            "HISTORY",
-            style: TextStyle(
-              fontSize: 24,
-              color: Colors.black,
-              fontFamily: 'Poppins-ExtraBold',
-              fontWeight: FontWeight.w800,
-            ),
+  Widget build(BuildContext context) {
+    final Size size = MediaQuery.of(context).size;
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text(
+          "HISTORY",
+          style: TextStyle(
+            fontSize: 24,
+            color: Colors.black,
+            fontFamily: 'Poppins-ExtraBold',
+            fontWeight: FontWeight.w800,
           ),
-          actions: <Widget>[
-            Image.asset(
-              "assets/images/logo.png",
-              width: 50,
-            ),
-            const SizedBox(width: 15),
-          ],
-          backgroundColor: Colors.transparent,
-          elevation: 0,
         ),
-        body: Container(
-          margin: const EdgeInsets.fromLTRB(26.0, 10.0, 26.0, 35),
-          child: SafeArea(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              mainAxisSize: MainAxisSize.max,
-              children: <Widget>[
-                Container(
-                  padding: const EdgeInsets.fromLTRB(0, 0, 0, 6),
-                  alignment: Alignment.topCenter,
-                  child: const Text(
-                    "Choose a topic to view history.",
-                    style: TextStyle(
-                      fontSize: 18,
-                      color: Colors.black,
-                      fontFamily: 'Poppins',
-                      fontWeight: FontWeight.w800,
-                    ),
+        actions: <Widget>[
+          Image.asset(
+            "assets/images/logo.png",
+            width: 50,
+          ),
+          const SizedBox(width: 15),
+        ],
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+      ),
+      body: Container(
+        margin: const EdgeInsets.fromLTRB(26.0, 10.0, 26.0, 35),
+        child: SafeArea(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            mainAxisSize: MainAxisSize.max,
+            children: <Widget>[
+              Container(
+                padding: const EdgeInsets.fromLTRB(0, 0, 0, 6),
+                alignment: Alignment.topCenter,
+                child: const Text(
+                  "Choose a topic to view history.",
+                  style: TextStyle(
+                    fontSize: 18,
+                    color: Colors.black,
+                    fontFamily: 'Poppins',
+                    fontWeight: FontWeight.w800,
                   ),
                 ),
+              ),
 
-                //============Personal Finance
-                history(
-                    cat1 / 100,
-                    'Personal Finance',
-                    Hive.box("Personal_Finance").length,
-                    context,
-                    'Personal_Finance', () {
+              //============Personal Finance
+              history(
+                cat1 / 100,
+                'Personal Finance',
+                Hive.box("Personal_Finance").length,
+                context,
+                'Personal_Finance',
+                () {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
@@ -242,15 +254,18 @@ class _HistoryPagesState extends State<HistoryPages> {
                               category: "Personal_Finance",
                             )),
                   );
-                }),
+                },
+                size.width,
+              ),
 
-                //============Investment and Portfolio Management
-                history(
-                    cat2 / 100,
-                    'Investment and Portfolio Management',
-                    Hive.box("Investment_and_Portfolio_Management").length,
-                    context,
-                    'Investment_and_Portfolio_Management', () {
+              //============Investment and Portfolio Management
+              history(
+                cat2 / 100,
+                'Investment and Portfolio Management',
+                Hive.box("Investment_and_Portfolio_Management").length,
+                context,
+                'Investment_and_Portfolio_Management',
+                () {
                   if (cat1 >= 100) {
                     Navigator.push(
                       context,
@@ -265,15 +280,18 @@ class _HistoryPagesState extends State<HistoryPages> {
                       backgroundColor: Color.fromARGB(255, 170, 7, 7),
                     ));
                   }
-                }),
+                },
+                size.width,
+              ),
 
-                //============Behavioral Finance
-                history(
-                    cat4 / 100,
-                    'Behavioral Finance',
-                    Hive.box("Behavioral_Finance").length,
-                    context,
-                    'Behavioral_Finance', () {
+              //============Behavioral Finance
+              history(
+                cat4 / 100,
+                'Behavioral Finance',
+                Hive.box("Behavioral_Finance").length,
+                context,
+                'Behavioral_Finance',
+                () {
                   if (cat2 >= 100) {
                     Navigator.push(
                       context,
@@ -288,15 +306,18 @@ class _HistoryPagesState extends State<HistoryPages> {
                       backgroundColor: Color.fromARGB(255, 170, 7, 7),
                     ));
                   }
-                }),
+                },
+                size.width,
+              ),
 
-                //============Capital Markets
-                history(
-                    cat3 / 100,
-                    'Capital Markets',
-                    Hive.box("Capital_Market").length,
-                    context,
-                    'Capital_Market', () {
+              //============Capital Markets
+              history(
+                cat3 / 100,
+                'Capital Markets',
+                Hive.box("Capital_Market").length,
+                context,
+                'Capital_Market',
+                () {
                   if (cat3 >= 100) {
                     Navigator.push(
                       context,
@@ -311,10 +332,13 @@ class _HistoryPagesState extends State<HistoryPages> {
                       backgroundColor: Color.fromARGB(255, 170, 7, 7),
                     ));
                   }
-                }),
-              ],
-            ),
+                },
+                size.width,
+              ),
+            ],
           ),
         ),
-      );
+      ),
+    );
+  }
 }

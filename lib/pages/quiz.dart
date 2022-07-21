@@ -494,6 +494,8 @@ class _QuizState extends State<Quiz> {
         });
 
         canceltimer = true;
+        _assetsAudioPlayerQuiz.stop();
+
         Navigator.push(
             context,
             MaterialPageRoute(

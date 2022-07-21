@@ -104,26 +104,27 @@ class _CategoryPage extends State<CategoryPage> {
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       mainAxisSize: MainAxisSize.max,
                       children: <Widget>[
-                        Center(
-                          child: SizedBox(
-                            width: 180,
-                            child: AutoSizeText(
-                                categ.categoryTitle[int.parse(widget.title)],
-                                maxLines: 3,
-                                style: const TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 30,
-                                  fontFamily: 'Poppins-Black',
-                                  fontWeight: FontWeight.w900,
-                                )),
-                          ),
+                        SizedBox(
+                          width: size.width * 0.4,
+                          child: AutoSizeText(
+                              categ.categoryTitle[int.parse(widget.title)],
+                              maxLines: 3,
+                              textAlign: TextAlign.center,
+                              style: const TextStyle(
+                                color: Colors.black,
+                                fontSize: 30,
+                                fontFamily: 'Poppins-Black',
+                                fontWeight: FontWeight.w900,
+                              )),
                         ),
-                        Image(
-                          image: AssetImage(
-                              categ.categoryimage[int.parse(widget.title)]),
-                          height: 180,
-                          width: 180,
-                          fit: BoxFit.cover,
+                        SizedBox(
+                          height: size.width * 0.4,
+                          width: size.width * 0.4,
+                          child: Image(
+                            image: AssetImage(
+                                categ.categoryimage[int.parse(widget.title)]),
+                            fit: BoxFit.cover,
+                          ),
                         ),
                       ],
                     ),
@@ -133,7 +134,7 @@ class _CategoryPage extends State<CategoryPage> {
                         padding: EdgeInsets.all(6.0)), //Space between columns
                     Container(
                       padding: const EdgeInsets.fromLTRB(30, 15, 30, 15),
-                      height: size.height * 0.6,
+                      height: size.height * 0.60,
                       child: Column(
                         //crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,

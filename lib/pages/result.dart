@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:investor_quizapp/pages/details.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import '/main.dart';
 import '/pages/quiz.dart';
+import '/pages/settings.dart';
+import 'package:assets_audio_player/assets_audio_player.dart';
 
 class Result extends StatefulWidget {
   final List<int> quizResult;
@@ -76,15 +79,83 @@ class _ResultState extends State<Result> {
     );
   }
 
+  late final AssetsAudioPlayer _assetsAudioPlayerResult = AssetsAudioPlayer();
+
+  void startBgMusic() {
+    _assetsAudioPlayerResult.open(
+      Audio('assets/music/LogoGuitar.wav'),
+      autoStart: true,
+      volume: 0.5,
+      playInBackground: PlayInBackground.disabledRestoreOnForeground,
+      audioFocusStrategy: const AudioFocusStrategy.request(
+        resumeAfterInterruption: true,
+        resumeOthersPlayersAfterDone: true,
+      ),
+    );
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _initAd();
+    if (status == true) {
+      startBgMusic();
+    }
+  }
+
+  @override
+  void dispose() {
+    _assetsAudioPlayerResult.dispose();
+    print('dispose');
+    super.dispose();
+  }
+
+  late InterstitialAd _interstitialAd;
+  bool _isAdLoaded = false;
+
+  void _initAd() {
+    InterstitialAd.load(
+      adUnitId: "ca-app-pub-3940256099942544/1033173712",
+      request: const AdRequest(),
+      adLoadCallback: InterstitialAdLoadCallback(
+        onAdLoaded: onAdLoaded,
+        onAdFailedToLoad: (error) {},
+      ),
+    );
+  }
+
+  void onAdLoaded(InterstitialAd ad) {
+    _interstitialAd = ad;
+    _isAdLoaded = true;
+
+    _interstitialAd.fullScreenContentCallback = FullScreenContentCallback(
+      onAdDismissedFullScreenContent: (ad) {
+        _interstitialAd.dispose();
+        Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(
+                builder: (context) => const MainPage(chosenIndex: 0)),
+            (Route<dynamic> route) => false);
+      },
+      onAdFailedToShowFullScreenContent: (ad, error) {
+        _interstitialAd.dispose();
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) => WillPopScope(
         onWillPop: () {
           reset();
-          Navigator.pushAndRemoveUntil(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => const MainPage(chosenIndex: 0)),
-              (Route<dynamic> route) => false);
+          if (_isAdLoaded) {
+            _interstitialAd.show();
+          } else {
+            Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => const MainPage(chosenIndex: 0)),
+                (Route<dynamic> route) => false);
+          }
           return Future.value(false);
         },
         child: Scaffold(
@@ -215,12 +286,19 @@ class _ResultState extends State<Result> {
                             ),
                             onPressed: () => {
                               reset(),
-                              Navigator.pushAndRemoveUntil(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          const MainPage(chosenIndex: 0)),
-                                  (Route<dynamic> route) => false),
+                              if (_isAdLoaded)
+                                {
+                                  _interstitialAd.show(),
+                                }
+                              else
+                                {
+                                  Navigator.pushAndRemoveUntil(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              const MainPage(chosenIndex: 0)),
+                                      (Route<dynamic> route) => false),
+                                },
                             },
                             splashColor: const Color.fromRGBO(5, 195, 107, 50),
                           ),
