@@ -14,6 +14,7 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import '/main.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 var name, email, avatar;
 final profilebox = Hive.box('User_info');
@@ -664,11 +665,23 @@ class _SettingsPageState extends State<SettingsPage> {
                           ),
                   ),
                   const SizedBox(height: 20),
-                  buildButton('Gallery', Icons.photo_library_rounded,
-                      () => {pickImage(ImageSource.gallery, context)}),
+                  buildButton(
+                      'Gallery',
+                      Icons.photo_library_rounded,
+                      () async => {
+                            requestGalleryPermission(),
+                            if (await Permission.storage.isGranted)
+                              {pickImage(ImageSource.gallery, context)}
+                          }),
                   const SizedBox(height: 10),
-                  buildButton('Camera', Icons.photo_camera_rounded,
-                      () => {pickImage(ImageSource.camera, context)}),
+                  buildButton(
+                      'Camera',
+                      Icons.photo_camera_rounded,
+                      () async => {
+                            requestCameraPermission(),
+                            if (await Permission.camera.isGranted)
+                              {pickImage(ImageSource.camera, context)}
+                          }),
                 ]),
           ),
           actions: [
@@ -690,4 +703,37 @@ class _SettingsPageState extends State<SettingsPage> {
           ],
         ),
       );
+}
+
+void requestCameraPermission() async {
+  /// status can either be: granted, denied, restricted or permanentlyDenied
+  var status = await Permission.camera.status;
+  if (status.isGranted) {
+    print("Permission is granted");
+  } else if (status.isDenied) {
+    // We didn't ask for permission yet or the permission has been denied before but not permanently.
+    if (await Permission.camera.request().isGranted) {
+      // Either the permission was already granted before or the user just granted it.
+      print("Permission was granted");
+    }
+  }
+
+  // You can can also directly ask the permission about its status.
+  // if (await Permission.location.isRestricted) {
+  //   // The OS restricts access, for example because of parental controls.
+  // }
+}
+
+void requestGalleryPermission() async {
+  /// status can either be: granted, denied, restricted or permanentlyDenied
+  var status = await Permission.storage.status;
+  if (status.isGranted) {
+    print("Permission is granted");
+  } else if (status.isDenied) {
+    // We didn't ask for permission yet or the permission has been denied before but not permanently.
+    if (await Permission.storage.request().isGranted) {
+      // Either the permission was already granted before or the user just granted it.
+      print("Permission was granted");
+    }
+  }
 }
