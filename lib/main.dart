@@ -88,7 +88,7 @@ class _MainPageState extends State<MainPage> {
 
   _initBannerAd() {
     _bannerAd = BannerAd(
-      adUnitId: "ca-app-pub-3940256099942544/6300978111",
+      adUnitId: "ca-app-pub-8634651641429291/6702282095",
       size: AdSize.banner,
       request: const AdRequest(),
       listener: BannerAdListener(
