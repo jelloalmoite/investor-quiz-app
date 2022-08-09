@@ -129,7 +129,7 @@ class _SettingsPageState extends State<SettingsPage> {
         print('response.rating: ${response.rating}');
       } else {
         LaunchReview.launch(
-          androidAppId: "com.kiloo.subwaysurf",
+          androidAppId: "com.themghs.investorquizapp",
         );
       }
     },
@@ -244,7 +244,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 const Icon(Icons.share_outlined, color: Colors.black),
                 () async {
                   final urlPreview =
-                      'https://play.google.com/store/apps/details?id=no.mobitroll.kahoot.android&hl=en&gl=US';
+                      'https://play.google.com/store/apps/details?id=com.themghs.investorquizapp';
                   await Share.share('Available Now\n\n$urlPreview');
                 },
               ),
